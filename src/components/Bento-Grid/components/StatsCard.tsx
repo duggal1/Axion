@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { TrendingUp, Users, PhoneCall, Activity } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
-import {AreaChart, Area, XAxis, YAxis, ResponsiveContainer, CartesianGrid } from "recharts";
+import {AreaChart, Area, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Tooltip } from "recharts";
 
 export function StatsCard() {
   const [stats, setStats] = useState({
@@ -71,16 +71,22 @@ export function StatsCard() {
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full font-serif">
       <div className="flex justify-between items-center mb-3">
         <h3 className="font-medium text-gray-800 text-sm">Performance Metrics</h3>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex items-center gap-1.5 bg-blue-50 px-2 py-0.5 rounded-full"
+          className="flex items-center gap-1.5 bg-gradient-to-r from-blue-50 to-indigo-50 px-2 py-0.5 rounded-full"
         >
-          <span className="inline-block bg-blue-500 rounded-full w-1.5 h-1.5"></span>
-          <span className="font-medium text-[9px] text-blue-700">Live Data</span>
+          <motion.span 
+            className="inline-block bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full w-1.5 h-1.5"
+            animate={{ 
+              boxShadow: ["0px 0px 0px rgba(59, 130, 246, 0)", "0px 0px 4px rgba(59, 130, 246, 0.5)", "0px 0px 0px rgba(59, 130, 246, 0)"] 
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <span className="bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-700 font-medium text-[9px] text-transparent">Live Data</span>
         </motion.div>
       </div>
 
@@ -113,9 +119,9 @@ export function StatsCard() {
               >
                 {stats.conversion.toFixed(1)}%
               </motion.span>
-              <div className="flex items-center bg-green-50 px-1.5 py-0.5 rounded-full">
+              <div className="flex items-center bg-gradient-to-r from-green-50 to-emerald-50 px-1.5 py-0.5 rounded-full">
                 <TrendingUp size={10} className="mr-0.5 text-green-500" />
-                <span className="font-semibold text-[10px] text-green-600">+2.4%</span>
+                <span className="bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500 font-semibold text-[10px] text-transparent">+2.4%</span>
               </div>
             </div>
           </div>
@@ -152,14 +158,36 @@ export function StatsCard() {
                 dataKey="name"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 8, fill: chartColors.textSecondary }}
+                tick={{ fontSize: 8, fill: chartColors.textSecondary, fontFamily: 'serif' }}
                 padding={{ left: 0, right: 0 }}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 8, fill: chartColors.textSecondary }}
+                tick={{ fontSize: 8, fill: chartColors.textSecondary, fontFamily: 'serif' }}
                 domain={[0, 100]}
+              />
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="bg-white/90 shadow-lg backdrop-blur-sm p-2 border border-gray-100 rounded-lg font-serif">
+                        <p className="font-medium text-[10px] text-gray-700">{payload[0].payload.name}</p>
+                        <div className="flex flex-col gap-1 mt-1">
+                          <p className="text-[9px] text-indigo-600">
+                            <span className="font-medium">Value:</span> {payload[0].value?.toFixed(1)}
+                          </p>
+                          <p className="text-[9px] text-violet-600">
+                            <span className="font-medium">Efficiency:</span> {payload[1].value?.toFixed(1)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+                cursor={{ stroke: '#E2E8F0', strokeWidth: 1, strokeDasharray: '3 3' }}
+                wrapperStyle={{ outline: 'none' }}
               />
               <Area
                 type="monotone"
@@ -168,11 +196,11 @@ export function StatsCard() {
                 strokeWidth={2.5}
                 fillOpacity={1}
                 fill="url(#gradientArea1)"
-                activeDot={{
-                  r: 4,
-                  fill: 'white',
-                  stroke: chartColors.primary,
-                  strokeWidth: 2,
+                activeDot={{ 
+                  r: 5, 
+                  fill: "#3B82F6", 
+                  strokeWidth: 2, 
+                  stroke: "#fff",
                   filter: "url(#chartGlow)"
                 }}
                 isAnimationActive={true}
@@ -186,11 +214,11 @@ export function StatsCard() {
                 strokeWidth={2.5}
                 fillOpacity={1}
                 fill="url(#gradientArea2)"
-                activeDot={{
-                  r: 4,
-                  fill: 'white',
-                  stroke: chartColors.secondary,
-                  strokeWidth: 2,
+                activeDot={{ 
+                  r: 5, 
+                  fill: "#8B5CF6", 
+                  strokeWidth: 2, 
+                  stroke: "#fff",
                   filter: "url(#chartGlow)"
                 }}
                 isAnimationActive={true}
@@ -204,7 +232,7 @@ export function StatsCard() {
         {/* Stats Row */}
         <div className="gap-2 grid grid-cols-2">
           <motion.div
-            className="bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg overflow-hidden"
+            className="bg-gradient-to-br from-white to-[#FAFBFF] shadow-sm p-3 border border-[#F5F5F7] rounded-lg overflow-hidden"
             whileHover={{ translateY: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
@@ -234,7 +262,7 @@ export function StatsCard() {
           </motion.div>
 
           <motion.div
-            className="bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg overflow-hidden"
+            className="bg-gradient-to-br from-white to-[#FAFBFF] shadow-sm p-3 border border-[#F5F5F7] rounded-lg overflow-hidden"
             whileHover={{ translateY: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
@@ -268,7 +296,7 @@ export function StatsCard() {
         <div className="flex justify-center gap-4 pt-2">
           <div className="flex items-center">
             <motion.div 
-              className="bg-blue-500 mr-1.5 rounded-full w-2 h-2"
+              className="bg-gradient-to-r from-blue-400 to-blue-600 mr-1.5 rounded-full w-2 h-2"
               animate={{ 
                 boxShadow: ["0px 0px 0px rgba(59,130,246,0)", "0px 0px 6px rgba(59,130,246,0.5)", "0px 0px 0px rgba(59,130,246,0)"] 
               }}
@@ -278,7 +306,7 @@ export function StatsCard() {
           </div>
           <div className="flex items-center">
             <motion.div 
-              className="bg-violet-500 mr-1.5 rounded-full w-2 h-2"
+              className="bg-gradient-to-r from-violet-400 to-violet-600 mr-1.5 rounded-full w-2 h-2"
               animate={{ 
                 boxShadow: ["0px 0px 0px rgba(139,92,246,0)", "0px 0px 6px rgba(139,92,246,0.5)", "0px 0px 0px rgba(139,92,246,0)"] 
               }}

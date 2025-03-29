@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef, memo } from "react";
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontal, Smile, Paperclip } from "lucide-react";
 import Image from "next/image";
 
 const conversations = [
@@ -29,10 +29,10 @@ const Message = memo(({ text, isUser, avatar }: { text: string; isUser: boolean;
       </div>
     )}
     <div
-      className={`max-w-[80%] px-3 py-2 text-xs rounded-lg shadow-sm ${
+      className={`max-w-[80%] px-3 py-2 text-xs font-serif rounded-lg shadow-sm ${
         isUser 
-          ? "bg-white text-gray-900 border border-gray-200" 
-          : "bg-[#7b24ff] text-[#ffffff]"
+          ? "bg-gradient-to-br from-white to-slate-50 text-gray-800 border border-gray-200" 
+          : "bg-gradient-to-br from-[#7b24ff] to-[#6822e7] text-[#ffffff]"
       }`}
     >
       {text}
@@ -122,9 +122,9 @@ export function ChatAnimation() {
   }, [userText, aiText]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full font-serif">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="flex items-center gap-1 font-medium text-gray-700 text-xs">
+        <h3 className="flex items-center gap-1.5 font-serif text-gray-700 text-xs">
           <motion.span 
             className="bg-green-500 rounded-full w-2 h-2"
             animate={{ 
@@ -138,10 +138,16 @@ export function ChatAnimation() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-1.5 bg-indigo-50 px-2 py-0.5 rounded-full"
+          className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-50 to-purple-50 px-2 py-0.5 rounded-full"
         >
-          <span className="inline-block bg-indigo-500 rounded-full w-1.5 h-1.5"></span>
-          <span className="font-medium text-[9px] text-indigo-700">Connected</span>
+          <motion.span 
+            className="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full w-1.5 h-1.5"
+            animate={{ 
+              boxShadow: ["0px 0px 0px rgba(99, 102, 241, 0)", "0px 0px 4px rgba(99, 102, 241, 0.5)", "0px 0px 0px rgba(99, 102, 241, 0)"] 
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <span className="bg-clip-text bg-gradient-to-r from-indigo-700 to-purple-700 font-serif font-medium text-[9px] text-transparent">Connected</span>
         </motion.div>
       </div>
 
@@ -158,23 +164,29 @@ export function ChatAnimation() {
               <div className="flex-shrink-0 rounded-full w-5 h-5 overflow-hidden">
                 <Image src={aiAvatar} width={20} height={20} alt="AI Avatar" className="w-full h-full object-cover" />
               </div>
-              <div className="inline-flex items-center gap-0.5 bg-[#F9F5FF] shadow-sm px-2 py-1 rounded-lg max-w-fit text-[#6930C3] text-xs">
+              <motion.div 
+                className="inline-flex items-center gap-0.5 bg-gradient-to-r from-[#F9F5FF] to-[#F5EFFF] shadow-sm px-2 py-1 rounded-lg max-w-fit font-serif"
+                animate={{ 
+                  boxShadow: ["0px 0px 0px rgba(105, 48, 195, 0)", "0px 0px 8px rgba(105, 48, 195, 0.15)", "0px 0px 0px rgba(105, 48, 195, 0)"] 
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
                 <motion.span
-                  className="inline-block bg-[#6a1bff] rounded-full w-1 h-1"
+                  className="inline-block bg-gradient-to-r from-[#7b24ff] to-[#6a1bff] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 0.7, repeat: Infinity }}
                 />
                 <motion.span
-                  className="inline-block bg-[#6930C3] rounded-full w-1 h-1"
+                  className="inline-block bg-gradient-to-r from-[#7b24ff] to-[#6930C3] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 0.7, repeat: Infinity, delay: 0.2 }}
                 />
                 <motion.span
-                  className="inline-block bg-[#6930C3] rounded-full w-1 h-1"
+                  className="inline-block bg-gradient-to-r from-[#6930C3] to-[#6930C3] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 0.7, repeat: Infinity, delay: 0.4 }}
                 />
-              </div>
+              </motion.div>
             </div>
           )}
         </div>
@@ -184,14 +196,17 @@ export function ChatAnimation() {
         <div className="relative">
           <input
             type="text"
-            className="bg-white shadow-sm py-2.5 pr-8 pl-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-[#6930C3] focus:ring-1 w-full text-gray-700 placeholder:text-gray-400 text-xs"
+            className="bg-gradient-to-br from-white to-gray-50 shadow-sm py-2.5 pr-8 pl-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-[#6930C3] focus:ring-1 w-full font-serif text-gray-700 placeholder:text-gray-400 text-xs"
             placeholder="Type your message..."
             disabled
           />
           <motion.button
             whileTap={{ scale: 0.95 }}
-            whileHover={{ backgroundColor: '#5b1baa' }}
-            className="top-1/2 right-2 absolute bg-[#6930C3] shadow-sm p-1 rounded-md text-white transition-colors -translate-y-1/2 duration-200"
+            whileHover={{ 
+              backgroundColor: '#5b1baa',
+              boxShadow: "0px 2px 8px rgba(105, 48, 195, 0.3)" 
+            }}
+            className="top-1/2 right-2 absolute bg-gradient-to-br from-[#7b24ff] to-[#6930C3] shadow-md p-1 rounded-md text-white transition-colors -translate-y-1/2 duration-200"
             disabled
           >
             <SendHorizontal size={14} />
@@ -201,27 +216,19 @@ export function ChatAnimation() {
           <div className="flex gap-1">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gray-100 p-1 rounded-md cursor-pointer"
+              className="bg-gradient-to-br from-gray-100 to-gray-50 shadow-sm p-1 rounded-md cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
-                <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"></path>
-                <path d="M8 9h8"></path>
-                <path d="M8 15h4"></path>
-              </svg>
+              <Smile className="w-3.5 h-3.5 text-gray-500" />
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-gray-100 p-1 rounded-md cursor-pointer"
+              className="bg-gradient-to-br from-gray-100 to-gray-50 shadow-sm p-1 rounded-md cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="17 8 12 3 7 8"></polyline>
-                <line x1="12" y1="3" x2="12" y2="15"></line>
-              </svg>
+              <Paperclip className="w-3.5 h-3.5 text-gray-500" />
             </motion.div>
           </div>
-          <div className="text-[9px] text-gray-400">
-            Powered by Axion AI
+          <div className="font-serif text-[9px] text-gray-400">
+            Powered by <span className="bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 font-medium text-transparent">Axion AI</span>
           </div>
         </div>
       </div>

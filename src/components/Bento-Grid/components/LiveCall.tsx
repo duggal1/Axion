@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Mic, ChevronUp, BarChart3, Activity, Volume2, VolumeX } from "lucide-react";
+import {  ChevronUp, BarChart3, Activity, Volume2, VolumeX, Headphones } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -32,19 +32,27 @@ export function LiveCall() {
 
   // Create a single audio context for the entire conversation
   const initializeAudioContext = useCallback(() => {
-    if (!audioContextRef.current) {
-      // Create AudioContext on user interaction
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
+    try {
+      if (!audioContextRef.current) {
+        // Create AudioContext on user interaction
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
 
-    if (audioContextRef.current.state === 'suspended') {
-      audioContextRef.current.resume();
+      if (audioContextRef.current.state === 'suspended') {
+        audioContextRef.current.resume();
+      }
+      
+      return true;
+    } catch (err) {
+      console.error("Failed to initialize audio context:", err);
+      setPermissionError(true);
+      return false;
     }
   }, []);
 
   // Load all audio files at once and chain them together
   const setupAudioChain = useCallback(async () => {
-    if (!audioContextRef.current) return;
+    if (!audioContextRef.current) return false;
 
     try {
       console.log("Setting up audio chain");
@@ -54,8 +62,11 @@ export function LiveCall() {
       const firstAudio = AUDIO_SEQUENCE[0];
 
       if (!audioRef.current) {
-        audioRef.current = new Audio(`/audio/${firstAudio.file}`);
+        // Create new audio element
+        audioRef.current = new Audio();
+        audioRef.current.src = `/audio/${firstAudio.file}`;
         audioRef.current.muted = isMuted;
+        audioRef.current.crossOrigin = "anonymous";
 
         // Connect the audio element to the audio context
         const source = audioContext.createMediaElementSource(audioRef.current);
@@ -73,42 +84,51 @@ export function LiveCall() {
 
             // Change source and play
             if (audioRef.current) {
-              audioRef.current.src = `/audio/${AUDIO_SEQUENCE[nextIndex].file}`;
-              audioRef.current.muted = isMuted;
+              // Wait a short delay before loading and playing the next audio
+              // This prevents the AbortError from interrupted play requests
+              setTimeout(() => {
+                if (audioRef.current) {
+                  audioRef.current.src = `/audio/${AUDIO_SEQUENCE[nextIndex].file}`;
+                  audioRef.current.muted = isMuted;
 
-              // Use the existing user interaction permission to play next audio
-              const playPromise = audioRef.current.play();
+                  // Use the existing user interaction permission to play next audio
+                  const playPromise = audioRef.current.play();
 
-              if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                  console.error("Playback error:", error);
-                  setPermissionError(true);
-                });
-              }
+                  if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                      console.error("Playback error:", error);
+                      setPermissionError(true);
+                    });
+                  }
+                }
+              }, 50);
             }
 
             return nextIndex;
           });
         });
+      } else {
+        // Reset existing audio
+        audioRef.current.src = `/audio/${firstAudio.file}`;
+        audioRef.current.muted = isMuted;
       }
 
       // Initial play (will be triggered by user interaction)
       const playPromise = audioRef.current.play();
 
       if (playPromise !== undefined) {
-        playPromise.then(() => {
-          console.log("Audio chain started successfully");
-          setPermissionError(false);
-        }).catch(error => {
-          console.error("Initial playback error:", error);
-          setPermissionError(true);
-        });
+        await playPromise;
+        console.log("Audio chain started successfully");
+        setPermissionError(false);
+        return true;
       }
 
     } catch (err) {
       console.error("Error setting up audio chain:", err);
       setPermissionError(true);
     }
+    
+    return false;
   }, [isMuted]);
 
   // Start the call - this will be triggered by user interaction
@@ -118,11 +138,10 @@ export function LiveCall() {
     setPermissionError(false);
 
     // Initialize audio context with user gesture
-    initializeAudioContext();
-
-    // Set up and start the audio chain
-    setupAudioChain();
-
+    if (initializeAudioContext()) {
+      // Set up and start the audio chain
+      setupAudioChain();
+    }
   }, [initializeAudioContext, setupAudioChain]);
 
   // Toggle mute/unmute
@@ -132,40 +151,34 @@ export function LiveCall() {
     // If call not started, start it first
     if (!isCallStarted) {
       startCall();
+      setIsMuted(false);
       return;
     }
 
     // Toggle mute state
-    const newMutedState = !isMuted;
-    setIsMuted(newMutedState);
+    setIsMuted(prevState => {
+      const newMutedState = !prevState;
+      
+      // Apply mute state to audio element if it exists
+      if (audioRef.current) {
+        // Just update the muted state - no need to restart playback
+        audioRef.current.muted = newMutedState;
+        console.log("Audio muted state set to:", newMutedState);
 
-    // Apply mute state to audio element if it exists
-    if (audioRef.current) {
-      audioRef.current.muted = newMutedState;
-      console.log("Audio muted state set to:", newMutedState);
-
-      // If we're unmuting and audio context is suspended, resume it
-      if (!newMutedState && audioContextRef.current && audioContextRef.current.state === 'suspended') {
-        audioContextRef.current.resume().catch(err => {
-          console.error("Failed to resume audio context:", err);
-          setPermissionError(true);
-        });
-      }
-
-      // If unmuting and paused, try to play
-      if (!newMutedState && audioRef.current.paused) {
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(err => {
-            console.error("Failed to play on unmute:", err);
+        // If we're unmuting and audio context is suspended, resume it
+        if (!newMutedState && audioContextRef.current && audioContextRef.current.state === 'suspended') {
+          audioContextRef.current.resume().catch(err => {
+            console.error("Failed to resume audio context:", err);
             setPermissionError(true);
           });
         }
+      } else {
+        console.log("Audio element not yet initialized");
       }
-    } else {
-      console.log("Audio element not yet initialized");
-    }
-  }, [isMuted, isCallStarted, startCall]);
+      
+      return newMutedState;
+    });
+  }, [isCallStarted, startCall]);
 
   // Clean up audio on unmount
   useEffect(() => {
@@ -233,22 +246,22 @@ export function LiveCall() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full font-serif">
       {/* Modern header with sleek design */}
       <div className="flex justify-between items-center bg-white shadow-sm mb-3 px-3 py-2 border border-gray-100 rounded-lg">
         <div className="flex items-center gap-3">
-          <h3 className="bg-clip-text bg-gradient-to-r from-gray-800 to-gray-600 font-semibold text-transparent text-xs">Live Call</h3>
+          <h3 className="bg-clip-text bg-gradient-to-r from-gray-800 to-gray-600 font-serif text-transparent text-xs">Live Call</h3>
           
           {/* Enhanced audio control button with prominent interactive states */}
           <motion.button
             type="button"
             onClick={toggleMute}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, boxShadow: "0 2px 12px rgba(0,0,0,0.15)" }}
             whileTap={{ scale: 0.95 }}
             className={`flex justify-center items-center p-2 rounded-full transition-all duration-300 cursor-pointer shadow-sm ${
               isMuted
                 ? 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'
+                : 'bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-600 hover:from-indigo-100 hover:to-indigo-200'
             }`}
             aria-label={isMuted ? "Unmute audio" : "Mute audio"}
           >
@@ -267,21 +280,21 @@ export function LiveCall() {
             transition={{ duration: 0.5 }}
             className="flex items-center bg-gradient-to-r from-green-50 to-emerald-50 shadow-sm px-2 py-0.5 rounded-full"
           >
-            <span className="bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500 font-medium text-[9px] text-transparent">{callStats.quality}% Quality</span>
+            <span className="bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500 font-serif text-[9px] text-transparent">{callStats.quality}% Quality</span>
           </motion.div>
         </div>
       </div>
 
       <div className="flex flex-col flex-1">
         {/* Modern audio visualizer with clean design */}
-        <div className="relative flex flex-1 justify-center items-center bg-white shadow-md border border-gray-100 rounded-xl overflow-hidden">
+        <div className="relative flex flex-1 justify-center items-center bg-gradient-to-br from-white to-gray-50 shadow-md border border-gray-100 rounded-xl overflow-hidden">
           {/* Subtle background gradient */}
           <div
             className="absolute inset-0 opacity-10"
             style={{
               background: activeSpeaker === "agent"
-                ? "radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.3), transparent 80%)"
-                : "radial-gradient(circle at 70% 50%, rgba(249, 115, 22, 0.3), transparent 80%)"
+                ? "radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.4), transparent 80%)"
+                : "radial-gradient(circle at 70% 50%, rgba(249, 115, 22, 0.4), transparent 80%)"
             }}
           />
 
@@ -291,32 +304,42 @@ export function LiveCall() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="z-20 absolute inset-0 flex flex-col justify-center items-center bg-white/95"
+                transition={{ duration: 0.5 }}
+                className="z-20 absolute inset-0 flex flex-col justify-center items-center bg-white/50 backdrop-blur-md"
               >
-                {/* Animated background sound wave when not started */}
-                <div className="absolute inset-0 flex justify-center items-center opacity-20 overflow-hidden pointer-events-none">
+                {/* Enhanced animated background sound wave when not started */}
+                <div className="absolute inset-0 flex justify-center items-center opacity-30 overflow-hidden pointer-events-none">
                   <div className="flex justify-center items-end gap-[2px]">
-                    {Array.from({ length: 60 }).map((_, index) => {
-                      // Create a smooth wave pattern
-                      const baseHeight = Math.sin(index * 0.15) * 10 + 15;
-                      const randomOffset = Math.random() * 5;
+                    {Array.from({ length: 80 }).map((_, index) => {
+                      // Create a smooth wave pattern with more variance
+                      const baseHeight = Math.sin(index * 0.1) * 15 + 25;
+                      const randomOffset = Math.random() * 8;
                       const height = baseHeight + randomOffset;
-                      const delay = index * 0.02 % 0.5;
+                      const delay = index * 0.01 % 0.8;
+                      const width = 2 + Math.random() * 2;
 
                       return (
-                        <div
+                        <motion.div
                           key={index}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ 
+                            height: [`${height * 0.8}px`, `${height}px`, `${height * 0.9}px`],
+                            opacity: [0.7, 1, 0.8]
+                          }}
+                          transition={{
+                            duration: 2 + Math.random() * 2,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            delay: delay
+                          }}
                           className="rounded-t-full"
                           style={{
-                            width: "3px",
-                            height: `${height}px`,
+                            width: `${width}px`,
                             background: `linear-gradient(to top,
                               rgba(129, 140, 248, 0.4),
                               rgba(99, 102, 241, 0.6),
                               rgba(79, 70, 229, 0.8))`,
-                            boxShadow: `0 0 4px rgba(99, 102, 241, 0.3)`,
-                            animation: `waveAnimation 2s ease-in-out infinite`,
-                            animationDelay: `${delay}s`
+                            boxShadow: `0 0 6px rgba(99, 102, 241, 0.4)`,
                           }}
                         />
                       );
@@ -324,28 +347,24 @@ export function LiveCall() {
                   </div>
                 </div>
 
-                <style jsx>{`
-                  @keyframes waveAnimation {
-                    0%, 100% { transform: scaleY(1); }
-                    50% { transform: scaleY(1.2); }
-                  }
-                `}</style>
-
                 <motion.button
                   type="button"
                   onClick={startCall}
-                  whileHover={{ scale: 1.05, boxShadow: "0 5px 20px rgba(0,0,0,0.15)" }}
+                  whileHover={{ scale: 1.05, boxShadow: "0 8px 35px rgba(0,0,0,0.2)" }}
                   whileTap={{ scale: 0.98 }}
-                  className="z-10 relative flex items-center gap-2 bg-gradient-to-bl from-amber-500 via-pink-500 to-violet-600 shadow-lg px-7 py-3.5 rounded-full text-white"
+                  className="z-10 relative flex items-center gap-2 bg-gradient-to-bl from-amber-500 via-pink-500 to-violet-600 shadow-xl px-8 py-4 rounded-full text-white"
                   style={{
-                    backgroundSize: "200% 200%",
+                    backgroundSize: "300% 300%",
                     animation: "gradientAnimation 4s linear infinite"
                   }}
                 >
-                  <Mic className="w-5 h-5" />
-                  <span className="font-medium text-sm">Listen to Live Call</span>
+                  <Headphones className="w-5 h-5" />
+                  <span className="font-serif font-medium text-sm">Listen to Live Call</span>
+                  
+                  {/* Enhanced glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-bl from-amber-400 via-pink-400 to-violet-500 opacity-50 blur-md rounded-full"></div>
                 </motion.button>
-                <p className="z-10 mt-3 font-medium text-gray-400 text-sm">Click to enable audio playback</p>
+                <p className="z-10 mt-4 font-serif font-medium text-gray-600 text-sm">Click to enable audio playback</p>
 
                 <style jsx>{`
                   @keyframes gradientAnimation {
@@ -365,7 +384,7 @@ export function LiveCall() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="top-3 z-30 absolute bg-red-50 shadow-md mx-auto px-4 py-2 border border-red-100 rounded-lg text-red-600 text-xs"
+                className="top-3 z-30 absolute bg-red-50 shadow-lg mx-auto px-5 py-2.5 border border-red-100 rounded-lg font-serif text-red-600 text-xs"
               >
                 Browser blocked autoplay. Click the mute/unmute button to try again.
               </motion.div>
@@ -374,44 +393,79 @@ export function LiveCall() {
 
           {/* Ultra modern waveform with extreme gradient effects */}
           <div className="absolute inset-0 flex justify-center items-center overflow-hidden">
-            <div className="flex justify-center items-end gap-[2px] h-28">
+            <div className="flex justify-center items-end gap-[1px] h-32">
               {waveform.map((height, index) => {
                 // Dynamic height calculation with smooth curve
                 const position = index / waveform.length;
-                const amplitudeMultiplier = 1 - 0.4 * Math.pow(Math.abs(position - 0.5) * 2, 2);
+                const amplitudeMultiplier = 1 - 0.3 * Math.pow(Math.abs(position - 0.5) * 2, 2);
                 const finalHeight = height * amplitudeMultiplier;
 
-                // Extreme gradient effects for sound wave based on active speaker
+                // Ultra modern gradient for sound wave based on active speaker with enhanced colors
                 const gradient = activeSpeaker === "agent"
                   ? `linear-gradient(to top,
-                      rgba(129, 140, 248, 0.6),
-                      rgba(99, 102, 241, 0.8),
+                      rgba(129, 140, 248, 0.7),
+                      rgba(99, 102, 241, 0.85),
                       rgba(79, 70, 229, 1),
                       rgba(67, 56, 202, 1))`
                   : `linear-gradient(to top,
-                      rgba(251, 146, 60, 0.6),
-                      rgba(249, 115, 22, 0.8),
+                      rgba(251, 146, 60, 0.7),
+                      rgba(249, 115, 22, 0.85),
                       rgba(234, 88, 12, 1),
                       rgba(194, 65, 12, 1))`;
 
+                // Determine if this is a primary or secondary bar for varied styling
+                const isPrimary = index % 3 === 0;
+                const barWidth = isPrimary ? "4px" : "2.5px";
+                const marginRight = index % 4 === 0 ? "1.5px" : "0.5px";
+                
                 return (
                   <motion.div
                     key={index}
                     initial={{ height: 0 }}
-                    animate={{ height: finalHeight }}
-                    transition={{ type: "spring", stiffness: 300, damping: 10 }}
-                    className="rounded-full"
+                    animate={{ 
+                      height: finalHeight,
+                      opacity: [0.7, 0.9, 0.7],
+                      scale: isPrimary ? [1, 1.05, 1] : [1, 1.02, 1],
+                    }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 300, 
+                      damping: 10,
+                      opacity: {
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      },
+                      scale: {
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.02 % 0.5
+                      }
+                    }}
+                    className="backdrop-blur-sm rounded-full"
                     style={{
-                      width: "3px",
+                      width: barWidth,
                       background: gradient,
                       boxShadow: activeSpeaker === "agent"
-                        ? `0 0 8px rgba(99, 102, 241, 0.5), 0 0 3px rgba(79, 70, 229, 0.8)`
-                        : `0 0 8px rgba(249, 115, 22, 0.5), 0 0 3px rgba(234, 88, 12, 0.8)`,
+                        ? `0 0 10px rgba(99, 102, 241, 0.6), 0 0 4px rgba(79, 70, 229, 0.9)`
+                        : `0 0 10px rgba(249, 115, 22, 0.6), 0 0 4px rgba(234, 88, 12, 0.9)`,
+                      marginRight: marginRight,
+                      filter: `saturate(1.2) brightness(1.05)`,
                     }}
                   />
                 );
               })}
             </div>
+          </div>
+
+          {/* Improved glass reflection effect for waveform */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="top-0 absolute inset-x-0 bg-gradient-to-b from-white/40 to-transparent backdrop-blur-[1px] h-16"></div>
+            <div className="bottom-0 absolute inset-x-0 bg-gradient-to-t from-white/30 to-transparent backdrop-blur-[1px] h-10"></div>
+            {/* Side lighting effects */}
+            <div className="left-0 absolute inset-y-0 bg-gradient-to-r from-white/20 to-transparent w-16"></div>
+            <div className="right-0 absolute inset-y-0 bg-gradient-to-l from-white/20 to-transparent w-16"></div>
           </div>
 
           {/* Call participants container with clean design */}
@@ -439,13 +493,13 @@ export function LiveCall() {
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: `linear-gradient(135deg, #818CF8, #6366F1, #4F46E5)`,
+                    background: `linear-gradient(135deg, #00BFFF, #FF4500, #8A2BE2)`,
                   }}
                 />
               </motion.div>
 
               <div className="flex flex-col items-center gap-1 mt-2">
-                <span className="font-medium text-indigo-600 text-xs">Axion AI</span>
+                <span className="font-serif font-medium text-indigo-600 text-xs">Axion AI</span>
 
                 {activeSpeaker === "agent" ? (
                   <motion.div 
@@ -454,7 +508,7 @@ export function LiveCall() {
                     className="flex items-center gap-1 bg-indigo-50 px-2 py-1 rounded-full"
                   >
                     <Activity className="w-2 h-2 text-indigo-600" />
-                    <span className="font-medium text-[8px] text-indigo-600">Speaking</span>
+                    <span className="font-serif font-medium text-[8px] text-indigo-600">Speaking</span>
                   </motion.div>
                 ) : (
                   <motion.div 
@@ -463,7 +517,7 @@ export function LiveCall() {
                     className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full"
                   >
                     <BarChart3 className="w-2 h-2 text-gray-500" />
-                    <span className="font-medium text-[8px] text-gray-500">Listening</span>
+                    <span className="font-serif font-medium text-[8px] text-gray-500">Listening</span>
                   </motion.div>
                 )}
               </div>
@@ -502,7 +556,7 @@ export function LiveCall() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className={`relative flex justify-center items-center rounded-full w-16 h-16 overflow-hidden shadow-md ${
-                  activeSpeaker === "customer" ? "ring-2 ring-orange-500 ring-offset-2" : ""
+                  activeSpeaker === "customer" ? "ring-2 ring-orange-100 ring-offset-2" : ""
                 }`}
               >
                 {/* Customer image with modern styling */}
@@ -518,13 +572,13 @@ export function LiveCall() {
                 <div
                   className="z-20 absolute inset-0 opacity-20"
                   style={{
-                    background: `linear-gradient(135deg, #fb923c, #f97316, #ea580c)`,
+                    background: `linear-gradient(135deg, #FF4500, #FF6347, #8A2BE2)`,
                   }}
                 />
               </motion.div>
 
               <div className="flex flex-col items-center gap-1 mt-2">
-                <span className="font-medium text-orange-600 text-xs">Customer</span>
+                <span className="font-serif font-medium text-orange-600 text-xs">Customer</span>
 
                 {activeSpeaker === "customer" ? (
                   <motion.div 
@@ -533,7 +587,7 @@ export function LiveCall() {
                     className="flex items-center gap-1 bg-orange-50 px-2 py-1 rounded-full"
                   >
                     <Activity className="w-2 h-2 text-orange-600" />
-                    <span className="font-medium text-[8px] text-orange-600">Speaking</span>
+                    <span className="font-serif font-medium text-[8px] text-orange-600">Speaking</span>
                   </motion.div>
                 ) : (
                   <motion.div 
@@ -542,7 +596,7 @@ export function LiveCall() {
                     className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full"
                   >
                     <BarChart3 className="w-2 h-2 text-gray-500" />
-                    <span className="font-medium text-[8px] text-gray-500">Listening</span>
+                    <span className="font-serif font-medium text-[8px] text-gray-500">Listening</span>
                   </motion.div>
                 )}
               </div>
@@ -550,7 +604,7 @@ export function LiveCall() {
           </div>
 
           {/* Audio file indicator with sleek design */}
-          <div className="right-2 bottom-2 absolute bg-white/90 shadow-sm backdrop-blur-sm px-3 py-1 border border-gray-100 rounded-full font-medium text-[9px]">
+          <div className="right-2 bottom-2 absolute bg-white/90 shadow-sm backdrop-blur-sm px-3 py-1 border border-gray-100 rounded-full font-serif font-medium text-[9px]">
             <span className={activeSpeaker === "agent" ? "text-indigo-600" : "text-orange-600"}>
               {AUDIO_SEQUENCE[currentAudioIndex].file.replace('.mp3', '')}
             </span>
@@ -560,21 +614,21 @@ export function LiveCall() {
         {/* Call Metrics with modern design */}
         <div className="gap-1.5 grid grid-cols-3 mt-2">
           {[
-            { label: 'Sentiment', value: '92%', color: 'bg-indigo-50 text-indigo-600' },
-            { label: 'Engagement', value: '87%', color: 'bg-blue-50 text-blue-600' },
-            { label: 'Conversion', value: '76%', color: 'bg-green-50 text-green-600' }
+            { label: 'Sentiment', value: '92%', color: 'bg-indigo-50 text-indigo-600', gradient: 'from-indigo-600 to-indigo-500' },
+            { label: 'Engagement', value: '87%', color: 'bg-blue-50 text-blue-600', gradient: 'from-blue-600 to-blue-500' },
+            { label: 'Conversion', value: '76%', color: 'bg-green-50 text-green-600', gradient: 'from-green-600 to-green-500' }
           ].map((metric, index) => (
             <motion.div
               key={metric.label}
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.3 }}
-              className="flex flex-col items-center bg-white shadow-sm p-1.5 border border-gray-100 rounded-md"
+              className="flex flex-col items-center bg-gradient-to-br from-white to-gray-50 shadow-sm p-1.5 border border-gray-100 rounded-md"
             >
               <div className={`px-2 py-0.5 rounded-full mb-0.5 ${metric.color}`}>
-                <span className="font-medium text-[8px]">{metric.value}</span>
+                <span className={`font-serif font-medium text-[8px] bg-gradient-to-r ${metric.gradient} bg-clip-text text-transparent`}>{metric.value}</span>
               </div>
-              <span className="text-[7px] text-gray-500">{metric.label}</span>
+              <span className="font-serif text-[7px] text-gray-500">{metric.label}</span>
             </motion.div>
           ))}
         </div>

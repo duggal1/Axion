@@ -75,39 +75,58 @@ const BentoGrid = () =>  {
     return () => clearInterval(interval);
   }, []);
 
+  // Animation variants for card entrance
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1] // Custom ease for a more premium feel
+      }
+    })
+  };
+
   return (
-    <div className="p-3 min-h-screen">
+    <div className="p-3 min-h-screen font-serif">
       <div className="mx-auto max-w-4xl">
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mb-4 font-serif text-gray-900 sm:text-3xl md:text-4xl text-6xl lg:text-6xl text-center leading-snug tracking-tight"
         >
           Axion AI Sales Agent
-        </div>
+        </motion.div>
 
         <div className="gap-2 grid grid-cols-2 md:grid-cols-2 auto-rows-fr">
           {/* Top Row - First Card: Live Call Demo */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-white shadow-sm p-3 border border-[#a8a8ac] rounded-lg h-[500px]"
+            custom={0}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            className="bg-gradient-to-br from-white to-gray-50 shadow-sm p-3 border border-[#a8a8ac] rounded-lg h-[500px]"
           >
             <LiveCall />
           </motion.div>
 
           {/* Top Row - Second Card: Sales Performance */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-            className="bg-white shadow-sm p-3 border border-[#b4b4b8] rounded-lg h-[500px]"
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            className="bg-gradient-to-br from-white to-gray-50 shadow-sm p-3 border border-[#b4b4b8] rounded-lg h-[500px]"
           >
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-medium text-gray-900 text-sm tracking-wide">Sales Performance</h3>
               <div className="flex space-x-3">
                 <div className="flex items-center">
                   <motion.div 
-                    className="bg-indigo-600 mr-1.5 rounded-full w-2 h-2"
+                    className="bg-gradient-to-r from-indigo-500 to-indigo-600 mr-1.5 rounded-full w-2 h-2"
                     animate={{ 
                       boxShadow: ["0px 0px 0px rgba(99, 102, 241, 0)", "0px 0px 8px rgba(99, 102, 241, 0.5)", "0px 0px 0px rgba(99, 102, 241, 0)"] 
                     }}
@@ -117,7 +136,7 @@ const BentoGrid = () =>  {
                 </div>
                 <div className="flex items-center">
                   <motion.div 
-                    className="bg-purple-500 mr-1.5 rounded-full w-2 h-2"
+                    className="bg-gradient-to-r from-purple-400 to-purple-600 mr-1.5 rounded-full w-2 h-2"
                     animate={{ 
                       boxShadow: ["0px 0px 0px rgba(168, 85, 247, 0)", "0px 0px 8px rgba(168, 85, 247, 0.5)", "0px 0px 0px rgba(168, 85, 247, 0)"] 
                     }}
@@ -164,7 +183,7 @@ const BentoGrid = () =>  {
                   <XAxis
                     dataKey="name"
                     stroke="#CBD5E1"
-                    tick={{ fill: '#94A3B8', fontSize: 9 }}
+                    tick={{ fill: '#94A3B8', fontSize: 9, fontFamily: 'serif' }}
                     tickLine={false}
                     axisLine={false}
                     padding={{ left: 10, right: 10 }}
@@ -173,7 +192,7 @@ const BentoGrid = () =>  {
 
                   <YAxis
                     stroke="#CBD5E1"
-                    tick={{ fill: '#94A3B8', fontSize: 9 }}
+                    tick={{ fill: '#94A3B8', fontSize: 9, fontFamily: 'serif' }}
                     tickLine={false}
                     axisLine={false}
                     tickCount={5}
@@ -185,14 +204,14 @@ const BentoGrid = () =>  {
                     content={({ active, payload }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="bg-white/90 shadow-lg backdrop-blur-sm p-2 border border-gray-100 rounded-lg">
+                          <div className="bg-white/90 shadow-lg backdrop-blur-sm p-2 border border-gray-100 rounded-lg font-serif">
                             <p className="font-medium text-[10px] text-gray-700">{payload[0].payload.name}</p>
                             <div className="flex flex-col gap-1 mt-1">
                               <p className="text-[9px] text-indigo-600">
-                                <span className="font-medium">Sales:</span> {payload[0].value?.toFixed(1)}
+                                <span className="font-medium">Sales:</span> {typeof payload[0].value === 'number' ? payload[0].value.toFixed(1) : payload[0].value}
                               </p>
                               <p className="text-[9px] text-purple-600">
-                                <span className="font-medium">Efficiency:</span> {payload[1].value?.toFixed(1)}
+                                <span className="font-medium">Efficiency:</span> {typeof payload[1].value === 'number' ? payload[1].value.toFixed(1) : payload[1].value}
                               </p>
                             </div>
                           </div>
@@ -260,20 +279,22 @@ const BentoGrid = () =>  {
 
           {/* Bottom Row - First Card: Stats Card */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
-            className="bg-white shadow-sm p-3 border border-[#a3a3a6] rounded-lg h-[500px]"
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            className="bg-gradient-to-br from-white to-gray-50 shadow-sm p-3 border border-[#a3a3a6] rounded-lg h-[500px]"
           >
             <StatsCard />
           </motion.div>
 
           {/* Bottom Row - Second Card: Chat Demo */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
-            className="bg-white shadow-sm p-3 border border-[#909092] rounded-lg h-[500px]"
+            custom={3}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            className="bg-gradient-to-br from-white to-gray-50 shadow-sm p-3 border border-[#909092] rounded-lg h-[500px]"
           >
             <ChatAnimation />
           </motion.div>
@@ -282,6 +303,5 @@ const BentoGrid = () =>  {
     </div>
   );
 }
-
 
 export default BentoGrid;
