@@ -1,11 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { LiveCall } from "./components/LiveCall";
 import { ChatAnimation } from "./components/ChatAnimation";
-import { WorldMap } from "./components/WorldMap";
+// import { WorldMap } from "./components/WorldMap";
 import { StatsCard } from "./components/StatsCard";
 
 
@@ -46,33 +45,24 @@ const BentoGrid = () =>  {
   }, []);
 
   return (
-    <div className="bg-[#FCFCFD] p-3 min-h-screen">
+    <div className=" p-3 min-h-screen">
       <div className="mx-auto max-w-4xl">
-        <motion.h2
+        <div
           className="bg-clip-text bg-gradient-to-r from-[#5E60CE] via-[#6930C3] to-[#7400B8] mb-4 font-bold text-transparent text-2xl text-center"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
         >
           Axion AI Sales Agent
-        </motion.h2>
+        </div>
         
         <div className="gap-3 grid grid-cols-12 auto-rows-[minmax(100px,auto)]">
           {/* Live Call Demo */}
-          <motion.div 
+          <div 
             className="col-span-12 md:col-span-8 row-span-2 bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
           >
             <LiveCall />
-          </motion.div>
+          </div>
 
-          <motion.div 
+          <div 
             className="col-span-12 md:col-span-4 bg-white shadow-none p-6 border-0 rounded-xl overflow-hidden"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
           >
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-medium text-gray-900 text-sm tracking-wide">Sales Performance</h3>
@@ -177,25 +167,19 @@ const BentoGrid = () =>  {
                 Last updated: Today
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Chat Demo */}
-          <motion.div 
+          <div 
             className="col-span-12 md:col-span-4 bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
           >
             <ChatAnimation />
-          </motion.div>
+          </div>
 
-          {/* Globe */}
-          <motion.div 
+          {/* Globe
+          <div 
             className="relative col-span-12 md:col-span-8 bg-gradient-to-br from-white to-indigo-50/30 shadow-sm p-4 border border-[#F5F5F7] rounded-lg"
             style={{ height: '300px' }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
           >
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-medium text-[#333] text-xs">Global Reach</h3>
@@ -214,17 +198,14 @@ const BentoGrid = () =>  {
               ]}
             />
             </div>
-          </motion.div>
+          </div> */}
 
           {/* Stats Card */}
-          <motion.div 
+          <div 
             className="col-span-12 md:col-span-4 bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
           >
             <StatsCard />
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

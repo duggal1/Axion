@@ -149,6 +149,9 @@ export function StatsCard() {
                   stroke: chartColors.primary, 
                   strokeWidth: 2
                 }}
+                isAnimationActive={true}
+                animationDuration={1000}
+                animationEasing="ease-in-out"
               />
               <Area 
                 type="monotone" 
@@ -163,6 +166,9 @@ export function StatsCard() {
                   stroke: chartColors.secondary, 
                   strokeWidth: 2
                 }}
+                isAnimationActive={true}
+                animationDuration={1200}
+                animationEasing="ease-in-out"
               />
             </AreaChart>
           </ResponsiveContainer>
