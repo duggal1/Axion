@@ -8,7 +8,7 @@ import { cn } from '@/lib'
 import MobileMenu from './marketing/mobile-menu'
 import { NAV_LINKS } from '@/constants'
 import { useIsMobile } from '@/hooks/use-mobile'
-
+//
 const menuItems = [
     { name: 'Features', href: '#link' },
     { name: 'Solution', href: '#link' },
