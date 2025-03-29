@@ -134,10 +134,14 @@ export function LiveCall() {
       return;
     }
 
+    // Toggle mute state
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+
+    // Apply mute state to audio element if it exists
     if (audioRef.current) {
-      const newMutedState = !isMuted;
-      setIsMuted(newMutedState);
       audioRef.current.muted = newMutedState;
+      console.log("Audio muted state set to:", newMutedState);
 
       // If we're unmuting and audio context is suspended, resume it
       if (!newMutedState && audioContextRef.current && audioContextRef.current.state === 'suspended') {
@@ -149,11 +153,16 @@ export function LiveCall() {
 
       // If unmuting and paused, try to play
       if (!newMutedState && audioRef.current.paused) {
-        audioRef.current.play().catch(err => {
-          console.error("Failed to play on unmute:", err);
-          setPermissionError(true);
-        });
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(err => {
+            console.error("Failed to play on unmute:", err);
+            setPermissionError(true);
+          });
+        }
       }
+    } else {
+      console.log("Audio element not yet initialized");
     }
   }, [isMuted, isCallStarted, startCall]);
 
@@ -224,32 +233,32 @@ export function LiveCall() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Modern header with clean design */}
-      <div className="flex justify-between items-center mb-2 px-3 py-1.5 bg-white rounded-lg shadow-sm border border-gray-100">
-        <div className="flex items-center gap-2">
-          <h3 className="font-semibold text-xs text-indigo-600">Live Call</h3>
-          {/* Audio control button with clean interactive states */}
+      {/* Ultra modern header with sleek design */}
+      <div className="flex justify-between items-center mb-2 px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-100">
+        <div className="flex items-center gap-3">
+          <h3 className="font-semibold text-xs bg-gradient-to-r from-gray-700 to-gray-500 bg-clip-text text-transparent">Live Call</h3>
+          {/* Enhanced audio control button with prominent interactive states */}
           <button
             type="button"
             onClick={toggleMute}
-            className={`flex justify-center items-center p-1.5 rounded-full transition-all cursor-pointer ${
+            className={`flex justify-center items-center p-2 rounded-full transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md ${
               isMuted
-                ? 'bg-gray-50 text-gray-500'
-                : 'bg-indigo-50 text-indigo-600'
+                ? 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'
             }`}
             aria-label={isMuted ? "Unmute audio" : "Mute audio"}
           >
             {isMuted ? (
-              <VolumeX className="w-3.5 h-3.5" />
+              <VolumeX className="w-4 h-4" />
             ) : (
-              <Volume2 className="w-3.5 h-3.5" />
+              <Volume2 className="w-4 h-4" />
             )}
           </button>
         </div>
         <div className="flex items-center gap-2">
           <span className="font-medium text-[10px] text-gray-500">{callStats.time}</span>
-          <div className="flex items-center bg-green-50 px-2 py-0.5 rounded-full">
-            <span className="font-medium text-[9px] text-green-600">{callStats.quality}% Quality</span>
+          <div className="flex items-center bg-gradient-to-r from-green-50 to-emerald-50 px-2 py-0.5 rounded-full shadow-sm">
+            <span className="font-medium text-[9px] bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent">{callStats.quality}% Quality</span>
           </div>
         </div>
       </div>
@@ -269,15 +278,56 @@ export function LiveCall() {
 
           {!isCallStarted && (
             <div className="absolute inset-0 z-20 flex flex-col justify-center items-center bg-white/95">
-              <button
-                type="button"
-                onClick={startCall}
-                className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-md transition-colors"
-              >
-                <Mic className="w-5 h-5" />
-                <span className="text-sm font-medium">Start Audio</span>
-              </button>
-              <p className="mt-3 text-xs text-gray-500 font-medium">Click to enable audio playback</p>
+              {/* Animated background sound wave when not started */}
+              <div className="absolute inset-0 flex justify-center items-center opacity-20 pointer-events-none overflow-hidden">
+                <div className="flex justify-center items-end gap-[2px]">
+                  {Array.from({ length: 60 }).map((_, index) => {
+                    // Create a smooth wave pattern
+                    const baseHeight = Math.sin(index * 0.15) * 10 + 15;
+                    const randomOffset = Math.random() * 5;
+                    const height = baseHeight + randomOffset;
+                    const delay = index * 0.02 % 0.5;
+
+                    return (
+                      <div
+                        key={index}
+                        className="rounded-t-full"
+                        style={{
+                          width: "3px",
+                          height: `${height}px`,
+                          background: `linear-gradient(to top,
+                            rgba(129, 140, 248, 0.4),
+                            rgba(99, 102, 241, 0.6),
+                            rgba(79, 70, 229, 0.8))`,
+                          boxShadow: `0 0 4px rgba(99, 102, 241, 0.3)`,
+                          animation: `waveAnimation 2s ease-in-out infinite`,
+                          animationDelay: `${delay}s`
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+
+              <style jsx>{`
+                @keyframes waveAnimation {
+                  0%, 100% { transform: scaleY(1); }
+                  50% { transform: scaleY(1.2); }
+                }
+              `}</style>
+
+
+
+<button
+  type="button"
+  onClick={startCall}
+  className={`relative flex items-center gap-2 px-6 py-3 text-white rounded-full shadow-lg transition-all 
+              hover:shadow-xl z-10 bg-gradient-to-bl from-amber-500 via-pink-500 to-violet-600 animate-gradient`}
+>
+  <Mic className="w-5 h-5" />
+  <span className="text-sm font-medium">Listen to Live Call</span>
+</button>
+              <p className="mt-3 text-sm text-gray-400 font-medium z-10">Click to enable audio playback</p>
             </div>
           )}
 
@@ -288,7 +338,7 @@ export function LiveCall() {
             </div>
           )}
 
-          {/* Modern waveform with optimized rendering */}
+          {/* Ultra modern waveform with extreme gradient effects */}
           <div className="absolute inset-0 flex justify-center items-center overflow-hidden">
             <div className="flex justify-center items-end h-24 gap-[2px]">
               {waveform.map((height, index) => {
@@ -297,10 +347,18 @@ export function LiveCall() {
                 const amplitudeMultiplier = 1 - 0.4 * Math.pow(Math.abs(position - 0.5) * 2, 2);
                 const finalHeight = height * amplitudeMultiplier;
 
-                // Modern gradient based on active speaker
+                // Extreme gradient effects for sound wave based on active speaker
                 const gradient = activeSpeaker === "agent"
-                  ? `linear-gradient(to top, #818cf8, #6366f1, #4f46e5)`
-                  : `linear-gradient(to top, #fb923c, #f97316, #ea580c)`;
+                  ? `linear-gradient(to top,
+                      rgba(129, 140, 248, 0.6),
+                      rgba(99, 102, 241, 0.8),
+                      rgba(79, 70, 229, 1),
+                      rgba(67, 56, 202, 1))`
+                  : `linear-gradient(to top,
+                      rgba(251, 146, 60, 0.6),
+                      rgba(249, 115, 22, 0.8),
+                      rgba(234, 88, 12, 1),
+                      rgba(194, 65, 12, 1))`;
 
                 return (
                   <div
@@ -310,6 +368,9 @@ export function LiveCall() {
                       width: "3px",
                       height: `${finalHeight}px`,
                       background: gradient,
+                      boxShadow: activeSpeaker === "agent"
+                        ? `0 0 6px rgba(99, 102, 241, 0.5), 0 0 2px rgba(79, 70, 229, 0.8)`
+                        : `0 0 6px rgba(249, 115, 22, 0.5), 0 0 2px rgba(234, 88, 12, 0.8)`,
                       transition: "height 0.2s ease-out"
                     }}
                   />
@@ -385,7 +446,7 @@ export function LiveCall() {
             <div className="flex flex-col items-center">
               <div
                 className={`relative flex justify-center items-center rounded-full w-14 h-14 overflow-hidden shadow-md ${
-                  activeSpeaker === "customer" ? "ring-2 ring-orange-500 ring-offset-2" : ""
+                  activeSpeaker === "customer" ? "ring-2 ring-orange-100 ring-offset-2" : ""
                 }`}
               >
                 {/* Customer image with modern styling */}

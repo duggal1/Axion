@@ -44,7 +44,7 @@ function IntegrationColumn({integrations, className, reverseAnimation}: Integrat
               <div className="flex justify-center">
                 <Image src={integration.icon} alt={integration.name} className="size-24"/>
               </div>
-              <h3 className="text-3xl text-center mt-6">{integration.name}</h3>
+              <h3 className="text-3xl font-serif text-center mt-6">{integration.name}</h3>
               <p className="text-center text-foreground/50 mt-2 text-balance">{integration.description}</p>
             </div>
           ))}
@@ -61,7 +61,7 @@ function IntegrationColumn({integrations, className, reverseAnimation}: Integrat
         <div className="grid lg:grid-cols-2 items-center lg:gap-16">
           <section className="max-md:flex max-md:flex-col max-md:items-center max-md:justify-center">
             <Tag>Integrations</Tag>
-            <h2 className="text-6xl font-medium mt-6 max-md:text-center text-balance">
+            <h2 className="text-6xl font-serif mt-6 max-md:text-center text-balance">
               Plays well with <span className="text-violet-700">others</span>
             </h2>
             <p className="text-muted-foreground text-lg mt-4 text-balance max-md:text-center">

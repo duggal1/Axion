@@ -48,7 +48,7 @@ const BentoGrid = () =>  {
     <div className="p-3 min-h-screen">
       <div className="mx-auto max-w-4xl">
         <div
-          className="bg-clip-text bg-gradient-to-r from-[#5E60CE] via-[#6930C3] to-[#7400B8] mb-4 font-bold text-transparent text-2xl text-center"
+          className=" mb-4 font-serif text-gray-900   lg:text-6xl text-6xl md:text-4xl sm:text-3xl leading-snug tracking-tight text-center "
         >
           Axion AI Sales Agent
         </div>
