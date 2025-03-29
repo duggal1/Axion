@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-var */
 "use client";
 
 import { cn } from "@/lib";
