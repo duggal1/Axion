@@ -173,93 +173,8 @@ export default function FeaturesCloud() {
 const map = new DottedMap({ height: 55, grid: 'diagonal' })
 const mapPoints = map.getPoints()
 
-// Enhanced Dotted Map Component with animations
+// Static Dotted Map Component (no animations)
 const AnimatedGlobeMap = () => {
-    const [connections, setConnections] = useState<Connection[]>([])
-    const [activePoints, setActivePoints] = useState<{[key: string]: boolean}>({})
-    const pointsRef = useRef<Point[]>([])
-    const frameRef = useRef<number>(0)
-
-    useEffect(() => {
-        // Convert dotted map points to our format
-        const formattedPoints: Point[] = mapPoints.map(point => ({
-            x: point.x,
-            y: point.y
-        }))
-
-        pointsRef.current = formattedPoints
-
-        // Create random connections between points
-        const newConnections: Connection[] = []
-        for (let i = 0; i < 15; i++) {
-            const start = Math.floor(Math.random() * formattedPoints.length)
-            const end = Math.floor(Math.random() * formattedPoints.length)
-            newConnections.push({
-                start: formattedPoints[start],
-                end: formattedPoints[end],
-                progress: 0
-            })
-        }
-        setConnections(newConnections)
-
-        // Set some points as active (highlighted)
-        const initialActivePoints: {[key: string]: boolean} = {}
-        for (let i = 0; i < formattedPoints.length; i++) {
-            if (i % 12 === 0) {
-                initialActivePoints[`${i}`] = true
-            }
-        }
-        setActivePoints(initialActivePoints)
-
-        // Animate connections - using requestAnimationFrame for smoother animation
-        let lastTime = 0
-
-        const animate = (time: number) => {
-            if (!lastTime) lastTime = time
-            const delta = time - lastTime
-
-            // Only update if enough time has passed (throttling for performance)
-            if (delta > 20) { // Faster updates for smoother animation
-                lastTime = time
-
-                // Update connections
-                setConnections(prev => prev.map(conn => {
-                    // Smoother progress increment
-                    const newProgress = conn.progress + 0.004
-                    if (newProgress > 1) {
-                        // Generate a new connection
-                        const start = Math.floor(Math.random() * pointsRef.current.length)
-                        const end = Math.floor(Math.random() * pointsRef.current.length)
-                        return {
-                            start: pointsRef.current[start],
-                            end: pointsRef.current[end],
-                            progress: 0
-                        }
-                    }
-                    return { ...conn, progress: newProgress }
-                }))
-
-                // Occasionally update active points
-                if (Math.random() < 0.05) {
-                    setActivePoints(prev => {
-                        const newActive = { ...prev }
-                        const pointIndex = Math.floor(Math.random() * pointsRef.current.length)
-                        newActive[`${pointIndex}`] = !newActive[`${pointIndex}`]
-                        return newActive
-                    })
-                }
-            }
-
-            frameRef.current = requestAnimationFrame(animate)
-        }
-
-        frameRef.current = requestAnimationFrame(animate)
-
-        return () => {
-            cancelAnimationFrame(frameRef.current)
-        }
-    }, [])
-
     const viewBox = `0 0 120 60`
     return (
         <svg viewBox={viewBox} style={{ background: 'white' }}>
@@ -269,72 +184,23 @@ const AnimatedGlobeMap = () => {
                     key={index}
                     cx={point.x}
                     cy={point.y}
-                    r={activePoints[`${index}`] ? 0.35 : 0.15}
-                    fill={activePoints[`${index}`] ? "#2563eb" : "#e5e7eb"}
-                    opacity={activePoints[`${index}`] ? 0.9 : 0.4}
-                    className={activePoints[`${index}`] ? "animate-pulse" : ""}
+                    r={0.15}
+                    fill="#e5e7eb"
+                    opacity={0.4}
                 />
             ))}
 
-            {/* Animated connections */}
-            {connections.map((conn, index) => {
-                const x1 = conn.start.x
-                const y1 = conn.start.y
-                const x2 = conn.end.x
-                const y2 = conn.end.y
-
-                // Calculate current position with cubic easing
-                const easeProgress = 1 - Math.pow(1 - conn.progress, 3)
-                const currentX = x1 + (x2 - x1) * easeProgress
-                const currentY = y1 + (y2 - y1) * easeProgress
-
-                return (
-                    <g key={index}>
-                        <line
-                            x1={x1}
-                            y1={y1}
-                            x2={currentX}
-                            y2={currentY}
-                            stroke="#3b82f6"
-                            strokeWidth="0.2"
-                            strokeDasharray="0.5 0.5"
-                            opacity="0.7"
-                        />
-                        <circle
-                            cx={currentX}
-                            cy={currentY}
-                            r="0.4"
-                            fill="#3b82f6"
-                            opacity="0.9"
-                        />
-                    </g>
-                )
-            })}
-
-            {/* Add some highlight effects */}
-            {connections.slice(0, 5).map((conn, index) => {
-                const midX = (conn.start.x + conn.end.x) / 2
-                const midY = (conn.start.y + conn.end.y) / 2
-
-                return (
-                    <circle
-                        key={`glow-${index}`}
-                        cx={midX}
-                        cy={midY}
-                        r="1.5"
-                        fill="url(#blueGlow)"
-                        opacity="0.2"
-                    />
-                )
-            })}
-
-            {/* Gradient definitions */}
-            <defs>
-                <radialGradient id="blueGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-                </radialGradient>
-            </defs>
+            {/* Add some static highlighted points for visual interest */}
+            {mapPoints.filter((_, i) => i % 12 === 0).map((point, index) => (
+                <circle
+                    key={`highlight-${index}`}
+                    cx={point.x}
+                    cy={point.y}
+                    r={0.35}
+                    fill="#2563eb"
+                    opacity={0.9}
+                />
+            ))}
         </svg>
     )
 }

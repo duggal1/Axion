@@ -6,8 +6,8 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { TextEffect } from '@/components/ui/text-effect'
-import { AnimatedGroup } from '@/components/ui//animated-group'
-import { WavyBackground } from '../ui/wavy-background'
+import { AnimatedGroup } from '@/components/ui/animated-group'
+// import { WavyBackground } from '../ui/wavy-background'
 import HeroNavbar from '@/components/hero-navbar'
 import HeroVideoDialog from '../magicui/hero-video-dialog'
 
@@ -89,9 +89,9 @@ export default function Hero() {
                 <AnimatedGroup variants={transitionVariants}>
                   <Link
                     href="#link"
-                    className="group flex items-center gap-4 bg-muted hover:bg-background shadow-md shadow-zinc-950/5 dark:shadow-zinc-950 mx-auto p-1 pl-4 border dark:border-t-white/5 dark:hover:border-t-border rounded-full w-fit transition-colors duration-300">
-                    <span className="text-foreground text-sm">Introducing Support for AI Models</span>
-                    <span className="block bg-white dark:bg-zinc-700 dark:border-background border-l w-0.5 h-4"></span>
+                    className="group flex items-center gap-4 bg-muted hover:bg-background shadow-md shadow-violet-600/90 dark:shadow-zinc-950 mx-auto p-1 pl-4 border dark:border-t-white/5 dark:hover:border-t-border rounded-full w-fit transition-colors duration-300">
+                    <span className="text-foreground  font-serif text-sm">Introducing Support for AI Models</span>
+                    <span className="block bg-gray-600 dark:bg-zinc-700 dark:border-background border-l w-0.5 h-4"></span>
                     <div className="bg-background group-hover:bg-muted rounded-full size-6 overflow-hidden duration-500">
                       <div className="flex w-12 -translate-x-1/2 group-hover:translate-x-0 duration-500 ease-in-out">
                         <span className="flex size-6">
@@ -104,13 +104,13 @@ export default function Hero() {
                     </div>
                   </Link>
                 </AnimatedGroup>
-                <WavyBackground className="max-w-4xl mx-auto pb-40">
+                
 
                 <TextEffect
                                     preset="fade-in-blur"
                                     speedSegment={0.3}
                                     as="h1"
-                                    className="mt-8 text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem]">
+                                    className="mt-8 text-balance font-serif text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem]">
                                     Modern Solutions for Customer Engagement
                                 </TextEffect>
                                 <TextEffect
@@ -119,11 +119,11 @@ export default function Hero() {
                                     speedSegment={0.3}
                                     delay={0.5}
                                     as="p"
-                                    className="mx-auto mt-8 max-w-2xl text-balance text-lg">
+                                    className="mx-auto mt-8 max-w-2xl font-serif text-balance text-lg">
                                     Highly customizable components for building modern websites and applications that look and feel the way you mean it.
                                 </TextEffect>
 
-                                </WavyBackground>
+                               
                   
                                 <AnimatedGroup
                                     variants={{
@@ -145,7 +145,7 @@ export default function Hero() {
                                             size="lg"
                                             className="rounded-xl px-5 text-base">
                                             <Link href="#link">
-                                                <span className="text-nowrap">Start Building</span>
+                                                <span className="text-nowrap font-serif">Start Building</span>
                                             </Link>
                                         </Button>
                                         <Button
@@ -155,7 +155,7 @@ export default function Hero() {
                                             variant="ghost"
                                             className="h-10.5 rounded-xl px-5">
                                             <Link href="#link">
-                                                <span className="text-nowrap">Request a demo</span>
+                                                <span className="text-nowrap hover:text-gray-500 font-serif">Request a demo</span>
                                             </Link>
                                         </Button>
                                 </AnimatedGroup>
