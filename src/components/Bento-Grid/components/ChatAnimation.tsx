@@ -24,7 +24,7 @@ const conversations = [
 const Message = memo(({ text, isUser, avatar }: { text: string; isUser: boolean; avatar: string }) => (
   <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-2 items-end gap-1.5`}>
     {!isUser && (
-      <div className="w-5 h-5 rounded-full overflow-hidden flex-shrink-0">
+      <div className="flex-shrink-0 rounded-full w-5 h-5 overflow-hidden">
         <Image src={avatar} width={20} height={20} alt="AI Avatar" className="w-full h-full object-cover" />
       </div>
     )}
@@ -38,7 +38,7 @@ const Message = memo(({ text, isUser, avatar }: { text: string; isUser: boolean;
       {text}
     </div>
     {isUser && (
-      <div className="w-5 h-5 rounded-full overflow-hidden flex-shrink-0">
+      <div className="flex-shrink-0 rounded-full w-5 h-5 overflow-hidden">
         <Image src={avatar} width={20} height={20} alt="User Avatar" className="w-full h-full object-cover" />
       </div>
     )}
@@ -59,8 +59,8 @@ export function ChatAnimation() {
   const userAvatar = "https://images.unsplash.com/photo-1603384699007-50799748fc45?q=80&w=2545&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   const aiAvatar = "https://raw.githubusercontent.com/duggal1/Axion/refs/heads/main/public/icons/axion-logo.png";
   
-  // Maintain a fixed height for the message container to prevent layout shifts
-  const containerHeight = 180; // Increased height to fill the card better
+  // Maintain a fixed height for the message container to fill the card better
+  const containerHeight = 400; // Increased height to fill the 500px card
 
   // Much faster character-by-character streaming (600-700 tokens per minute)
   const streamText = async (text: string, setter: (text: string) => void) => {
@@ -122,15 +122,32 @@ export function ChatAnimation() {
   }, [userText, aiText]);
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 rounded-xl p-3 shadow-sm">
-      <h3 className="mb-2 font-medium text-gray-700 text-xs flex items-center gap-1">
-        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-        Live Chat
-      </h3>
+    <div className="flex flex-col h-full">
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="flex items-center gap-1 font-medium text-gray-700 text-xs">
+          <motion.span 
+            className="bg-green-500 rounded-full w-2 h-2"
+            animate={{ 
+              boxShadow: ["0px 0px 0px rgba(34, 197, 94, 0)", "0px 0px 6px rgba(34, 197, 94, 0.6)", "0px 0px 0px rgba(34, 197, 94, 0)"] 
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <span>Live Chat</span>
+        </h3>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center gap-1.5 bg-indigo-50 px-2 py-0.5 rounded-full"
+        >
+          <span className="inline-block bg-indigo-500 rounded-full w-1.5 h-1.5"></span>
+          <span className="font-medium text-[9px] text-indigo-700">Connected</span>
+        </motion.div>
+      </div>
 
       <div
         ref={messageContainerRef}
-        className="flex-grow pr-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent bg-white rounded-lg p-2"
+        className="flex-grow bg-gradient-to-b from-gray-50 to-white shadow-sm mb-3 p-3 pr-1 border border-gray-100 rounded-lg overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent"
         style={{ height: containerHeight, maxHeight: containerHeight }}
       >
         <div className="flex flex-col justify-end min-h-full">
@@ -138,10 +155,10 @@ export function ChatAnimation() {
           {aiText && <Message text={aiText} isUser={false} avatar={aiAvatar} />}
           {isStreaming && (
             <div className="flex items-start gap-1.5">
-              <div className="w-5 h-5 rounded-full overflow-hidden flex-shrink-0">
+              <div className="flex-shrink-0 rounded-full w-5 h-5 overflow-hidden">
                 <Image src={aiAvatar} width={20} height={20} alt="AI Avatar" className="w-full h-full object-cover" />
               </div>
-              <div className="inline-flex items-center gap-0.5 bg-[#F9F5FF] px-2 py-1 rounded-lg max-w-fit text-[#6930C3] text-xs shadow-sm">
+              <div className="inline-flex items-center gap-0.5 bg-[#F9F5FF] shadow-sm px-2 py-1 rounded-lg max-w-fit text-[#6930C3] text-xs">
                 <motion.span
                   className="inline-block bg-[#6a1bff] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
@@ -163,20 +180,49 @@ export function ChatAnimation() {
         </div>
       </div>
 
-      <div className="mt-3 pt-2 border-gray-100 border-t">
+      <div className="pt-2 border-gray-100 border-t">
         <div className="relative">
           <input
             type="text"
-            className="bg-white py-2 pr-8 pl-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-[#6930C3] focus:ring-1 w-full text-gray-700 placeholder:text-gray-400 text-xs shadow-sm"
+            className="bg-white shadow-sm py-2.5 pr-8 pl-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-[#6930C3] focus:ring-1 w-full text-gray-700 placeholder:text-gray-400 text-xs"
             placeholder="Type your message..."
             disabled
           />
-          <button
-            className="top-1/2 right-2 absolute bg-[#6930C3] hover:bg-[#5b1baa] disabled:opacity-70 p-1 rounded-md text-white -translate-y-1/2 transition-colors duration-200 shadow-sm"
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ backgroundColor: '#5b1baa' }}
+            className="top-1/2 right-2 absolute bg-[#6930C3] shadow-sm p-1 rounded-md text-white transition-colors -translate-y-1/2 duration-200"
             disabled
           >
             <SendHorizontal size={14} />
-          </button>
+          </motion.button>
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <div className="flex gap-1">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-gray-100 p-1 rounded-md cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"></path>
+                <path d="M8 9h8"></path>
+                <path d="M8 15h4"></path>
+              </svg>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="bg-gray-100 p-1 rounded-md cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </motion.div>
+          </div>
+          <div className="text-[9px] text-gray-400">
+            Powered by Axion AI
+          </div>
         </div>
       </div>
     </div>

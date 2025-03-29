@@ -22,13 +22,13 @@ export const HeroNavbar = () => {
     }, [])
 
     return (
-        <header className="fixed top-0 left-0 w-full z-50">
-            <nav className="w-full px-2">
+        <header className="fixed top-0 left-0 w-full z-50 font-serif">
+            <nav className="w-full px-2 font-serif">
                 <div className={cn(
                     'mx-auto mt-4 max-w-6xl px-6 transition-all duration-300 lg:px-12',
                     isScrolled && 'bg-white/90 max-w-5xl rounded-full border border-gray-100 shadow-sm backdrop-blur-lg lg:px-8'
                 )}>
-                    <div className="relative flex items-center justify-between py-3 lg:py-3">
+                    <div className="relative flex items-center justify-between py-3 lg:py-3 font-serif">
                         <div className="flex items-center">
                             <Link href="/">
                                 <Image
@@ -48,7 +48,7 @@ export const HeroNavbar = () => {
                                     <li key={index}>
                                         <Link
                                             href={item.href}
-                                            className="text-gray-600 hover:text-gray-900 font-medium block duration-150 relative group">
+                                            className="text-gray-600 hover:text-gray-900  font-serif block duration-150 transition-shadow hover:shadow-md relative group">
                                             <span>{item.name}</span>
                                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
                                         </Link>
@@ -63,7 +63,7 @@ export const HeroNavbar = () => {
                                     asChild
                                     variant="ghost"
                                     size="sm"
-                                    className="rounded-full text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+                                    className="rounded-lg text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors font-serif">
                                     <Link href="#">
                                         <span>Login</span>
                                     </Link>
@@ -73,7 +73,7 @@ export const HeroNavbar = () => {
                                 <Button
                                     asChild
                                     size="sm"
-                                    className="rounded-full bg-gradient-to-r from-violet-700 to-violet-600 hover:from-violet-800 hover:to-violet-600 text-white shadow-sm hover:shadow-md transition-all">
+                                    className="rounded-lg bg-gradient-to-r from-violet-700 to-violet-600 hover:from-violet-800 hover:to-violet-600 text-white shadow-sm hover:shadow-md transition-all font-serif">
                                     <Link href="#" className="flex items-center gap-1.5">
                                         <span>Get Started</span>
                                         <ArrowRight className="h-3.5 w-3.5" />

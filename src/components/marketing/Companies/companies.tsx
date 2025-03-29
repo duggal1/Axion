@@ -408,17 +408,17 @@ const allLogos = [
 
 export function LogoCarousels() {
     return (
-      <div className="py-24 companies  text-black">
+      <div className="py-24 companies  text-gray-800">
         <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center space-y-10">
           {/* Header Section */}
           <div className="text-center space-y-4">
-            <h2 className="text-6xl font-bold tracking-tight">
+            <h2 className="text-6xl font-serif tracking-tight">
               Trusted by Top Companies
             </h2>
             <a 
               href="/" 
               target="_blank" 
-              className="inline-block text-4xl  mt-4 italic font-medium text-violet-700 hover:underline"
+              className="inline-block text-3xl mt-4 italic font-serif bg-gradient-to-r from-violet-700 via-blue-500 to-pink-500 bg-clip-text text-transparent hover:underline hover:text-gray-800"
             >
               Be part of the future
             </a>
