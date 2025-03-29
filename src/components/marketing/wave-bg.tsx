@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-var */
-"use client";
 
 import { cn } from "@/lib";
 import React, { useEffect, useRef, useState } from "react";
@@ -38,7 +35,6 @@ export const WavyBackground = ({
     ctx: any,
     canvas: any;
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   const getSpeed = () => {
     switch (speed) {
       case "slow":
@@ -53,49 +49,36 @@ export const WavyBackground = ({
   const init = () => {
     canvas = canvasRef.current;
     ctx = canvas.getContext("2d");
-
-    // Set canvas width to be much wider than the viewport to ensure full coverage
-    w = ctx.canvas.width = window.innerWidth * 2;
+    w = ctx.canvas.width = window.innerWidth;
     h = ctx.canvas.height = window.innerHeight;
-
     ctx.filter = `blur(${blur}px)`;
     nt = 0;
-
     window.onresize = function () {
-      w = ctx.canvas.width = window.innerWidth * 2;
+      w = ctx.canvas.width = window.innerWidth;
       h = ctx.canvas.height = window.innerHeight;
       ctx.filter = `blur(${blur}px)`;
     };
-
     render();
   };
 
   const waveColors = colors ?? [
-    "#aa00ff",
-    "#d400ff",
-    "#fb00ff",
-    "#cf78e3",
-    "#8f0a94",
+    "#c4b5fd",
+    "#a78bfa",
+    "#8b5cf6",
+    "#7c3aed",
+    "#6d28d9",
   ];
-
+  
   const drawWave = (n: number) => {
     nt += getSpeed();
     for (i = 0; i < n; i++) {
       ctx.beginPath();
       ctx.lineWidth = waveWidth || 50;
       ctx.strokeStyle = waveColors[i % waveColors.length];
-
-      // Start and end much further outside the viewport
-      const startX = -w * 0.5;
-      const endX = w * 1.5;
-
-      ctx.moveTo(startX, h * 0.5);
-      for (x = startX; x < endX; x += 5) {
+      for (x = 0; x < w; x += 5) {
         var y = noise(x / 800, 0.3 * i, nt) * 100;
         ctx.lineTo(x, y + h * 0.5);
       }
-
-      ctx.lineTo(endX, h * 0.5);
       ctx.stroke();
       ctx.closePath();
     }
@@ -119,35 +102,29 @@ export const WavyBackground = ({
 
   const [isSafari, setIsSafari] = useState(false);
   useEffect(() => {
-    // Support for Safari browsers
     setIsSafari(
       typeof window !== "undefined" &&
-      navigator.userAgent.includes("Safari") &&
-      !navigator.userAgent.includes("Chrome")
+        navigator.userAgent.includes("Safari") &&
+        !navigator.userAgent.includes("Chrome")
     );
   }, []);
 
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center",
+        "h-screen flex flex-col items-center justify-center",
         containerClassName
       )}
-      style={{ position: "relative", overflow: "hidden" }}
     >
       <canvas
-        className="z-0 absolute inset-0"
+        className="absolute inset-0 z-0"
         ref={canvasRef}
         id="canvas"
         style={{
           ...(isSafari ? { filter: `blur(${blur}px)` } : {}),
-          // Position the canvas to cover the entire viewport with more overflow
-          left: "-50%",
-          width: "200%",
-          transform: "translateX(0)", // Force hardware acceleration
         }}
       ></canvas>
-      <div className={cn("relative z-10 w-full", className)} {...props}>
+      <div className={cn("relative z-10", className)} {...props}>
         {children}
       </div>
     </div>

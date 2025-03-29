@@ -1,108 +1,99 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import {Tag} from "../Integartion/tag";
+import {useState, useRef} from "react";
+import { motion} from "framer-motion";
 
-const Faqs = () => {
-  const [activeSection, setActiveSection] = useState<number | null>(1);
+const FAQS = [
+    {
+      question: "How is Layers different from other design tools?",
+      answer: "Unlike traditional design tools, Layers prioritizes speed and simplicity without sacrificing power. Our intelligent interface adapts to your workflow, reducing clicks and keeping you in your creative flow."
+    },
+    {
+      question: "Is there a learning curve?",
+      answer: "Layers is designed to feel intuitive from day one. Most designers are productive within hours, not weeks. We also provide interactive tutorials and comprehensive documentation to help you get started."
+    },
+    {
+      question: "How do you handle version control?",
+      answer: "Every change in Layers is automatically saved and versioned. You can review history, restore previous versions, and create named versions for important milestones."
+    },
+    {
+      question: "Can I work offline?",
+      answer: "Yes! Layers includes a robust offline mode. Changes sync automatically when you're back online, so you can keep working anywhere."
+    },
+    {
+      question: "How does Layers handle collaboration?",
+      answer: "Layers is built for collaboration. You can invite team members to your projects, share feedback, and work together in real-time."
+    },
+]
 
-  const toggleSection = (section: number) => {
-    setActiveSection(activeSection === section ? null : section);
+export function FAQSection() {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const toggleFAQ = (index: number) => {
+    setSelectedIndex(selectedIndex === index ? null : index);
   };
 
-  // Data for accordion sections
-  const faqSections = [
-    {
-      id: 1,
-      number: "01",
-      title: "Consultation",
-      content: "Discuss your business goals and objectives, target audience, and current marketing efforts to tailor our services to meet your specific requirements."
-    },
-    {
-      id: 2,
-      number: "02",
-      title: "Research and Strategy Development",
-      content: "Conduct thorough market research to understand your target audience and develop a strategic plan to achieve your business objectives."
-    },
-    {
-      id: 3,
-      number: "03",
-      title: "Implementation",
-      content: "Execute the strategic plan by implementing marketing campaigns, content creation, and other necessary actions."
-    },
-    {
-      id: 4,
-      number: "04",
-      title: "Monitoring and Optimization",
-      content: "Continuously monitor the performance of your marketing efforts and make data-driven optimizations to improve results."
-    },
-    {
-      id: 5,
-      number: "05",
-      title: "Reporting and Communication",
-      content: "Provide regular reports and communicate insights to keep you informed about the progress and success of your marketing initiatives."
-    },
-    {
-      id: 6,
-      number: "06",
-      title: "Continual Improvement",
-      content: "Stay ahead of the curve by continuously refining and improving your marketing strategies to adapt to changing market conditions."
-    }
-  ];
-
   return (
-    <section className="pt-24 sm:pt-36 px-4">
-      <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-start sm:gap-10">
-        <h2 className="bg-green text-3xl font-bold p-2 rounded-sm">
-          Our Working Process
+    <section className="py-24">
+      <div className="container flex flex-col items-center justify-center">
+        <Tag>Faqs</Tag>
+        <h2 className="text-6xl font-medium text-center max-w-xl mt-6 dark:text-white text-gray-800">
+          Questions? We&apos;ve got <span className="text-violet-700">answers</span>
         </h2>
-        <p className="max-w-xs">
-          Step-by-Step Guide to Achieving Your Business Goals
-        </p>
-      </div>
-
-      {faqSections.map((section) => (
-        <div
-          key={section.id}
-          className={`${
-            activeSection === section.id ? "bg-green" : "bg-gray"
-          } border border-b-4 text-black px-8 sm:px-[60px] py-3 rounded-[45px] mt-4 ${section.id === 1 ? "sm:mt-16" : "sm:mt-8"}`}
-        >
-          <div
-            className="flex justify-between items-center py-7 cursor-pointer"
-            onClick={() => toggleSection(section.id)}
-          >
-            <h3 className="flex font-medium">
-              <span className="text-3xl sm:text-6xl mr-3 sm:mr-6 font-extrabold">
-                {section.number}
-              </span>
-              <span className="text-xl sm:text-3xl self-center">
-                {section.title}
-              </span>
-            </h3>
-            <button
-              className="flex justify-center items-center border rounded-full w-10 h-10 bg-white transition-all duration-300 hover:bg-green-100 focus:outline-none"
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleSection(section.id);
-              }}
-              aria-label={activeSection === section.id ? "Collapse section" : "Expand section"}
+        <div className="mt-12 flex flex-col gap-6 max-w-3xl w-full">
+          {FAQS.map((faq, index) => (
+            <div
+              key={index}
+              className="dark:bg-neutral-900 bg-white rounded-2xl border dark:border-foreground/10 border-gray-300 p-6 cursor-pointer shadow-sm hover:shadow-md will-change-transform"
+              onClick={() => toggleFAQ(index)}
             >
-              {activeSection === section.id ? (
-                <span className="text-2xl font-bold" aria-hidden="true">−</span>
-              ) : (
-                <span className="text-2xl font-bold" aria-hidden="true">+</span>
-              )}
-            </button>
-          </div>
-          {activeSection === section.id && (
-            <div className="py-7 border-t">
-              <p>{section.content}</p>
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium text-lg dark:text-white text-gray-900">{faq.question}</h3>
+                <motion.div
+                  initial={false}
+                  animate={{ 
+                    rotate: selectedIndex === index ? 45 : 0,
+                    scale: selectedIndex === index ? 1.05 : 1
+                  }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 350, 
+                    damping: 25, 
+                    mass: 0.5
+                  }}
+                  style={{ 
+                    transformOrigin: "center",
+                    willChange: "transform"
+                  }}
+                  className="w-6 h-6 flex items-center justify-center text-violet-600 relative"
+                >
+                  <span className="absolute w-4 h-0.5 bg-current rounded-full transform-gpu"></span>
+                  <span className="absolute w-0.5 h-4 bg-current rounded-full transform-gpu"></span>
+                </motion.div>
+              </div>
+              <div 
+                className="overflow-hidden" 
+                style={{ 
+                  height: selectedIndex === index ? contentRefs.current[index]?.scrollHeight + 'px' : '0px',
+                  opacity: selectedIndex === index ? 1 : 0,
+                  marginTop: selectedIndex === index ? '16px' : '0px',
+                  transition: 'height 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease-in-out, margin-top 0.2s ease-in-out',
+                  willChange: "height, opacity, margin-top",
+                  transform: 'translateZ(0)'
+                }}
+              >
+                <div ref={el => contentRefs.current[index] = el}>
+                  <p className="dark:text-muted-foreground  leading-relaxed text-gray-500 text-primary-foreground/10">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
             </div>
-          )}
+          ))}
         </div>
-      ))}
+      </div>
     </section>
-  );
-};
-
-export default Faqs;
+  )
+}

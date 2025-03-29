@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { TextEffect } from '@/components/ui/text-effect'
 import { AnimatedGroup } from '@/components/ui//animated-group'
 import { WavyBackground } from '../ui/wavy-background'
-import { useIsMobile } from '@/hooks/use-mobile'
 import HeroNavbar from '@/components/hero-navbar'
 import HeroVideoDialog from '../magicui/hero-video-dialog'
 
@@ -34,7 +33,7 @@ const transitionVariants = {
 }
 
 export default function Hero() {
-  const isMobile = useIsMobile();
+  
   
   return (
     <>

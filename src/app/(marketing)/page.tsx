@@ -2,7 +2,7 @@ import Wrapper from "@/components/global/wrapper";
 import Analysis from "@/components/marketing/analysis";
 import Companies from "@/components/marketing/companies";
 import CTA from "@/components/marketing/cta";
-import Faqs from "@/components/marketing/Faqs/faqs";
+import { FAQSection } from "@/components/marketing/Faqs/faqs";
 import Features from "@/components/marketing/features";
 import Hero from "@/components/marketing/hero";
 import IntegrationsSection from "@/components/marketing/Integartion/integrations";
@@ -19,10 +19,11 @@ const HomePage = () => {
             <Analysis />
             <Integration />
             <Pricing />
-            <Faqs/>
+        
             <IntegrationsSection/>
             <LanguageSupport />
             <CTA />
+            <FAQSection/>
         </Wrapper>
     )
 };
