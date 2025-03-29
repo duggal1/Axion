@@ -104,64 +104,68 @@ export default function Hero() {
                     </div>
                   </Link>
                 </AnimatedGroup>
-                <WavyBackground className="h-auto pt-16 pb-6 w-screen" backgroundFill="white" waveOpacity={0.4} containerClassName="overflow-visible">
-                  <TextEffect
-                    preset="fade-in-blur"
-                    speedSegment={0.3}
-                    as="h1"
-                    className="mt-8 lg:mt-12 xl:text-[5.25rem] text-6xl md:text-7xl text-balance">
-                    Modern Solutions for Customer Engagement
-                  </TextEffect>
-                  <TextEffect
-                    per="line"
-                    preset="fade-in-blur"
-                    speedSegment={0.3}
-                    delay={0.5}
-                    as="p"
-                    className="mx-auto mt-8 max-w-2xl text-lg text-balance">
-                    Highly customizable components for building modern websites and applications that look and feel the way you mean it.
-                  </TextEffect>
+                <WavyBackground className="max-w-4xl mx-auto pb-40">
+
+                <TextEffect
+                                    preset="fade-in-blur"
+                                    speedSegment={0.3}
+                                    as="h1"
+                                    className="mt-8 text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem]">
+                                    Modern Solutions for Customer Engagement
+                                </TextEffect>
+                                <TextEffect
+                                    per="line"
+                                    preset="fade-in-blur"
+                                    speedSegment={0.3}
+                                    delay={0.5}
+                                    as="p"
+                                    className="mx-auto mt-8 max-w-2xl text-balance text-lg">
+                                    Highly customizable components for building modern websites and applications that look and feel the way you mean it.
+                                </TextEffect>
+
+                                </WavyBackground>
                   
-                  {/* Buttons moved up, directly below the text */}
-                  <AnimatedGroup
-                    variants={{
-                      container: {
-                        visible: {
-                          transition: {
-                            staggerChildren: 0.05,
-                            delayChildren: 0.75,
-                          },
-                        },
-                      },
-                      ...transitionVariants,
-                    }}
-                    className="flex md:flex-row flex-col justify-center items-center gap-2 mt-8">
-                    <div
-                      key={1}
-                      className="bg-foreground/10 p-0.5 border rounded-[calc(var(--radius-xl)+0.125rem)]">
-                      <Button
-                        asChild
-                        size="lg"
-                        className="px-5 rounded-xl text-base">
-                        <Link href="#link">
-                          <span className="text-nowrap">Start Building</span>
-                        </Link>
-                      </Button>
-                    </div>
-                    <Button
-                      key={2}
-                      asChild
-                      size="lg"
-                      variant="ghost"
-                      className="px-5 rounded-xl h-10.5">
-                      <Link href="#link">
-                        <span className="text-nowrap">Request a demo</span>
-                      </Link>
-                    </Button>
-                  </AnimatedGroup>
-                </WavyBackground>
-              </div>
-            </div>
+                                <AnimatedGroup
+                                    variants={{
+                                        container: {
+                                            visible: {
+                                                transition: {
+                                                    staggerChildren: 0.05,
+                                                    delayChildren: 0.75,
+                                                },
+                                            },
+                                        },
+                                        ...transitionVariants,
+                                    }}
+                                    className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
+                               
+                              
+                                        <Button
+                                            asChild
+                                            size="lg"
+                                            className="rounded-xl px-5 text-base">
+                                            <Link href="#link">
+                                                <span className="text-nowrap">Start Building</span>
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            key={2}
+                                            asChild
+                                            size="lg"
+                                            variant="ghost"
+                                            className="h-10.5 rounded-xl px-5">
+                                            <Link href="#link">
+                                                <span className="text-nowrap">Request a demo</span>
+                                            </Link>
+                                        </Button>
+                                </AnimatedGroup>
+                            </div>
+                        </div>
+
+                        
+                        </div>
+         
+         
             
             {/* Video Dialog replacing the images */}
             <AnimatedGroup
@@ -194,8 +198,8 @@ export default function Hero() {
                 />
               </div>
             </AnimatedGroup>
-          </div>
-        </section>
+   
+        </section> 
         
         {/* <section className="bg-background pt-16 pb-16 md:pb-32">
           <div className="group relative m-auto px-6 max-w-5xl">
@@ -281,8 +285,8 @@ export default function Hero() {
                 />
               </div>
             </div>
-          </div>
-        </section> */}
+        //   </div>
+        // </section> */}
       </main>
     </>
   )

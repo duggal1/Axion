@@ -85,7 +85,7 @@ export function FAQSection() {
                 }}
               >
                 <div ref={el => contentRefs.current[index] = el}>
-                  <p className="dark:text-muted-foreground  leading-relaxed text-gray-500 text-primary-foreground/10">
+                  <p className="dark:text-muted-foreground  leading-relaxed text-gray-600">
                     {faq.answer}
                   </p>
                 </div>
