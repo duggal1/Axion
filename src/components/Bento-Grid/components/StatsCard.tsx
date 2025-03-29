@@ -175,10 +175,10 @@ export function StatsCard() {
                         <p className="font-medium text-[10px] text-gray-700">{payload[0].payload.name}</p>
                         <div className="flex flex-col gap-1 mt-1">
                           <p className="text-[9px] text-indigo-600">
-                            <span className="font-medium">Value:</span> {payload[0].value?.toFixed(1)}
+                            <span className="font-medium">Value:</span> {typeof payload[0]?.value === 'number' ? payload[0].value.toFixed(1) : payload[0]?.value}
                           </p>
                           <p className="text-[9px] text-violet-600">
-                            <span className="font-medium">Efficiency:</span> {payload[1].value?.toFixed(1)}
+                            <span className="font-medium">Efficiency:</span> {typeof payload[1]?.value === 'number' ? payload[1].value.toFixed(1) : payload[1]?.value}
                           </p>
                         </div>
                       </div>
