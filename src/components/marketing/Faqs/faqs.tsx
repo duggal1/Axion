@@ -39,7 +39,7 @@ export function FAQSection() {
     <section className="py-24">
       <div className="container flex flex-col items-center justify-center">
         <Tag>Faqs</Tag>
-        <h2 className="text-6xl font-medium text-center max-w-xl mt-6 dark:text-white text-gray-800">
+        <h2 className="text-6xl font-serif text-center max-w-xl mt-6 dark:text-white text-gray-800">
           Questions? We&apos;ve got <span className="text-violet-700">answers</span>
         </h2>
         <div className="mt-12 flex flex-col gap-6 max-w-3xl w-full">
@@ -50,7 +50,7 @@ export function FAQSection() {
               onClick={() => toggleFAQ(index)}
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-medium text-lg dark:text-white text-gray-900">{faq.question}</h3>
+                <h3 className="font-medium text-lg dark:text-white font-serif text-gray-900">{faq.question}</h3>
                 <motion.div
                   initial={false}
                   animate={{ 
@@ -85,7 +85,7 @@ export function FAQSection() {
                 }}
               >
                 <div ref={el => contentRefs.current[index] = el}>
-                  <p className="dark:text-muted-foreground  leading-relaxed text-gray-600">
+                  <p className="dark:text-muted-foreground  font-medium leading-relaxed text-gray-600">
                     {faq.answer}
                   </p>
                 </div>

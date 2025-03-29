@@ -8,7 +8,7 @@ import FeaturesCloud from "@/components/marketing/Feature/Feature-Cloud";
 // import Features from "@/components/marketing/features";
 import Hero from "@/components/marketing/hero";
 import IntegrationsSection from "@/components/marketing/Integartion/integrations";
-import Integration from "@/components/marketing/integration";
+// import Integration from "@/components/marketing/integration";
 import LanguageSupport from "@/components/marketing/lang-support";
 import Pricing from "@/components/marketing/pricing";
 
@@ -21,13 +21,14 @@ const HomePage = () => {
             <BentoGrid/>
             <Analysis />
             <FeaturesCloud/>
-            <Integration />
+            {/* <Integration /> */}
             <Pricing />
+            <FAQSection/>
         
             <IntegrationsSection/>
             <LanguageSupport />
             <CTA />
-            <FAQSection/>
+           
         </Wrapper>
     )
 };
