@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { Logo } from '@/components/logo'
@@ -78,11 +79,11 @@ export default function FeaturesCloud() {
         <section className="px-4 py-16 md:py-32 bg-white font-serif">
             <CustomAnimations />
             <div className="mx-auto grid max-w-5xl border rounded-xl shadow-sm md:grid-cols-2 overflow-hidden">
-                <div className="group relative transition-all duration-500 hover:bg-blue-50/30">
+                <div className="group relative transition-all duration-500 hover:bg-gray-50/80">
                     <div className="p-6 sm:p-12 relative z-10">
                         <span className="text-zinc-500 flex items-center gap-2 font-medium">
-                            <Globe className="size-4 text-blue-500" />
-                            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+                            <Globe className="size-4 text-indigo-600" />
+                            <span className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
                                 Global Client Acquisition
                             </span>
                         </span>
@@ -91,7 +92,7 @@ export default function FeaturesCloud() {
                             Enterprise-grade AI agent system identifying qualified leads worldwide.
                         </p>
 
-                        <div className="mt-4 inline-flex items-center text-sm text-blue-600 font-medium">
+                        <div className="mt-4 inline-flex items-center text-sm text-indigo-600 font-medium">
                             <span>Learn more</span>
                             <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -101,10 +102,10 @@ export default function FeaturesCloud() {
 
                     <div aria-hidden className="relative">
                         <div className="absolute inset-0 z-10 m-auto size-fit">
-                            <div className="rounded-lg bg-white z-10 relative flex size-fit w-fit items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-lg shadow-blue-900/5 animate-pulse">
+                            <div className="rounded-lg bg-white z-10 relative flex size-fit w-fit items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-sm animate-pulse">
                                 <span className="text-lg">💼</span> Enterprise deal closed in Singapore
                             </div>
-                            <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-md shadow-blue-900/5"></div>
+                            <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-sm"></div>
                         </div>
 
                         <div className="relative overflow-hidden h-[240px]">
@@ -113,11 +114,11 @@ export default function FeaturesCloud() {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-hidden border-t bg-zinc-50/50 p-6 sm:p-12 md:border-0 md:border-l group relative transition-all duration-500 hover:bg-blue-50/30">
+                <div className="overflow-hidden border-t bg-white p-6 sm:p-12 md:border-0 md:border-l group relative transition-all duration-500 hover:bg-gray-50/80">
                     <div className="relative z-10">
                         <span className="text-zinc-500 flex items-center gap-2 font-medium">
-                            <MessageSquare className="size-4 text-blue-500" />
-                            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+                            <MessageSquare className="size-4 text-indigo-600" />
+                            <span className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
                                 Omnichannel Communication
                             </span>
                         </span>
@@ -126,7 +127,7 @@ export default function FeaturesCloud() {
                             Seamlessly engage prospects across email, voice, and messaging platforms.
                         </p>
 
-                        <div className="mb-4 inline-flex items-center text-sm text-blue-600 font-medium">
+                        <div className="mb-4 inline-flex items-center text-sm text-indigo-600 font-medium">
                             <span>Learn more</span>
                             <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -137,11 +138,14 @@ export default function FeaturesCloud() {
                         <AnimatedChatMessages />
                     </div>
                 </div>
+                <div className="col-span-full border-t bg-gray-50/50 py-8">
+                    <AnimatedMetric />
+                </div>
                 <div className="relative col-span-full border-t">
                     <div className="absolute z-10 max-w-lg px-6 pr-12 pt-6 md:px-12 md:pt-12">
                         <span className="text-zinc-500 flex items-center gap-2 font-medium">
-                            <Activity className="size-4 text-blue-500" />
-                            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+                            <Activity className="size-4 text-indigo-600" />
+                            <span className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
                                 Activity Monitoring
                             </span>
                         </span>
@@ -151,7 +155,7 @@ export default function FeaturesCloud() {
                             <span className="text-zinc-500"> Instantly identify and resolve issues.</span>
                         </p>
 
-                        <div className="inline-flex items-center text-sm text-blue-600 font-medium">
+                        <div className="inline-flex items-center text-sm text-indigo-600 font-medium">
                             <span>View dashboard</span>
                             <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -409,8 +413,8 @@ const AnimatedChatMessages = () => {
             // Show typing indicator
             setIsTyping(true)
 
-            // Shorter typing time for better performance
-            const typingTime = Math.min(600, allMessages[currentIndex].text.length * 10)
+            // Much shorter typing time for extremely fast performance
+            const typingTime = Math.min(300, allMessages[currentIndex].text.length * 5)
 
             setTimeout(() => {
                 // Hide typing indicator and show the message
@@ -420,8 +424,8 @@ const AnimatedChatMessages = () => {
                 // Move to next message
                 currentIndex++
 
-                // Schedule next message with a shorter pause
-                setTimeout(showNextMessage, 800)
+                // Schedule next message with a much shorter pause
+                setTimeout(showNextMessage, 400)
             }, typingTime)
         }
 
@@ -483,16 +487,18 @@ const AnimatedChatMessages = () => {
     const visibleMessages = allMessages.slice(0, visibleCount)
 
     return (
-        <div className="flex flex-col gap-4 overflow-hidden h-[300px]" ref={containerRef}>
+        <div className="flex flex-col gap-4 overflow-hidden h-[300px]" ref={containerRef} style={{ transform: 'translateZ(0)' }}>
             {visibleMessages.map((message, index) => (
                 <div
                     key={message.id}
-                    className={`transition-all duration-300 ease-out ${
+                    className={`transition-all duration-200 ease-out ${
                         index === visibleMessages.length - 1 ? 'animate-fadeIn' : ''
                     }`}
                     style={{
                         transform: 'translateZ(0)', // Hardware acceleration
-                        willChange: 'transform, opacity' // Hint to browser for optimization
+                        willChange: 'transform, opacity', // Hint to browser for optimization
+                        backfaceVisibility: 'hidden', // Additional performance optimization
+                        perspective: 1000 // Improves animation smoothness
                     }}
                 >
                     {message.type === 'incoming' ? (
@@ -602,15 +608,54 @@ const AnimatedCounter = ({ target, suffix = '', label = '' }: AnimatedCounterPro
     )
 }
 
+// Animated Metric Component with endless loop
+const AnimatedMetric = () => {
+    const [count, setCount] = useState(0)
+    const targetValue = 98.5
+    const frameRef = useRef<number>(0)
+
+    useEffect(() => {
+        let startTime: number | null = null
+        const duration = 5000 // 5 seconds for full animation
+
+        const animate = (timestamp: number) => {
+            if (!startTime) startTime = timestamp
+            const progress = (timestamp - startTime) / duration
+
+            if (progress < 1) {
+                // Use cubic easing for smoother animation
+                const easedProgress = 1 - Math.pow(1 - Math.min(progress, 1), 3)
+                setCount(targetValue * easedProgress)
+                frameRef.current = requestAnimationFrame(animate)
+            } else {
+                // Reset animation
+                setCount(0)
+                startTime = null
+                frameRef.current = requestAnimationFrame(animate)
+            }
+        }
+
+        frameRef.current = requestAnimationFrame(animate)
+        return () => cancelAnimationFrame(frameRef.current)
+    }, [])
+
+    return (
+        <div className="text-center">
+            <p className="text-4xl font-semibold lg:text-7xl">{count.toFixed(1)}%</p>
+            <p className="text-zinc-500 mt-2">Deal conversion rate</p>
+        </div>
+    )
+}
+
 // Chart data and configuration
 const chartConfig = {
     desktop: {
         label: 'Desktop',
-        color: '#2563eb',
+        color: '#047857', // Deep green
     },
     mobile: {
         label: 'Mobile',
-        color: '#60a5fa',
+        color: '#7c3aed', // Deep violet
     },
 } satisfies ChartConfig
 
