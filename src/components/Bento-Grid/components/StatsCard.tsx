@@ -64,17 +64,17 @@ export function StatsCard() {
   return (
     <div className="flex flex-col h-full">
       <h3 className="mb-2 font-medium text-[#333] text-xs">Performance</h3>
-      
-      <div className="flex flex-col flex-1 gap-2">
+
+      <div className="flex flex-col flex-1 gap-3 justify-between">
         {/* Main Stat */}
         <div className="flex items-center bg-[#F9FAFB] p-2 border border-[#F5F5F7] rounded-lg">
-          <motion.div 
+          <motion.div
             className="flex justify-center items-center bg-gradient-to-br from-blue-400 to-blue-600 mr-2 rounded-lg w-8 h-8"
             whileHover={{ scale: 1.05 }}
-            animate={{ 
-              background: ["linear-gradient(135deg, #3B82F6, #1D4ED8)", 
+            animate={{
+              background: ["linear-gradient(135deg, #3B82F6, #1D4ED8)",
                           "linear-gradient(135deg, #8B5CF6, #4F46E5)",
-                          "linear-gradient(135deg, #3B82F6, #1D4ED8)"] 
+                          "linear-gradient(135deg, #3B82F6, #1D4ED8)"]
             }}
             transition={{ duration: 6, repeat: Infinity }}
           >
@@ -83,7 +83,7 @@ export function StatsCard() {
           <div>
             <span className="block font-medium text-[9px] text-gray-500">Conversion Rate</span>
             <div className="flex items-center">
-              <motion.span 
+              <motion.span
                 key={stats.conversion.toFixed(1)}
                 className="mr-1 font-bold text-gray-800 text-base"
                 initial={{ opacity: 0, y: 5 }}
@@ -99,10 +99,10 @@ export function StatsCard() {
             </div>
           </div>
         </div>
-        
+
         {/* Chart */}
-        <div className="overflow-hidden">
-          <ResponsiveContainer width="100%" height={80}>
+        <div className="overflow-hidden flex-grow">
+          <ResponsiveContainer width="100%" height={120}>
             <AreaChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="gradientArea1" x1="0" y1="0" x2="0" y2="1">
@@ -123,47 +123,47 @@ export function StatsCard() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
-              <XAxis 
-                dataKey="name" 
-                axisLine={false} 
-                tickLine={false} 
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
                 tick={{ fontSize: 7, fill: chartColors.textSecondary }}
                 padding={{ left: 0, right: 0 }}
               />
-              <YAxis 
-                axisLine={false} 
-                tickLine={false} 
+              <YAxis
+                axisLine={false}
+                tickLine={false}
                 tick={{ fontSize: 7, fill: chartColors.textSecondary }}
                 domain={[0, 100]}
               />
-              <Area 
-                type="monotone" 
-                dataKey="value" 
+              <Area
+                type="monotone"
+                dataKey="value"
                 stroke="url(#gradientLine1)"
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#gradientArea1)"
-                activeDot={{ 
-                  r: 3, 
-                  fill: 'white', 
-                  stroke: chartColors.primary, 
+                activeDot={{
+                  r: 3,
+                  fill: 'white',
+                  stroke: chartColors.primary,
                   strokeWidth: 2
                 }}
                 isAnimationActive={true}
                 animationDuration={1000}
                 animationEasing="ease-in-out"
               />
-              <Area 
-                type="monotone" 
-                dataKey="efficiency" 
+              <Area
+                type="monotone"
+                dataKey="efficiency"
                 stroke="url(#gradientLine2)"
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#gradientArea2)"
-                activeDot={{ 
-                  r: 3, 
-                  fill: 'white', 
-                  stroke: chartColors.secondary, 
+                activeDot={{
+                  r: 3,
+                  fill: 'white',
+                  stroke: chartColors.secondary,
                   strokeWidth: 2
                 }}
                 isAnimationActive={true}
@@ -173,18 +173,18 @@ export function StatsCard() {
             </AreaChart>
           </ResponsiveContainer>
         </div>
-        
+
         {/* Stats Row */}
         <div className="gap-2 grid grid-cols-2">
-          <motion.div 
+          <motion.div
             className="bg-white shadow-sm p-2 border border-[#F5F5F7] rounded-lg overflow-hidden"
             whileHover={{ translateY: -2 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <div className="flex items-center gap-2">
-              <motion.div 
+              <motion.div
                 className="flex justify-center items-center bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg w-6 h-6"
-                animate={{ 
+                animate={{
                   boxShadow: ["0px 0px 0px rgba(59,130,246,0.2)", "0px 0px 8px rgba(59,130,246,0.3)", "0px 0px 0px rgba(59,130,246,0.2)"]
                 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -193,7 +193,7 @@ export function StatsCard() {
               </motion.div>
               <div>
                 <span className="block font-medium text-[8px] text-gray-500">Active Users</span>
-                <motion.div 
+                <motion.div
                   key={stats.users}
                   className="font-bold text-gray-800 text-xs"
                   initial={{ opacity: 0, y: 5 }}
@@ -205,16 +205,16 @@ export function StatsCard() {
               </div>
             </div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="bg-white shadow-sm p-2 border border-[#F5F5F7] rounded-lg overflow-hidden"
             whileHover={{ translateY: -2 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <div className="flex items-center gap-2">
-              <motion.div 
+              <motion.div
                 className="flex justify-center items-center bg-gradient-to-br from-violet-400 to-violet-600 rounded-lg w-6 h-6"
-                animate={{ 
+                animate={{
                   boxShadow: ["0px 0px 0px rgba(139,92,246,0.2)", "0px 0px 8px rgba(139,92,246,0.3)", "0px 0px 0px rgba(139,92,246,0.2)"]
                 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -223,7 +223,7 @@ export function StatsCard() {
               </motion.div>
               <div>
                 <span className="block font-medium text-[8px] text-gray-500">Total Calls</span>
-                <motion.div 
+                <motion.div
                   key={stats.calls}
                   className="font-bold text-gray-800 text-xs"
                   initial={{ opacity: 0, y: 5 }}

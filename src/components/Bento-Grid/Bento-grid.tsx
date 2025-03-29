@@ -168,6 +168,12 @@ const BentoGrid = () =>  {
             </div>
           </div>
 
+          <div
+            className="bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg h-[300px]"
+          >
+            <StatsCard />
+          </div>
+
           {/* Bottom Row - First Card: Chat Demo */}
           <div
             className="bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg h-[300px]"
@@ -176,11 +182,7 @@ const BentoGrid = () =>  {
           </div>
 
           {/* Bottom Row - Second Card: Stats Card */}
-          <div
-            className="bg-white shadow-sm p-3 border border-[#F5F5F7] rounded-lg h-[300px]"
-          >
-            <StatsCard />
-          </div>
+          
         </div>
       </div>
     </div>

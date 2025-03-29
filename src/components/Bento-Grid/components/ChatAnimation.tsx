@@ -60,29 +60,29 @@ export function ChatAnimation() {
   const aiAvatar = "https://raw.githubusercontent.com/duggal1/Axion/refs/heads/main/public/icons/axion-logo.png";
   
   // Maintain a fixed height for the message container to prevent layout shifts
-  const containerHeight = 130;
+  const containerHeight = 180; // Increased height to fill the card better
 
   // Much faster character-by-character streaming (600-700 tokens per minute)
   const streamText = async (text: string, setter: (text: string) => void) => {
     let currentText = "";
     streamingRef.current = true;
     setIsStreaming(true);
-    
+
     // For 600-700 tokens per minute, we need roughly 10-12 characters per second
     // This is approximately 1 character every 100ms
     const streamInterval = 1; // 1ms for extremely fast streaming
-    
+
     // Stream in chunks for better performance and realistic fast typing
     const chunkSize = 3; // Stream 3 characters at once
-    
+
     for (let i = 0; i < text.length; i += chunkSize) {
       const chunk = text.substring(i, i + chunkSize);
       currentText += chunk;
       setter(currentText);
-      
+
       await new Promise(resolve => setTimeout(resolve, streamInterval));
     }
-    
+
     streamingRef.current = false;
     setIsStreaming(false);
   };
@@ -127,10 +127,10 @@ export function ChatAnimation() {
         <span className="w-2 h-2 bg-green-500 rounded-full"></span>
         Live Chat
       </h3>
-      
-      <div 
-        ref={messageContainerRef} 
-        className="flex-grow pr-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent bg-white rounded-lg p-2" 
+
+      <div
+        ref={messageContainerRef}
+        className="flex-grow pr-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent bg-white rounded-lg p-2"
         style={{ height: containerHeight, maxHeight: containerHeight }}
       >
         <div className="flex flex-col justify-end min-h-full">
@@ -142,17 +142,17 @@ export function ChatAnimation() {
                 <Image src={aiAvatar} width={20} height={20} alt="AI Avatar" className="w-full h-full object-cover" />
               </div>
               <div className="inline-flex items-center gap-0.5 bg-[#F9F5FF] px-2 py-1 rounded-lg max-w-fit text-[#6930C3] text-xs shadow-sm">
-                <motion.span 
+                <motion.span
                   className="inline-block bg-[#6a1bff] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 0.7, repeat: Infinity }}
                 />
-                <motion.span 
+                <motion.span
                   className="inline-block bg-[#6930C3] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 0.7, repeat: Infinity, delay: 0.2 }}
                 />
-                <motion.span 
+                <motion.span
                   className="inline-block bg-[#6930C3] rounded-full w-1 h-1"
                   animate={{ scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 0.7, repeat: Infinity, delay: 0.4 }}
@@ -162,16 +162,16 @@ export function ChatAnimation() {
           )}
         </div>
       </div>
-      
-      <div className="mt-2 pt-2 border-gray-100 border-t">
+
+      <div className="mt-3 pt-2 border-gray-100 border-t">
         <div className="relative">
-          <input 
-            type="text" 
+          <input
+            type="text"
             className="bg-white py-2 pr-8 pl-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-[#6930C3] focus:ring-1 w-full text-gray-700 placeholder:text-gray-400 text-xs shadow-sm"
             placeholder="Type your message..."
             disabled
           />
-          <button 
+          <button
             className="top-1/2 right-2 absolute bg-[#6930C3] hover:bg-[#5b1baa] disabled:opacity-70 p-1 rounded-md text-white -translate-y-1/2 transition-colors duration-200 shadow-sm"
             disabled
           >
