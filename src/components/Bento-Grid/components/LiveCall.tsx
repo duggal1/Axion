@@ -493,7 +493,7 @@ export function LiveCall() {
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: `linear-gradient(135deg, #00BFFF, #FF4500, #8A2BE2)`,
+                    background: `linear-gradient(135deg, #3B82F6, #8B5CF6, #93C5FD)`,
                   }}
                 />
               </motion.div>
@@ -572,7 +572,7 @@ export function LiveCall() {
                 <div
                   className="z-20 absolute inset-0 opacity-20"
                   style={{
-                    background: `linear-gradient(135deg, #FF4500, #FF6347, #8A2BE2)`,
+                    background: `linear-gradient(135deg, #3B82F6, #8B5CF6, #93C5FD)`,
                   }}
                 />
               </motion.div>
