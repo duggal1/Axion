@@ -1,0 +1,257 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 270 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 40% 97%;
+    --secondary-foreground: 270 70% 40%;
+    --muted: 270 20% 96%;
+    --muted-foreground: 270 30% 40%;
+    --accent: 270 60% 97%;
+    --accent-foreground: 270 80% 40%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 270 30% 92%;
+    --input: 270 20% 92%;
+    --ring: 270 80% 50%;
+    --chart-1: 270 80% 60%;
+    --chart-2: 290 70% 55%;
+    --chart-3: 250 70% 55%;
+    --chart-4: 310 70% 60%;
+    --chart-5: 230 70% 60%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 270 40% 30%;
+    --sidebar-primary: 270 80% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 30% 97%;
+    --sidebar-accent-foreground: 270 70% 40%;
+    --sidebar-border: 270 20% 92%;
+    --sidebar-ring: 270 80% 60%;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    /* --background: 240 2% 8%; */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --radius: 0.4rem;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary)/0.6);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+img {
+  user-select: none;
+  pointer-events: none;
+}
+
+.link {
+  position: relative;
+  transition: color 0.15s ease-in-out;
+  color: hsl(var(--primary));
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: hsl(var(--primary));
+  transition: width 0.15s cubic-bezier(0.65, 0, 0.35, 1);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.link:hover {
+  color: hsl(var(--primary)/0.8);
+}
+
+.companies::before {
+  content: "";
+  position: absolute;
+  top: 0%;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  color: rgb(48, 48, 48);
+  background: radial-gradient(50% 56400% at 50% 100%, hsl(270, 80%, 50%, 0.3) 0%, rgba(169, 163, 194, 0) 100%);
+}
+
+.companies::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 20px;
+  width: 70%;
+  border-radius: 100%;
+  filter: blur(4rem);
+  background: hsl(270, 80%, 60%, 0.4);
+}
+
+.footer::before {
+  background: radial-gradient(50% 56400% at 50% 100%, hsl(270, 80%, 50%, 0.3) 0%, rgba(169, 163, 194, 0) 100%);
+  top: 0;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  color: rgb(23, 23, 23);
+}
+
+/* Add sleek transitions for interactive elements */
+button, a, input, select, textarea {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Add subtle hover effects */
+button:hover, a:hover {
+  transform: translateY(-1px);
+}
+
+/* Card styling */
+.card {
+  border-radius: var(--radius);
+  background: hsl(var(--card));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Input styling */
+input, select, textarea {
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: hsl(var(--primary)/0.5);
+  box-shadow: 0 0 0 2px hsl(var(--primary)/0.1);
+}
+
+/* Modern glass effect for special elements */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, hsl(270, 80%, 50%) 0%, hsl(290, 80%, 60%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Subtle border glow for important elements */
+.glow-border {
+  box-shadow: 0 0 0 1px hsl(var(--primary)/0.2), 0 0 0 4px hsl(var(--primary)/0.05);
+}
+
+/* Smooth badge styling */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: hsl(var(--primary)/0.1);
+  color: hsl(var(--primary));
+  border: 1px solid hsl(var(--primary)/0.2);
+}
+
+/* Refined table styling */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+th {
+  font-weight: 500;
+  color: hsl(var(--foreground)/0.8);
+  background: hsl(var(--muted)/0.5);
+}
+
+tr:hover td {
+  background: hsl(var(--accent)/0.5);
+}
