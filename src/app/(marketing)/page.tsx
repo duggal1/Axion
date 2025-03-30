@@ -11,6 +11,7 @@ import IntegrationsSection from "@/components/marketing/Integartion/integrations
 // import Integration from "@/components/marketing/integration";
 import LanguageSupport from "@/components/marketing/lang-support";
 import Pricing from "@/components/marketing/pricing";
+import { TryAxion } from "@/components/marketing/Try-Axion/TryAxion";
 
 const HomePage = () => {
     return (
@@ -21,6 +22,7 @@ const HomePage = () => {
             {/* <BentoGrid/> */}
             <Analysis />
             <FeaturesCloud/>
+            <TryAxion/>
             {/* <Integration /> */}
             <Pricing />
             <FAQSection/>
