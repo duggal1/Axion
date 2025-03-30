@@ -35,7 +35,7 @@ const HighlightedText: FC<HighlightedTextProps> = ({ text }) => {
         if (index % 2 === 0) {
           return <span key={index} className="text-gray-950 dark:text-gray-200">{part}</span>;
         } else {
-          return <span key={index} className="font-medium  text-blue-700 dark:text-violet-400">{part}</span>;
+          return <span key={index} className="font-medium text-blue-700 dark:text-violet-400">{part}</span>;
         }
       })}
     </>
@@ -106,55 +106,51 @@ const TestimonialCard: FC<TestimonialCardProps> = ({
 
 export function TestimonialsMarquee(): JSX.Element {
   return (
-    <div className="w-full  py-16 ">
-      <div className="mx-auto max-w-6xl px-4">
-
+    <div className="w-full py-16">
+    
+      {/* <div className="mb-12 text-center">
+        <h2 className=" text-5xl font-serif tracking-tight text-gray-900 dark:text-white">
+          Loved by Enterprise Teams
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl font-serif text-lg text-gray-600 dark:text-gray-400">
+          Axion is transforming how enterprise sales teams operate, handling the work of 15+ professionals with AI-powered efficiency.
+        </p>
+      </div> */}
       
-        {/* <div className="mb-12 text-center">
-          <h2 className=" text-5xl font-serif tracking-tight text-gray-900 dark:text-white">
-            Loved by Enterprise Teams
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl font-serif text-lg text-gray-600 dark:text-gray-400">
-            Axion is transforming how enterprise sales teams operate, handling the work of 15+ professionals with AI-powered efficiency.
-          </p>
-        </div> */}
+      <div className="relative w-full -mt-12 overflow-hidden py-10">
+        <Marquee 
+          pauseOnHover 
+          className="py-4 [--duration:35s] [--gap:1rem]"
+        >
+          {firstRow.map((testimonial) => (
+            <TestimonialCard key={testimonial.username} {...testimonial} />
+          ))}
+        </Marquee>
         
-        <div className="relative mx-auto w-full -mt-12 overflow-hidden py-10">
-       
-          <Marquee 
-            pauseOnHover 
-            className="py-4 [--duration:35s] [--gap:1rem]"
-          >
-            {firstRow.map((testimonial) => (
-              <TestimonialCard key={testimonial.username} {...testimonial} />
-            ))}
-          </Marquee>
-          
-          {/* Second row */}
-          <Marquee 
-            pauseOnHover 
-            reverse 
-            className="py-4 [--duration:45s] [--gap:1rem]"
-          >
-            {secondRow.map((testimonial) => (
-              <TestimonialCard key={testimonial.username} {...testimonial} />
-            ))}
-          </Marquee>
-          
-          {/* Third row */}
-          <Marquee 
-            pauseOnHover 
-            className="py-4 [--duration:40s] [--gap:1rem]"
-          >
-            {thirdRow.map((testimonial) => (
-              <TestimonialCard key={testimonial.username} {...testimonial} />
-            ))}
-          </Marquee>
-          
-          {/* Gradients for fade effect */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-gray-50 dark:from-gray-950"></div>
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-gray-50 dark:from-gray-950"></div>
-        </div>
+        {/* Second row */}
+        <Marquee 
+          pauseOnHover 
+          reverse 
+          className="py-4 [--duration:45s] [--gap:1rem]"
+        >
+          {secondRow.map((testimonial) => (
+            <TestimonialCard key={testimonial.username} {...testimonial} />
+          ))}
+        </Marquee>
+        
+        {/* Third row */}
+        <Marquee 
+          pauseOnHover 
+          className="py-4 [--duration:40s] [--gap:1rem]"
+        >
+          {thirdRow.map((testimonial) => (
+            <TestimonialCard key={testimonial.username} {...testimonial} />
+          ))}
+        </Marquee>
+        
+        {/* Gradients for fade effect
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-gray-50 dark:from-gray-950"></div>
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-gray-50 dark:from-gray-950"></div> */}
       </div>
     </div>
   );
