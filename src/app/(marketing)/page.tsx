@@ -1,4 +1,4 @@
-import BentoGrid from "@/components/Bento-Grid/Bento-grid";
+// import BentoGrid from "@/components/Bento-Grid/Bento-grid";
 import Wrapper from "@/components/global/wrapper";
 import Analysis from "@/components/marketing/analysis";
 import Companies from "@/components/marketing/companies";
@@ -18,7 +18,7 @@ const HomePage = () => {
             <Hero />
             <Companies />
             {/* <Features /> */}
-            <BentoGrid/>
+            {/* <BentoGrid/> */}
             <Analysis />
             <FeaturesCloud/>
             {/* <Integration /> */}
