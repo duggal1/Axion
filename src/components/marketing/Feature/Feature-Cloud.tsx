@@ -3,46 +3,47 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { Logo } from '@/components/logo'
-import { Activity, Globe, MessageSquare, TrendingUp } from 'lucide-react'
+import { Activity, Globe as GlobeIcon, MessageSquare, TrendingUp } from 'lucide-react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer } from 'recharts'
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import DottedMap from 'dotted-map'
-
+import { useReducedMotion } from 'framer-motion'
+// Import Globe component for 3D globe visualization
+import { Globe } from './globe'
 // Define custom animations
 // We'll add a style tag to define our custom animations
 const CustomAnimations = () => (
-  <style jsx global>{`
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
+    <style jsx global>{`
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+  
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
+  
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out forwards, fadeInUp 0.4s ease-out forwards;
       }
-      to {
-        opacity: 1;
+  
+      .bg-gradient-radial {
+        background-image: radial-gradient(var(--tw-gradient-stops));
       }
-    }
-
-    .animate-fadeIn {
-      animation: fadeIn 0.3s ease-out forwards, fadeInUp 0.4s ease-out forwards;
-    }
-
-    .bg-gradient-radial {
-      background-image: radial-gradient(var(--tw-gradient-stops));
-    }
-  `}</style>
-)
+    `}</style>
+  )
 
 // Define types for our components
 interface Point {
@@ -106,12 +107,13 @@ export default function FeaturesCloud() {
                             <div className="rounded-lg bg-white z-10 relative flex size-fit w-fit items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-sm animate-pulse">
                                 <span className="text-lg">🤖</span> AI agent closed $1.2M deal in Tokyo
                             </div>
-                            <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-sm"></div>
+                            {/* <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-sm"></div> */}
                         </div>
 
-                        <div className="relative overflow-hidden h-[240px]">
-                            <div className="bg-gradient-radial z-10 absolute inset-0 from-transparent to-white to-75%"></div>
-                            <AnimatedGlobeMap />
+                        <div className="relative overflow-hidden h-[200px]">
+                            <div className=" z-10 absolute inset-0 "></div>
+                            <Globe className="top-28" />
+                        
                         </div>
                     </div>
                 </div>
@@ -170,49 +172,83 @@ export default function FeaturesCloud() {
     )
 }
 
-// Create a dotted map instance
-const map = new DottedMap({ height: 55, grid: 'diagonal' })
-const mapPoints = map.getPoints()
-
-// Static Dotted Map Component (no animations)
+// 3D Globe Component with endless motion
+// This replaces the static map with a more engaging 3D visualization
 const AnimatedGlobeMap = () => {
-    const viewBox = `0 0 120 60`
-    return (
-        <svg viewBox={viewBox} style={{ background: 'white' }}>
-            {/* Dots for the map */}
-            {mapPoints.map((point, index) => (
-                <circle
-                    key={index}
-                    cx={point.x}
-                    cy={point.y}
-                    r={0.15}
-                    fill="#e5e7eb"
-                    opacity={0.4}
-                />
-            ))}
+    // Extremely optimized configuration for maximum performance
+    const globeConfig = {
+        width: 600, // Smaller size for better performance
+        height: 600, // Smaller size for better performance
+        devicePixelRatio: 1.0, // Minimum for extreme performance
+        phi: 0,
+        theta: 0.3,
+        dark: 0,
+        diffuse: 0.4,
+        mapSamples: 8000, // Reduced for better performance
+        mapBrightness: 1.2,
+        baseColor: [1, 1, 1],
+        markerColor: [99/255, 102/255, 241/255], // Indigo color
+        glowColor: [1, 1, 1],
+        markers: [
+            // Reduced number of markers for better performance
+            { location: [40.7128, -74.006], size: 0.1 },  // New York
+            { location: [51.5074, -0.1278], size: 0.09 },  // London
+            { location: [35.6762, 139.6503], size: 0.08 }, // Tokyo
+            { location: [1.3521, 103.8198], size: 0.07 },  // Singapore
+            { location: [-23.5505, -46.6333], size: 0.07 }, // São Paulo
+        ],
+    };
 
-            {/* Add some static highlighted points for visual interest */}
-            {mapPoints.filter((_, i) => i % 12 === 0).map((point, index) => (
-                <circle
-                    key={`highlight-${index}`}
-                    cx={point.x}
-                    cy={point.y}
-                    r={0.35}
-                    fill="#2563eb"
-                    opacity={0.9}
-                />
-            ))}
-        </svg>
+    return (
+        <div className="relative w-full h-full overflow-hidden">
+            {/* Add a subtle glow effect behind the globe */}
+            <div
+                className="absolute inset-0 bg-gradient-radial from-indigo-100/30 to-transparent"
+                style={{
+                    transform: 'translate(-50%, -50%)',
+                    top: '50%',
+                    left: '50%',
+                    width: '150%',
+                    height: '150%',
+                    zIndex: 0
+                }}
+            />
+
+            {/* The 3D Globe with endless rotation */}
+            <Globe
+                config={globeConfig}
+                className="z-10"
+            />
+
+            {/* Add a notification that appears to float over the globe */}
+            <div
+                className="absolute top-1/4 right-1/4 z-20 transform -translate-y-1/2 translate-x-1/2"
+                style={{
+                    animation: 'float 6s ease-in-out infinite'
+                }}
+            >
+                <div className="rounded-lg bg-white flex items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-md">
+                    <span className="text-lg">🤖</span> AI agent closed $1.2M deal in Tokyo
+                </div>
+            </div>
+
+            {/* Add floating animation */}
+            <style jsx>{`
+                @keyframes float {
+                    0% { transform: translateY(-50%) translateX(50%) translateZ(0); }
+                    50% { transform: translateY(-60%) translateX(45%) translateZ(0); }
+                    100% { transform: translateY(-50%) translateX(50%) translateZ(0); }
+                }
+            `}</style>
+        </div>
     )
 }
 
 // Animated Chat Messages Component
 const AnimatedChatMessages = () => {
-    // Client avatar URL
-    const clientAvatarUrl = "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
-    // Axion team avatar URL
-    const axionAvatarUrl = "https://images.unsplash.com/photo-1508835277982-1c1b0e205603?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    // Optimized image URLs with smaller sizes for better performance
+    const clientAvatarUrl = "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?q=70&w=150&auto=format&fit=crop"
+    const axionAvatarUrl = "https://raw.githubusercontent.com/duggal1/Axion/refs/heads/main/public/icons/axion-logo.png"
 
     // Pre-define all messages to avoid state changes and re-renders
     const allMessages: Message[] = [
@@ -248,68 +284,165 @@ const AnimatedChatMessages = () => {
         }
     ]
 
-    // Use a counter to control which messages are visible
-    const [visibleCount, setVisibleCount] = useState<number>(1)
+    // Minimal state for maximum performance
     const [isTyping, setIsTyping] = useState<boolean>(false)
     const containerRef = useRef<HTMLDivElement>(null)
-    const animationRef = useRef<number>(0)
-    const isAnimatingRef = useRef<boolean>(false)
 
-    // Function to handle the animation loop with ultra-fast streaming
-    const animateMessages = () => {
-        if (isAnimatingRef.current) return
+    // Check for reduced motion preference
+    const prefersReducedMotion = useReducedMotion()
 
-        isAnimatingRef.current = true
-        let currentIndex = 1 // Start from the second message
+    // State for streaming text
+    const [currentIncomingText, setCurrentIncomingText] = useState("")
+    const [currentOutgoingText, setCurrentOutgoingText] = useState("")
+    const [activeMessageIndex, setActiveMessageIndex] = useState(0)
+    const streamingRef = useRef<boolean>(false)
 
-        const showNextMessage = () => {
-            if (currentIndex >= allMessages.length) {
-                // Reset after showing all messages
-                setTimeout(() => {
-                    setVisibleCount(1)
-                    setIsTyping(false)
-                    currentIndex = 1
-                    setTimeout(() => {
-                        isAnimatingRef.current = false
-                        animateMessages()
-                    }, 800) // Faster reset
-                }, 2000) // Shorter pause at the end
-                return
+    // EXTREME speed streaming (900+ tokens per second)
+    // Hyper-optimized for maximum performance
+    const streamText = async (text: string, setter: (text: string) => void) => {
+        let currentText = "";
+        streamingRef.current = true;
+        setIsTyping(true);
+
+        // For 900+ tokens per second, we need extremely fast streaming with no delays
+        // Use larger chunks and minimal state updates
+        const chunkSize = 8; // Stream 8 characters at once for maximum speed
+
+        // Use requestAnimationFrame for smoother performance than setTimeout
+        const streamChunk = async (index: number) => {
+            if (index >= text.length) {
+                streamingRef.current = false;
+                setIsTyping(false);
+                return;
             }
 
-            // Show typing indicator
-            setIsTyping(true)
+            // Get next chunk
+            const end = Math.min(index + chunkSize, text.length);
+            const chunk = text.substring(index, end);
+            currentText += chunk;
 
-            // Ultra-fast typing time for streaming effect (800-900 tokens per second)
-            // This is approximately 1ms per character for extremely fast streaming
-            const typingTime = Math.min(150, allMessages[currentIndex].text.length * 1)
+            // Update state only on animation frame for better performance
+            setter(currentText);
 
-            setTimeout(() => {
-                // Hide typing indicator and show the message
-                setIsTyping(false)
-                setVisibleCount(currentIndex + 1)
+            // Use requestAnimationFrame for next chunk - smoother than setTimeout
+            requestAnimationFrame(() => streamChunk(end));
+        };
 
-                // Move to next message
-                currentIndex++
+        // Start streaming with requestAnimationFrame
+        requestAnimationFrame(() => streamChunk(0));
+    };
 
-                // Schedule next message with a much shorter pause
-                setTimeout(showNextMessage, 300) // Faster transition between messages
-            }, typingTime)
+    // Hyper-optimized animation loop for maximum performance
+    const animateConversation = async () => {
+        if (streamingRef.current) return;
+
+        // If user prefers reduced motion, show all messages immediately
+        if (prefersReducedMotion) {
+            // Just show the final state
+            setCurrentIncomingText(allMessages[0].text);
+            setCurrentOutgoingText(allMessages[1].text);
+            return;
         }
 
-        // Start the sequence
-        setTimeout(showNextMessage, 800) // Faster initial start
-    }
+        // Reset texts
+        setCurrentIncomingText("");
+        setCurrentOutgoingText("");
+
+        // Get current message pair - safely
+        const pairIndex = Math.floor(activeMessageIndex % Math.floor(allMessages.length / 2));
+        const incomingIndex = pairIndex * 2;
+        const outgoingIndex = pairIndex * 2 + 1;
+
+        // Safely get messages with fallbacks
+        const incomingMsg = incomingIndex < allMessages.length ? allMessages[incomingIndex] : allMessages[0];
+        const outgoingMsg = outgoingIndex < allMessages.length ? allMessages[outgoingIndex] : allMessages[1];
+
+        // Show incoming message with typing indicator - extremely fast
+        await streamText(incomingMsg.text, setCurrentIncomingText);
+
+        // Minimal pause before AI response
+        await new Promise(resolve => setTimeout(resolve, 150));
+
+        // Show outgoing message with typing indicator - extremely fast
+        await streamText(outgoingMsg.text, setCurrentOutgoingText);
+
+        // Shorter wait before next conversation for faster cycling
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Move to next conversation pair
+        setActiveMessageIndex(prev => prev + 1);
+    };
 
     // Start animation on mount and handle cleanup
     useEffect(() => {
-        animateMessages()
+        // Small delay to ensure component is fully mounted
+        const timer = setTimeout(() => {
+            if (!streamingRef.current) {
+                animateConversation();
+            }
+        }, 100);
 
         return () => {
-            isAnimatingRef.current = false
-            cancelAnimationFrame(animationRef.current)
-        }
-    }, [])
+            clearTimeout(timer);
+            streamingRef.current = false;
+        };
+    }, [activeMessageIndex, prefersReducedMotion]);
+
+    // Render the current conversation - fixed to prevent undefined errors
+    const renderConversation = () => {
+        // Safely calculate indices and get messages
+        const pairIndex = Math.floor(activeMessageIndex % Math.floor(allMessages.length / 2));
+        const incomingIndex = pairIndex * 2;
+        const outgoingIndex = pairIndex * 2 + 1;
+
+        // Safely get messages with fallbacks
+        const incomingMsg = incomingIndex < allMessages.length ? allMessages[incomingIndex] : allMessages[0];
+        const outgoingMsg = outgoingIndex < allMessages.length ? allMessages[outgoingIndex] : allMessages[1];
+
+        return (
+            <>
+                {currentIncomingText && (
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                                <Image
+                                    src={clientAvatarUrl}
+                                    alt="Client"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            </div>
+                            <span className="text-zinc-500 text-xs">{incomingMsg?.time || "Just now"}</span>
+                        </div>
+                        <div className="rounded-xl bg-white mt-1.5 w-4/5 border p-3 text-xs shadow-sm">
+                            {currentIncomingText}
+                        </div>
+                    </div>
+                )}
+
+                {currentOutgoingText && (
+                    <div>
+                        <div className="flex items-center gap-2 justify-end">
+                            <span className="text-zinc-500 text-xs">{outgoingMsg?.time || "Just now"}</span>
+                            <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                                <Image
+                                    src={axionAvatarUrl}
+                                    alt="Axion Team"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            </div>
+                        </div>
+                        <div className="rounded-xl mb-1 ml-auto w-4/5 bg-blue-600 p-3 text-xs text-white shadow-sm">
+                            {currentOutgoingText}
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    };
 
     // Function to render typing indicator - optimized for performance
     const renderTypingIndicator = (isIncoming: boolean) => {
@@ -351,66 +484,24 @@ const AnimatedChatMessages = () => {
         )
     }
 
-    // Get visible messages
-    const visibleMessages = allMessages.slice(0, visibleCount)
-
     return (
         <div className="flex flex-col gap-4 overflow-hidden h-[300px]" ref={containerRef} style={{ transform: 'translateZ(0)' }}>
-            {visibleMessages.map((message, index) => (
-                <div
-                    key={message.id}
-                    className={`transition-all duration-200 ease-out ${
-                        index === visibleMessages.length - 1 ? 'animate-fadeIn' : ''
-                    }`}
-                    style={{
-                        transform: 'translateZ(0)', // Hardware acceleration
-                        willChange: 'transform, opacity', // Hint to browser for optimization
-                        backfaceVisibility: 'hidden', // Additional performance optimization
-                        perspective: 1000 // Improves animation smoothness
-                    }}
-                >
-                    {message.type === 'incoming' ? (
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                                    <Image
-                                        src={clientAvatarUrl}
-                                        alt="Client"
-                                        fill
-                                        className="object-cover"
-                                        priority
-                                    />
-                                </div>
-                                <span className="text-zinc-500 text-xs">{message.time}</span>
-                            </div>
-                            <div className="rounded-xl bg-white mt-1.5 w-4/5 border p-3 text-xs shadow-sm">
-                                {message.text}
-                            </div>
-                        </div>
-                    ) : (
-                        <div>
-                            <div className="flex items-center gap-2 justify-end">
-                                <span className="text-zinc-500 text-xs">{message.time}</span>
-                                <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                                    <Image
-                                        src={axionAvatarUrl}
-                                        alt="Axion Team"
-                                        fill
-                                        className="object-cover"
-                                        priority
-                                    />
-                                </div>
-                            </div>
-                            <div className="rounded-xl mb-1 ml-auto w-4/5 bg-blue-600 p-3 text-xs text-white shadow-sm">
-                                {message.text}
-                            </div>
-                        </div>
-                    )}
-                </div>
-            ))}
+            <div
+                className="transition-all duration-200 ease-out animate-fadeIn"
+                style={{
+                    transform: 'translateZ(0)', // Hardware acceleration
+                    willChange: 'transform, opacity', // Hint to browser for optimization
+                    backfaceVisibility: 'hidden', // Additional performance optimization
+                    perspective: 1000, // Improves animation smoothness
+                    contain: 'content', // Additional performance optimization
+                }}
+            >
+                {/* Render the streaming conversation */}
+                {renderConversation()}
 
-            {/* Typing indicator */}
-            {isTyping && renderTypingIndicator(visibleCount % 2 === 0)}
+                {/* Typing indicator - only show when actively typing */}
+                {isTyping && renderTypingIndicator(currentIncomingText && !currentOutgoingText)}
+            </div>
         </div>
     )
 }
@@ -477,16 +568,36 @@ const AnimatedCounter = ({ target, suffix = '', label = '' }: AnimatedCounterPro
 }
 
 // Animated Metric Component with endless loop
+// Optimized for performance and respects reduced motion preferences
 const AnimatedMetric = () => {
     const [count, setCount] = useState(0)
     const targetValue = 98.5
     const frameRef = useRef<number>(0)
+    const prefersReducedMotion = useReducedMotion()
+
+    // Throttle updates to improve performance
+    const throttleRef = useRef<number>(0)
+    const throttleTime = 50 // ms between updates
 
     useEffect(() => {
+        // If reduced motion is preferred, just show the final value
+        if (prefersReducedMotion) {
+            setCount(targetValue)
+            return
+        }
+
         let startTime: number | null = null
         const duration = 5000 // 5 seconds for full animation
 
         const animate = (timestamp: number) => {
+            // Throttle updates
+            if (timestamp - throttleRef.current < throttleTime) {
+                frameRef.current = requestAnimationFrame(animate)
+                return
+            }
+
+            throttleRef.current = timestamp
+
             if (!startTime) startTime = timestamp
             const progress = (timestamp - startTime) / duration
 
@@ -503,9 +614,16 @@ const AnimatedMetric = () => {
             }
         }
 
-        frameRef.current = requestAnimationFrame(animate)
-        return () => cancelAnimationFrame(frameRef.current)
-    }, [])
+        // Small delay to ensure component is fully mounted
+        const timer = setTimeout(() => {
+            frameRef.current = requestAnimationFrame(animate)
+        }, 100)
+
+        return () => {
+            clearTimeout(timer)
+            cancelAnimationFrame(frameRef.current)
+        }
+    }, [prefersReducedMotion])
 
     return (
         <div className="text-center">
@@ -550,12 +668,18 @@ const smoothTransition = (
 }
 
 // Ultra-modern 2025 Revenue Chart Component with sleek animations
+// Optimized for performance and respects reduced motion preferences
 const AnimatedRevenueChart = () => {
     const [chartData, setChartData] = useState<ChartDataItem[]>(initialChartData)
     const [hoverIndex, setHoverIndex] = useState<number | null>(null)
     const targetValuesRef = useRef<{[key: string]: {desktop: number, mobile: number}}>({})
     const frameRef = useRef<number>(0)
     const animationPhaseRef = useRef<number>(0)
+    const prefersReducedMotion = useReducedMotion()
+
+    // Throttle function to limit how often we update state
+    const throttleRef = useRef<number>(0)
+    const throttleTime = 30 // ms between updates (about 30fps instead of 60fps)
 
     useEffect(() => {
         // Initialize target values with more dynamic patterns
@@ -569,10 +693,33 @@ const AnimatedRevenueChart = () => {
 
         targetValuesRef.current = initialTargets
 
+        // If user prefers reduced motion, just set static data and return
+        if (prefersReducedMotion) {
+            // Apply a single subtle wave to make the chart look more natural
+            // but don't animate it continuously
+            const staticData = initialChartData.map((item, index) => {
+                const baseDesktop = item.desktop
+                const baseMobile = item.mobile
+
+                // Add a subtle wave pattern (static)
+                const desktopWave = Math.sin(index * 0.5) * (baseDesktop * 0.05)
+                const mobileWave = Math.cos(index * 0.3) * (baseMobile * 0.05)
+
+                return {
+                    ...item,
+                    desktop: baseDesktop + desktopWave,
+                    mobile: baseMobile + mobileWave
+                }
+            })
+
+            setChartData(staticData)
+            return
+        }
+
         // Function to create wave-like patterns in the data
         const createWavePattern = () => {
             const phase = animationPhaseRef.current
-            animationPhaseRef.current = (phase + 0.05) % (Math.PI * 2)
+            animationPhaseRef.current = (phase + 0.03) % (Math.PI * 2) // Slower animation
 
             const months = Object.keys(targetValuesRef.current)
 
@@ -582,8 +729,9 @@ const AnimatedRevenueChart = () => {
                 const baseMobile = initialChartData[index % initialChartData.length].mobile
 
                 // Create smooth wave patterns with different frequencies
-                const desktopWave = Math.sin(phase + index * 0.5) * (baseDesktop * 0.15)
-                const mobileWave = Math.cos(phase + index * 0.3) * (baseMobile * 0.12)
+                // Reduced amplitude for more subtle animation
+                const desktopWave = Math.sin(phase + index * 0.5) * (baseDesktop * 0.1)
+                const mobileWave = Math.cos(phase + index * 0.3) * (baseMobile * 0.08)
 
                 targetValuesRef.current[month] = {
                     desktop: baseDesktop + desktopWave,
@@ -593,7 +741,15 @@ const AnimatedRevenueChart = () => {
         }
 
         // Function to animate chart data with fluid motion
-        const animateChart = () => {
+        const animateChart = (timestamp: number) => {
+            // Throttle updates to improve performance
+            if (timestamp - throttleRef.current < throttleTime) {
+                frameRef.current = requestAnimationFrame(animateChart)
+                return
+            }
+
+            throttleRef.current = timestamp
+
             // Update wave pattern
             createWavePattern()
 
@@ -619,13 +775,16 @@ const AnimatedRevenueChart = () => {
             frameRef.current = requestAnimationFrame(animateChart)
         }
 
-        // Start animation immediately
-        frameRef.current = requestAnimationFrame(animateChart)
+        // Start animation with a small delay to ensure component is fully mounted
+        const timer = setTimeout(() => {
+            frameRef.current = requestAnimationFrame(animateChart)
+        }, 100)
 
         return () => {
+            clearTimeout(timer)
             cancelAnimationFrame(frameRef.current)
         }
-    }, [])
+    }, [prefersReducedMotion])
 
     // Custom dot component for enhanced visual appeal
     const CustomDot = (props: any) => {
