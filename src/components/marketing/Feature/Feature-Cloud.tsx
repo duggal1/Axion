@@ -108,8 +108,16 @@ export default function FeaturesCloud() {
 
                     <div aria-hidden className="relative">
                         <div className="absolute inset-0 z-10 m-auto size-fit">
-                            <div className="rounded-lg bg-white z-10 relative flex size-fit w-fit items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-sm animate-pulse">
-                                <span className="text-lg">🤖</span> AI agent closed $1.2M deal in Tokyo
+                            <div className="rounded-lg bg-white z-10 relative flex size-fit w-fit items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-sm ">
+                                 <Image
+                                                                    src="/icons/axion-logo.png"
+                                                                    alt="Logo"
+                                                                    width={20} // Set the desired width of your logo image here
+                                                                    height={20} // Set the desired height of your logo image here
+                                                                    priority
+                                                                    className="mr-4"
+                                                                />
+                                <span className="text-lg"></span> AI agent closed <span className='text-green-600'>$1.2M </span> deal in NewYork
                             </div>
                             {/* <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-sm"></div> */}
                         </div>
@@ -835,12 +843,12 @@ const AnimatedRevenueChart = () => {
                     <p className="text-xs font-medium text-gray-800 mb-1">{label}</p>
                     <div className="space-y-1">
                         <p className="text-xs flex items-center">
-                            <span className="w-2 h-2 rounded-full bg-indigo-500 mr-2"></span>
+                            <span className="w-2 h-2 rounded-full bg-green-600 mr-2"></span>
                             <span className="text-gray-600">Conversions:</span>
                             <span className="ml-1 font-medium">{payload[0].value.toFixed(0)}</span>
                         </p>
                         <p className="text-xs flex items-center">
-                            <span className="w-2 h-2 rounded-full bg-violet-500 mr-2"></span>
+                            <span className="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>
                             <span className="text-gray-600">Engagement:</span>
                             <span className="ml-1 font-medium">{payload[1].value.toFixed(0)}</span>
                         </p>
@@ -853,86 +861,89 @@ const AnimatedRevenueChart = () => {
 
     return (
         <ChartContainer className="h-120 aspect-auto md:h-96" config={chartConfig}>
-            <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                    data={chartData}
-                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                    onMouseMove={(e) => {
-                        if (e.activeTooltipIndex !== undefined) {
-                            setHoverIndex(e.activeTooltipIndex)
-                        }
+        <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+                data={chartData}
+                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                onMouseMove={(e) => {
+                    if (e.activeTooltipIndex !== undefined) {
+                        setHoverIndex(e.activeTooltipIndex);
+                    }
+                }}
+                onMouseLeave={() => setHoverIndex(null)}
+            >
+                <defs>
+                    {/* Blue Gradient for Desktop */}
+                    <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.4} />
+                        <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.01} />
+                    </linearGradient>
+                    <linearGradient id="lineDesktop" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#2563EB" />
+                        <stop offset="100%" stopColor="#3B82F6" />
+                    </linearGradient>
+    
+                    {/* Green Gradient for Mobile */}
+                    <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#10B981" stopOpacity={0.4} />
+                        <stop offset="100%" stopColor="#10B981" stopOpacity={0.01} />
+                    </linearGradient>
+                    <linearGradient id="lineMobile" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#059669" />
+                        <stop offset="100%" stopColor="#10B981" />
+                    </linearGradient>
+    
+                    {/* Glow Effect */}
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="2" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+    
+                {/* Ultra-modern grid */}
+                <CartesianGrid
+                    vertical={false}
+                    horizontal={true}
+                    stroke="rgba(203, 213, 225, 0.3)"
+                    strokeDasharray="3 6"
+                />
+    
+                {/* Custom Tooltip */}
+                <ChartTooltip
+                    content={<CustomTooltip />}
+                    cursor={{
+                        stroke: '#E2E8F0',
+                        strokeWidth: 1,
+                        strokeDasharray: '4 4'
                     }}
-                    onMouseLeave={() => setHoverIndex(null)}
-                >
-                    <defs>
-                        {/* Enhanced gradients for 2025 look */}
-                        <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#6366F1" stopOpacity={0.4} />
-                            <stop offset="100%" stopColor="#6366F1" stopOpacity={0.01} />
-                        </linearGradient>
-                        <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.3} />
-                            <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.01} />
-                        </linearGradient>
-
-                        {/* Sleek line gradients */}
-                        <linearGradient id="lineDesktop" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stopColor="#4F46E5" />
-                            <stop offset="100%" stopColor="#6366F1" />
-                        </linearGradient>
-                        <linearGradient id="lineMobile" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stopColor="#7C3AED" />
-                            <stop offset="100%" stopColor="#8B5CF6" />
-                        </linearGradient>
-
-                        {/* Filter for glow effects */}
-                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="2" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-
-                    {/* Ultra-modern grid */}
-                    <CartesianGrid
-                        vertical={false}
-                        horizontal={true}
-                        stroke="rgba(203, 213, 225, 0.3)"
-                        strokeDasharray="3 6"
-                    />
-
-                    {/* Custom tooltip */}
-                    <ChartTooltip
-                        content={<CustomTooltip />}
-                        cursor={{
-                            stroke: '#E2E8F0',
-                            strokeWidth: 1,
-                            strokeDasharray: '4 4'
-                        }}
-                    />
-
-                    {/* Sleek areas */}
-                    <Area
-                        type="monotone"
-                        dataKey="mobile"
-                        stroke="url(#lineMobile)"
-                        strokeWidth={3}
-                        fill="url(#fillMobile)"
-                        dot={false}
-                        activeDot={(props) => <CustomDot {...props} />}
-                        isAnimationActive={false} // We're handling animation manually
-                    />
-                    <Area
-                        type="monotone"
-                        dataKey="desktop"
-                        stroke="url(#lineDesktop)"
-                        strokeWidth={3}
-                        fill="url(#fillDesktop)"
-                        dot={false}
-                        activeDot={(props) => <CustomDot {...props} />}
-                        isAnimationActive={false} // We're handling animation manually
-                    />
-                </AreaChart>
-            </ResponsiveContainer>
-        </ChartContainer>
+                />
+    
+                {/* Blue Area for Desktop */}
+                <Area
+                    type="monotone"
+                    dataKey="desktop"
+                    stroke="url(#lineDesktop)"
+                    strokeWidth={3}
+                    fill="url(#fillDesktop)"
+                    dot={false}
+                    activeDot={(props) => <CustomDot {...props} />}
+                    isAnimationActive={false}
+                />
+    
+                {/* Green Area for Mobile */}
+                <Area
+                    type="monotone"
+                    dataKey="mobile"
+                    stroke="url(#lineMobile)"
+                    strokeWidth={3}
+                    fill="url(#fillMobile)"
+                    dot={false}
+                    activeDot={(props) => <CustomDot {...props} />}
+                    isAnimationActive={false}
+                />
+            </AreaChart>
+        </ResponsiveContainer>
+    </ChartContainer>
+    
     )
 }
