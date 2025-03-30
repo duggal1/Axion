@@ -41,10 +41,10 @@ const Pricing = () => {
                         <span className="text-base font-medium font-serif">Monthly</span>
                         <button
                             onClick={handleSwitch}
-                            className="relative rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition-all"
+                            className="relative rounded-full focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 transition-all"
                             aria-label={`Switch to ${billPlan === "monthly" ? "annually" : "monthly"} billing`}
                         >
-                            <div className="w-14 h-7 transition rounded-full shadow-sm outline-none bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                            <div className="w-14 h-7 transition rounded-full shadow-sm outline-none bg-gradient-to-r from-violet-400 to-violet-500"></div>
                             <div
                                 className={cn(
                                     "absolute inline-flex items-center justify-center w-5 h-5 transition-all duration-300 ease-in-out top-1 left-1 rounded-full bg-white shadow-md",
@@ -82,20 +82,21 @@ const PlanCard = ({ plan, billPlan }: { plan: PLAN, billPlan: Plan }) => {
     return (
         <div
             className={cn(
-                "flex flex-col relative rounded-2xl transition-all items-start w-full border overflow-hidden h-full bg-white shadow-sm hover:shadow-md transition-all duration-300",
+                "flex flex-col relative rounded-2xl  items-start w-full border overflow-hidden h-full bg-white shadow-sm hover:shadow-md transition-all duration-300",
                 isProfessional
-                    ? "border-blue-400 shadow-blue-100/50 scale-105 z-10"
+                    ? "border-violet-400 shadow-violet-100/50 scale-105 z-10"
                     : "border-gray-200 hover:border-gray-300"
             )}
         >
             {/* Professional plan highlight */}
             {isProfessional && (
                 <>
-                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600"></div>
-                    <div className="absolute -top-5 -right-5 size-24 bg-blue-500 rotate-45"></div>
+                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-violet-500 to-violet-600"></div>
+                    <div className="absolute -top-5 -right-5 size-24 bg-violet-500 rotate-45"></div>
                     <div className="absolute top-2 right-2 z-10">
-                        <span className="bg-white text-blue-600 text-xs font-medium px-2 py-1 rounded-full shadow-sm">
-                            Most Popular
+                        <span className="bg-white text-violet-600 text-xs font-medium px-2 py-1 rounded-full shadow-sm">
+                           <span>
+                           🎉 </span> Most Popular
                         </span>
                     </div>
                 </>
@@ -150,7 +151,7 @@ const PlanCard = ({ plan, billPlan }: { plan: PLAN, billPlan: Plan }) => {
                     className={cn(
                         "w-full font-serif shadow-sm",
                         isProfessional
-                            ? "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+                            ? "bg-gradient-to-r from-violet-600 to-violet-500 hover:from-violet-600 hover:to-violet-700"
                             : "hover:bg-gray-50"
                     )}
                 >
