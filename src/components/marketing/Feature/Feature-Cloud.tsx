@@ -110,10 +110,11 @@ export default function FeaturesCloud() {
                             {/* <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-sm"></div> */}
                         </div>
 
-                        <div className="relative overflow-hidden h-[200px]">
-                            <div className=" z-10 absolute inset-0 "></div>
-                            <Globe className="top-28" />
-                        
+                        <div className="relative overflow-hidden h-[240px]">
+                            <div className="z-10 absolute inset-0"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <Globe />
+                            </div>
                         </div>
                     </div>
                 </div>
