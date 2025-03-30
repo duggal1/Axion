@@ -77,7 +77,7 @@ export const TESTIMONIALS = [
       username: "@jamestaylor",
       userImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
       companyName: "ClickUp",
-      companyLogo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7gdfFUraYgk0ObqV5lTrfisajO4tlN2mAtg&s",
+      companyLogo: "https://1000logos.net/wp-content/uploads/2022/06/ClickUp-Emblem.png",
       rating: 5,
       review: "Axion has <highlight>supercharged our sales team</highlight>. We're closing deals 70% faster with only a third of our previous headcount.",
     },
