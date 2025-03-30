@@ -11,7 +11,7 @@ export default function TestimonialsSection() {
           <div className="bg-white/80 p-12  border border-gray-300 rounded-xl shadow-md w-full">
             <blockquote className="text-center space-y-6">
               <p className="text-3xl font-serif text-gray-700 leading-relaxed max-w-5xl mx-auto">
-                "Axion has revolutionized our <span className='text-blue-600 font-bold'>sales process</span>
+                "Axion has revolutionized our <span className='text-violet-600 font-bold'>sales process</span>
                 —handling what used to take a team of 20 agents with precision and speed. It’s like having the future of sales, today."
               </p>
   

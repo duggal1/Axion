@@ -5,27 +5,31 @@ import {useState, useRef} from "react";
 import { motion} from "framer-motion";
 
 const FAQS = [
-    {
-      question: "How is Layers different from other design tools?",
-      answer: "Unlike traditional design tools, Layers prioritizes speed and simplicity without sacrificing power. Our intelligent interface adapts to your workflow, reducing clicks and keeping you in your creative flow."
-    },
-    {
-      question: "Is there a learning curve?",
-      answer: "Layers is designed to feel intuitive from day one. Most designers are productive within hours, not weeks. We also provide interactive tutorials and comprehensive documentation to help you get started."
-    },
-    {
-      question: "How do you handle version control?",
-      answer: "Every change in Layers is automatically saved and versioned. You can review history, restore previous versions, and create named versions for important milestones."
-    },
-    {
-      question: "Can I work offline?",
-      answer: "Yes! Layers includes a robust offline mode. Changes sync automatically when you're back online, so you can keep working anywhere."
-    },
-    {
-      question: "How does Layers handle collaboration?",
-      answer: "Layers is built for collaboration. You can invite team members to your projects, share feedback, and work together in real-time."
-    },
-]
+  {
+    question: "How is Axion different from other sales and marketing tools?",
+    answer: "Axion is an advanced AI sales agent designed for enterprise teams. Unlike traditional tools, Axion autonomously manages sales for teams of up to 25, handling lead generation, outreach, and CRM integration—all powered by an agentic AI model."
+  },
+  {
+    question: "Is there a learning curve?",
+    answer: "Axion is built to be intuitive. Most teams start seeing results within hours, not weeks. We provide interactive tutorials and comprehensive documentation to help you get started quickly."
+  },
+  {
+    question: "Does Axion offer a free trial?",
+    answer: "Yes! We offer a 7-day free trial so you can experience Axion’s full capabilities before committing."
+  },
+  {
+    question: "Do you offer refunds?",
+    answer: "We offer refunds within the first 7 days of purchase. After that, we do not process refunds."
+  },
+  {
+    question: "Is Axion a trusted solution?",
+    answer: "Yes! Axion is trusted by leading companies like Figma, Bubble, ClickUp, Notion, Discord, Resend, and more."
+  },
+  {
+    question: "What features does Axion include?",
+    answer: "Axion provides powerful sales automation, including:\n- AI lead generation (5,000 leads/mo)\n- Multi-channel outreach (email, SMS, social - 10,000 contacts/mo)\n- CRM integration (Salesforce, HubSpot, etc.)\n- Social automation (10 channels)\n- AI-generated sales content (20,000 words/mo)\n- Predictive sales forecasting\n- Call & email intelligence\n- 15 team seats\n- 24/7 chat support"
+  }
+];
 
 export function FAQSection() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);

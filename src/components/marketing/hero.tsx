@@ -90,7 +90,7 @@ export default function Hero() {
                   <Link
                     href="#link"
                     className="group flex items-center gap-4 bg-muted hover:bg-background shadow-md shadow-violet-600/90 dark:shadow-zinc-950 mx-auto p-1 pl-4 border dark:border-t-white/5 dark:hover:border-t-border rounded-full w-fit transition-colors duration-300">
-                    <span className="text-foreground  font-serif text-sm">Introducing Support for AI Models</span>
+                    <span className="text-foreground  font-serif text-sm">Get AI Sales on Autopilot</span>
                     <span className="block bg-gray-600 dark:bg-zinc-700 dark:border-background border-l w-0.5 h-4"></span>
                     <div className="bg-background group-hover:bg-muted rounded-full size-6 overflow-hidden duration-500">
                       <div className="flex w-12 -translate-x-1/2 group-hover:translate-x-0 duration-500 ease-in-out">
@@ -110,8 +110,8 @@ export default function Hero() {
                                     preset="fade-in-blur"
                                     speedSegment={0.3}
                                     as="h1"
-                                    className="mt-8 text-balance font-serif text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem]">
-                                    Modern Solutions for Customer Engagement
+                                    className="mt-8 text-balance font-serif text-6xl md:text-6xl lg:mt-16 xl:text-6xl">
+                             AI Sales Agent That Finds, Engages & Closes Deals for You
                                 </TextEffect>
                                 <TextEffect
                                     per="line"
@@ -120,7 +120,7 @@ export default function Hero() {
                                     delay={0.5}
                                     as="p"
                                     className="mx-auto mt-8 max-w-2xl font-serif text-balance text-lg">
-                                    Highly customizable components for building modern websites and applications that look and feel the way you mean it.
+                                Axion handles prospecting, outreach, and follow-ups—fully automated. Get 5,000+ high-quality leads/month, book more calls, and close deals faster. No manual work. Just results.
                                 </TextEffect>
 
                                
