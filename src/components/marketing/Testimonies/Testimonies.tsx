@@ -120,7 +120,7 @@ export function TestimonialsMarquee(): JSX.Element {
         </div> */}
         
         <div className="relative mx-auto w-full -mt-12 overflow-hidden py-10">
-          {/* First row */}
+       
           <Marquee 
             pauseOnHover 
             className="py-4 [--duration:35s] [--gap:1rem]"
