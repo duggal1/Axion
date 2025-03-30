@@ -13,6 +13,44 @@ enum Role {
   assistant
 }
 
+// Message types in conversations
+enum MessageType {
+  text
+  voice
+  action
+}
+
+// Status of a call
+enum CallStatus {
+  scheduled
+  inProgress
+  completed
+  failed
+  cancelled
+}
+
+// Types of AI agent tools
+enum ToolType {
+  database
+  api
+  documentProcessor
+  calculator
+  calendar
+  emailSender
+  webSearch
+  custom
+}
+
+// File types for knowledge base
+enum FileType {
+  pdf
+  csv
+  txt
+  json
+  audio
+  other
+}
+
 model User {
   id           String  @id @default(cuid()) @map("id")
   clerkId      String  @unique
@@ -27,6 +65,13 @@ model User {
   
   // Relationships
   sessions     Session[]
+  agents       Agent[]
+  phoneNumbers PhoneNumber[]
+  knowledgeBases KnowledgeBase[]
+  callLogs     CallLog[]
+  prompts      Prompt[]
+  workflows    Workflow[]
+  tools        Tool[]
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -48,4 +93,250 @@ model Session {
   updatedAt    DateTime @updatedAt
 
   @@index([userId])
+}
+
+// AI Voice Agent model
+model Agent {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  avatar        String?
+  voiceId       String?  // Voice provider's voice ID
+  languageModel String   // e.g., "gemini", "gpt-4", etc.
+  
+  // Agent settings
+  isActive      Boolean  @default(true)
+  personality   Json?    // Personality traits in JSON format
+  industry      String?  // Industry the agent is specialized for
+  
+  // Relationships
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phoneNumbers  PhoneNumber[]
+  callLogs      CallLog[]
+  prompts       Prompt[]
+  workflows     Workflow[]
+  knowledgeBases KnowledgeBase[]
+  tools         AgentTool[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Phone Numbers assigned to agents
+model PhoneNumber {
+  id            String   @id @default(cuid())
+  userId        String
+  agentId       String?
+  number        String   @unique
+  provider      String   // e.g., "twilio", "vapi", etc.
+  isActive      Boolean  @default(true)
+  description   String?
+  
+  // Relationships
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent         Agent?   @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  callLogs      CallLog[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+  @@index([agentId])
+}
+
+// Call records
+model CallLog {
+  id              String     @id @default(cuid())
+  userId          String
+  agentId         String
+  phoneNumberId   String?
+  
+  // Call details
+  callSid         String?    @unique  // Unique call ID from provider
+  fromNumber      String?
+  toNumber        String?
+  duration        Int?       // Duration in seconds
+  status          CallStatus
+  recordingUrl    String?
+  transcriptUrl   String?
+  direction       String     // "inbound" or "outbound"
+  
+  // Relationships
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent           Agent      @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  phoneNumber     PhoneNumber? @relation(fields: [phoneNumberId], references: [id], onDelete: SetNull)
+  messages        Message[]
+  
+  // Analysis and metrics
+  sentiment       Float?     // Sentiment score
+  keyInsights     Json?      // Key insights extracted
+  actionsTaken    Json?      // Actions taken during call
+  
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([agentId])
+  @@index([phoneNumberId])
+}
+
+// Messages within a call
+model Message {
+  id          String      @id @default(cuid())
+  callLogId   String
+  content     String      // Message content
+  type        MessageType // Message type
+  sender      Role        // Who sent the message
+  timestamp   DateTime    @default(now())
+  
+  // Relationships
+  callLog     CallLog     @relation(fields: [callLogId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([callLogId])
+}
+
+// Agent prompts
+model Prompt {
+  id          String   @id @default(cuid())
+  userId      String
+  agentId     String
+  name        String
+  content     String   @db.Text
+  description String?
+  isDefault   Boolean  @default(false)
+  category    String?
+  
+  // Relationships
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  workflows   WorkflowPrompt[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([agentId])
+}
+
+// Conversation workflows
+model Workflow {
+  id          String   @id @default(cuid())
+  userId      String
+  agentId     String
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  
+  // Workflow content
+  nodes       Json     // Workflow nodes in JSON format
+  edges       Json     // Workflow edges in JSON format
+  
+  // Relationships
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  prompts     WorkflowPrompt[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([agentId])
+}
+
+// Junction table for Workflow and Prompt
+model WorkflowPrompt {
+  workflowId  String
+  promptId    String
+  order       Int     @default(0)
+  
+  // Relationships
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  prompt      Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  
+  @@id([workflowId, promptId])
+  @@index([workflowId])
+  @@index([promptId])
+}
+
+// Knowledge base for agents
+model KnowledgeBase {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  
+  // Relationships
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agents      Agent[]
+  documents   Document[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Documents in knowledge base
+model Document {
+  id               String   @id @default(cuid())
+  knowledgeBaseId  String
+  name             String
+  fileUrl          String
+  fileType         FileType
+  size             Int      // Size in bytes
+  processed        Boolean  @default(false)
+  extractedContent String?  @db.Text
+  
+  // For structured data
+  schema           Json?    // Schema for structured data
+  
+  // Relationships
+  knowledgeBase    KnowledgeBase @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([knowledgeBaseId])
+}
+
+// Tools available to agents
+model Tool {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  type        ToolType
+  config      Json     // Configuration for the tool
+  isActive    Boolean  @default(true)
+  
+  // Relationships
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agents      AgentTool[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Junction table for Agent and Tool
+model AgentTool {
+  agentId     String
+  toolId      String
+  isEnabled   Boolean  @default(true)
+  settings    Json?    // Agent-specific settings for this tool
+  
+  // Relationships
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  tool        Tool     @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  
+  @@id([agentId, toolId])
+  @@index([agentId])
+  @@index([toolId])
 }

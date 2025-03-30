@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import {
-  ArrowUpCircleIcon,
   BarChartIcon,
   CameraIcon,
   ClipboardListIcon,
@@ -18,7 +17,7 @@ import {
   SettingsIcon,
   UsersIcon,
 } from "lucide-react"
-
+import Image from 'next/image'
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -41,110 +40,110 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
-      url: "#",
+      title: "Agent Dashboard",
+      url: "/dashboard",
       icon: LayoutDashboardIcon,
     },
     {
-      title: "Lifecycle",
-      url: "#",
+      title: "Call Workflows",
+      url: "/workflows",
       icon: ListIcon,
     },
     {
-      title: "Analytics",
-      url: "#",
+      title: "Sales Analytics",
+      url: "/analytics",
       icon: BarChartIcon,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: FolderIcon,
+      title: "Team Management",
+      url: "/team",
+      icon: UsersIcon,
     },
     {
-      title: "Team",
-      url: "#",
-      icon: UsersIcon,
+      title: "Voice Campaigns",
+      url: "/campaigns",
+      icon: FolderIcon,
     },
   ],
   navClouds: [
     {
-      title: "Capture",
+      title: "Voice Recordings",
       icon: CameraIcon,
       isActive: true,
-      url: "#",
+      url: "/recordings",
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: "Active Calls",
+          url: "/recordings/active",
         },
         {
-          title: "Archived",
-          url: "#",
+          title: "Archived Calls",
+          url: "/recordings/archived",
         },
       ],
     },
     {
-      title: "Proposal",
+      title: "AI Scripts",
       icon: FileTextIcon,
-      url: "#",
+      url: "/scripts",
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: "Active Scripts",
+          url: "/scripts/active",
         },
         {
-          title: "Archived",
-          url: "#",
+          title: "Archived Scripts",
+          url: "/scripts/archived",
         },
       ],
     },
     {
-      title: "Prompts",
+      title: "Custom Prompts",
       icon: FileCodeIcon,
-      url: "#",
+      url: "/prompts",
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: "Active Prompts",
+          url: "/prompts/active",
         },
         {
-          title: "Archived",
-          url: "#",
+          title: "Archived Prompts",
+          url: "/prompts/archived",
         },
       ],
     },
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "#",
+      title: "Agent Settings",
+      url: "/settings",
       icon: SettingsIcon,
     },
     {
-      title: "Get Help",
-      url: "#",
+      title: "Support Hub",
+      url: "/support",
       icon: HelpCircleIcon,
     },
     {
-      title: "Search",
-      url: "#",
+      title: "Search Calls",
+      url: "/search",
       icon: SearchIcon,
     },
   ],
   documents: [
     {
-      name: "Data Library",
-      url: "#",
+      name: "Knowledge Base",
+      url: "/knowledge",
       icon: DatabaseIcon,
     },
     {
-      name: "Reports",
-      url: "#",
+      name: "Performance Reports",
+      url: "/reports",
       icon: ClipboardListIcon,
     },
     {
-      name: "Word Assistant",
-      url: "#",
+      name: "Script Builder",
+      url: "/builder",
       icon: FileIcon,
     },
   ],
@@ -152,28 +151,89 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+    <Sidebar 
+      collapsible="offcanvas" 
+      className="bg-white  border-r border-gray-200  shadow-none font-serif"
+      {...props}
+    >
+      <style jsx global>{`
+        /* Remove scrollbar */
+        .sidebar-content::-webkit-scrollbar {
+          display: none;
+        }
+        .sidebar-content {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        
+        /* Custom styling for navigation items */
+        [data-slot="sidebar-menu-item"] a {
+          display: flex;
+          align-items: center;
+          padding: 8px 16px;
+          margin-bottom: 2px;
+          color: #6b7280;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+        }
+        
+        [data-slot="sidebar-menu-item"] a:hover {
+          background-color: rgba(243, 244, 246, 0.7);
+          color: #111827;
+        }
+        
+        [data-slot="sidebar-menu-item"] a svg {
+          width: 18px;
+          height: 18px;
+          margin-right: 12px;
+          opacity: 0.7;
+        }
+        
+        [data-slot="sidebar-menu-item"][data-active="true"] a {
+          background-color: rgba(243, 244, 246, 0.9);
+          color: #111827;
+        }
+      `}</style>
+      
+      <SidebarHeader className="py-6 px-4">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:p-0"
             >
-              <a href="#">
-                <ArrowUpCircleIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+              <a href="#" className="flex items-center">
+                <Image
+                  src="/icons/axion-logo.png"
+                  alt="Logo"
+                  width={40}
+                  height={40}
+                  priority
+                  className="mr-3"
+                />
+                <span className="text-xl font-bold font-serif tracking-wide text-gray-900">Axion</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+      
+      <SidebarContent className="px-4 py-2 sidebar-content">
+        <div className="space-y-10">
+          <div>
+            <NavMain items={data.navMain} />
+          </div>
+          
+          <div>
+            <h3 className="mb-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Resources</h3>
+            <NavDocuments items={data.documents} />
+          </div>
+          
+          <NavSecondary items={data.navSecondary} className="mt-auto" />
+        </div>
       </SidebarContent>
-      <SidebarFooter>
+      
+      <SidebarFooter className="border-t border-gray-50 py-4 px-4 mt-4">
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
