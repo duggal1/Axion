@@ -1,97 +1,102 @@
-export const SUPPORTED_LANGUAGES = [
+export const SUPPORTED_COUNTRIES = [
     {
-        name: "English",
+        name: "United States",
         flag: "🇺🇸",
-        code: "en"
+        code: "us"
     },
     {
-        name: "Spanish",
-        flag: "🇪🇸",
-        code: "es"
+        name: "Canada",
+        flag: "🇨🇦",
+        code: "ca"
     },
     {
-        name: "French",
-        flag: "🇫🇷",
-        code: "fr"
+        name: "United Kingdom",
+        flag: "🇬🇧",
+        code: "gb"
     },
     {
-        name: "Russian",
-        flag: "🇷🇺",
-        code: "ru"
-    },
-    {
-        name: "German",
+        name: "Germany",
         flag: "🇩🇪",
         code: "de"
     },
     {
-        name: "Chinese",
-        flag: "🇨🇳",
-        code: "zh"
+        name: "France",
+        flag: "🇫🇷",
+        code: "fr"
     },
     {
-        name: "Japanese",
-        flag: "🇯🇵",
-        code: "ja"
-    },
-    {
-        name: "Korean",
-        flag: "🇰🇷",
-        code: "ko"
-    },
-    {
-        name: "Vietnamese",
-        flag: "🇻🇳",
-        code: "vi"
-    },
-    {
-        name: "Thai",
-        flag: "🇹🇭",
-        code: "th"
-    },
-    {
-        name: "Italian",
+        name: "Italy",
         flag: "🇮🇹",
         code: "it"
     },
     {
-        name: "Kazakh",
-        flag: "🇰🇿",
-        code: "kk"
+        name: "Spain",
+        flag: "🇪🇸",
+        code: "es"
     },
     {
-        name: "Indian",
-        flag: "🇮🇳",
-        code: "hi"
+        name: "Netherlands",
+        flag: "🇳🇱",
+        code: "nl"
     },
     {
-        name: "Georgian",
-        flag: "🇬🇪",
-        code: "ka"
+        name: "Sweden",
+        flag: "🇸🇪",
+        code: "se"
     },
     {
-        name: "Romanian",
-        flag: "🇷🇴",
-        code: "ro"
+        name: "Norway",
+        flag: "🇳🇴",
+        code: "no"
     },
     {
-        name: "Polish",
+        name: "Denmark",
+        flag: "🇩🇰",
+        code: "dk"
+    },
+    {
+        name: "Switzerland",
+        flag: "🇨🇭",
+        code: "ch"
+    },
+    {
+        name: "Finland",
+        flag: "🇫🇮",
+        code: "fi"
+    },
+    {
+        name: "Belgium",
+        flag: "🇧🇪",
+        code: "be"
+    },
+    {
+        name: "Austria",
+        flag: "🇦🇹",
+        code: "at"
+    },
+    {
+        name: "Ireland",
+        flag: "🇮🇪",
+        code: "ie"
+    },
+    {
+        name: "Portugal",
+        flag: "🇵🇹",
+        code: "pt"
+    },
+    {
+        name: "Poland",
         flag: "🇵🇱",
         code: "pl"
     },
     {
-        name: "Ukrainian",
-        flag: "🇺🇦",
-        code: "uk"
+        name: "Czech Republic",
+        flag: "🇨🇿",
+        code: "cz"
     },
     {
-        name: "Turkish",
-        flag: "🇹🇷",
-        code: "tr"
-    },
-    {
-        name: "Belarusian",
-        flag: "🇧🇾",
-        code: "be"
+        name: "Luxembourg",
+        flag: "🇱🇺",
+        code: "lu"
     }
-]; 
+];

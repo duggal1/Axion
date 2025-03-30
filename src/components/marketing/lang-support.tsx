@@ -1,7 +1,6 @@
 "use client";
 
-import { SUPPORTED_LANGUAGES } from "@/constants/countries";
-import {Plus } from "lucide-react";
+import { SUPPORTED_COUNTRIES } from "@/constants/countries";
 import { useState } from "react";
 import Container from "../global/container";
 import { cn } from "@/lib";
@@ -41,7 +40,7 @@ const LanguageSupport = () => {
 
             {/* Language Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto pt-6 relative w-full">
-                {SUPPORTED_LANGUAGES.map((language, idx) => (
+                {SUPPORTED_COUNTRIES.map((language, idx) => (
                     <div
                         key={language.code}
                         className="relative"
@@ -67,7 +66,7 @@ const LanguageSupport = () => {
                     </div>
                 ))}
 
-                {/* More Languages Placeholder */}
+                {/* More Languages Placeholder
                 <div
                     className="flex items-center space-x-3 p-3 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-white hover:shadow-md transition-all duration-300"
                     onMouseEnter={() => setHoveredIndex(999)}
@@ -78,7 +77,7 @@ const LanguageSupport = () => {
                         <Plus size={16} className={cn("transition-all duration-300", hoveredIndex === 999 ? "text-blue-600" : "text-gray-600")} />
                     </span>
                     <span className="text-base lg:text-lg font-serif">And more</span>
-                </div>
+                </div> */}
             </div>
         </div>
     );
