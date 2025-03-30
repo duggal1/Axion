@@ -9,65 +9,71 @@ export type PLAN = {
     features: string[];
     link: string;
 };
-
 export const PLANS: PLAN[] = [
     {
-        id: "standard",
-        title: "Standard",
-        desc: "Perfect for solopreneurs and small teams looking to automate their content creation and social media with AI tools.",
+        id: "starter",
+        title: "Starter",
+        desc: "Great for small businesses automating sales and marketing with AI.",
         monthlyPrice: 29,
-        annuallyPrice: 306,
-        buttonText: "Upgrade to Standard",
+        annuallyPrice: 243, // 29 * 12 * 0.7 (30% discount)
+        buttonText: "Get Started",
         features: [
-            "AI content (1,000 words/mo)",
-            "3 social media channels",
-            "Basic post scheduling",
-            "Content calendar",
-            "Basic analytics dashboard",
-            "2 team members",
-            "Email support"
+            "AI lead gen (500 leads/mo)",
+            "Automated email outreach (1,000 emails/mo)",
+            "Basic CRM integration",
+            "Social media automation (3 channels)",
+            "AI content (2,000 words/mo)",
+            "Sales analytics",
+            "5 team seats",
+            "Email support (48-hour response)"
         ],
         link: "#"
     },
     {
-        id: "mastermind",
-        title: "Mastermind",
-        desc: "Ideal for growing businesses and agencies who need advanced AI capabilities and automation to scale their marketing.",
-        monthlyPrice: 79,
-        annuallyPrice: 834,
+        id: "professional",
+        title: "Professional",
+        desc: "For growing companies scaling sales & marketing with AI automation.",
+        monthlyPrice: 99,
+        annuallyPrice: 831, // 99 * 12 * 0.7
         badge: "Most Popular",
-        buttonText: "Upgrade to Mastermind",
+        buttonText: "Upgrade Now",
         features: [
-            "AI content (10,000 words/mo)",
-            "Advanced AI copywriting",
-            "Multi-language content generation",
-            "Custom brand voice training",
-            "Custom workflow automation",
-            "Priority 24/7 support",
-            "Up to 10 team members"
+            "AI lead gen (5,000 leads/mo)",
+            "Multi-channel outreach (email, SMS, social - 10,000 contacts/mo)",
+            "CRM integration (Salesforce, HubSpot, etc.)",
+            "Social automation (10 channels)",
+            "AI content (20,000 words/mo)",
+            "Predictive sales forecasting",
+            "Call & email intelligence",
+            "15 team seats",
+            "24/7 chat support"
         ],
         link: "#"
     },
-    // {
-    //     id: "enterprise",
-    //     title: "Enterprise",
-    //     desc: "Full-scale AI marketing solution for large organizations",
-    //     monthlyPrice: 199,
-    //     annuallyPrice: 2101,
-    //     badge: "Custom AI Solutions",
-    //     buttonText: "Contact Sales",
-    //     features: [
-    //         "Unlimited AI content",
-    //         "Custom AI model training",
-    //         "Advanced automation workflows",
-    //         "Multi-brand management",
-    //         "API access",
-    //         "Unlimited team members",
-    //         "24/7 priority support",
-    //         "Dedicated success manager",
-    //     ],
-    //     link: "https://stripe.com/enterprise-plan-link"
-    // }
+    {
+        id: "enterprise",
+        title: "Enterprise",
+        desc: "Full-scale AI sales & marketing automation replacing a 20-30 person team.",
+        monthlyPrice: 299,
+        annuallyPrice: 2512, // 299 * 12 * 0.7
+        badge: "Ultimate AI Power",
+        buttonText: "Contact Sales",
+        features: [
+            "Unlimited AI lead gen",
+            "Automated outreach (unlimited contacts)",
+            "Custom CRM & API integrations",
+            "Social automation (unlimited channels)",
+            "AI content (unlimited words)",
+            "Advanced sales analytics",
+            "Real-time call & email intelligence",
+            "Automated scheduling & follow-ups",
+            "Custom AI training for brand voice",
+            "Unlimited team seats",
+            "Dedicated account manager",
+            "24/7 priority support"
+        ],
+        link: "https://stripe.com/enterprise-plan-link"
+    }
 ];
 
 export const PLANS_FAQ = [
