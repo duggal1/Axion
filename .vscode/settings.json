@@ -1,3 +1,4 @@
 {
-    "zencoder.enableRepoIndexing": true
+    "zencoder.enableRepoIndexing": true,
+    "WillLuke.nextjs.hasPrompted": true
 }

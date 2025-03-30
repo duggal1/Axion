@@ -4,6 +4,7 @@ import { generateMetadata } from "@/utils";
 import { base, heading } from "@/constants";
 import { Toaster } from "@/components/ui/sonner";
 import { subheading } from "@/constants/fonts";
+import Providers from "@/components/auth/providers";
 
 export const metadata = generateMetadata();
 
@@ -23,7 +24,11 @@ export default function RootLayout({
                 )}
             >
                     <Toaster richColors theme="dark" position="top-right" />
+                    <Providers>
+
+                   
                     {children}
+                    </Providers>
             </body>
         </html>
     );

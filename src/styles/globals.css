@@ -269,3 +269,7 @@ tr:hover td {
   background-size: 300% 300%;
   animation: gradientMove 6s infinite linear;
 }
+
+.custom-shadow {
+  box-shadow: rgb(68, 0, 255) 5px 5px, rgb(179, 0, 255) -5px -5px;
+}

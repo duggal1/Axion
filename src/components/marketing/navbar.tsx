@@ -4,16 +4,19 @@ import Icons from "../global/icons";
 import Wrapper from "../global/wrapper";
 import { Button } from "../ui/button";
 import MobileMenu from "./mobile-menu";
+import { useAuth } from '@clerk/nextjs'
 
 const Navbar = () => {
+    const { isSignedIn } = useAuth()
+    
     return (
-        <header className="sticky top-0 w-full h-16 bg-background/80 backdrop-blur-sm z-50">
+        <header className="top-0 z-50 sticky bg-background/80 backdrop-blur-sm w-full h-16">
             <Wrapper className="h-full">
-                <div className="flex items-center justify-between h-full">
+                <div className="flex justify-between items-center h-full">
                     <div className="flex items-center">
                         <Link href="/" className="flex items-center gap-2">
                             <Icons.icon className="w-6" />
-                            <span className="text-xl font-semibold hidden lg:block">
+                            <span className="hidden lg:block font-semibold text-xl">
                                 Vetra
                             </span>
                         </Link>
@@ -22,7 +25,7 @@ const Navbar = () => {
                     <div className="hidden lg:flex items-center gap-4">
                         <ul className="flex items-center gap-8">
                             {NAV_LINKS.map((link, index) => (
-                                <li key={index} className="text-sm font-medium -1 link">
+                                <li key={index} className="font-medium text-sm -1 link">
                                     <Link href={link.href}>
                                         {link.name}
                                     </Link>
@@ -37,7 +40,7 @@ const Navbar = () => {
                                 Get Started
                             </Button>
                         </Link>
-                        <MobileMenu />
+                        <MobileMenu isSignedIn={isSignedIn} />
                     </div>
                 </div>
             </Wrapper>
