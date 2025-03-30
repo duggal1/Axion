@@ -146,7 +146,7 @@ export function Ctas() {
                             variant: "outline",
                             size: "icon",
                           }),
-                          "border-violet-300 text-violet-700 hover:border-pink-400 hover:bg-gradient-to-r hover:from-violet-600 hover:to-pink-500 hover:text-white dark:border-violet-700 dark:text-pink-400"
+                          "border-gray-500 text-black/80 hover:border-gray-600 hover:bg-gradient-to-r hover:from-gray-800 hover:to-black hover:text-white "
                         )}
                       >
                         <span className="flex items-center gap-1">
@@ -161,7 +161,7 @@ export function Ctas() {
                             variant: "outline",
                             size: "icon",
                           }),
-                          "border-violet-300 text-violet-700 hover:border-pink-400 hover:bg-gradient-to-r hover:from-violet-600 hover:to-pink-500 hover:text-white dark:border-violet-700 dark:text-pink-400"
+                          "border-gray-500 text-black/80 hover:border-gray-600 hover:bg-gradient-to-r hover:from-gray-800 hover:to-black hover:text-white"
                         )}
                       >
                         <span className="flex items-center gap-1">
