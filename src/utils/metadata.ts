@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Metadata } from "next";
 
 interface MetadataProps {
@@ -16,37 +17,37 @@ interface MetadataProps {
 }
 
 export const generateMetadata = ({
-    title = `Vetra - AI-Powered Project Management & Team Collaboration`,
-    description = `Vetra is an intelligent project management platform that transforms how teams work together. Leverage AI to automate workflows, enhance collaboration, and boost productivity. Experience smarter project management today.`,
+    title = `Axion - The Most Advanced AI-Agentic Sales Agent for Enterprises`,
+    description = `Axion is the leading AI-agentic sales automation platform that replaces entire sales teams. From prospecting to closing deals, Axion handles every aspect of sales, ensuring maximum revenue with minimal human effort. Automate, optimize, and dominate sales with Axion today.`,
     icons = [
         {
             rel: "icon",
-            url: "/icons/icon-dark.png",
+            url: "/icons/axion-logo.png",
             media: "(prefers-color-scheme: light)",
         },
         {
             rel: "icon",
-            url: "/icons/icon.png",
+            url: "/icons/axion-logo.png",
             media: "(prefers-color-scheme: dark)",
         },
     ],
     noIndex = false,
     keywords = [
-        "AI marketing automation",
-        "social media marketing",
-        "content generation",
-        "marketing analytics",
-        "campaign management",
-        "multilingual marketing",
-        "AI copywriting",
-        "marketing workflow",
-        "performance tracking",
-        "digital marketing tools"
+        "AI sales automation",
+        "enterprise sales AI",
+        "AI sales agent",
+        "autonomous sales assistant",
+        "AI-powered sales team",
+        "AI prospecting",
+        "lead conversion AI",
+        "sales workflow automation",
+        "business revenue AI",
+        "digital sales agent"
     ],
     author = process.env.NEXT_PUBLIC_AUTHOR_NAME,
     type = "website",
 }: MetadataProps = {}): Metadata => {
-    const metadataBase = new URL(process.env.NEXT_PUBLIC_APP_URL || "https://vertra-ai.vercel.app");
+    const metadataBase = new URL(process.env.NEXT_PUBLIC_APP_URL || "https://axion-ai.vercel.app");
 
     return {
         metadataBase,
