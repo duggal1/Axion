@@ -71,6 +71,15 @@ export const HeroNavbar = () => {
                                             <ZapIcon className=" ml-1  size-3.5 fill-white text-white" />
                                         </Link>
                                     </Button>
+                                    {/* <Button
+                                        asChild
+                                        size="sm"
+                                        className="bg-black ">
+                                        <Link href="/dashboard" className="flex items-center gap-1.5">
+                                            <span>Dashboard</span>
+                                            <ZapIcon className=" ml-1  size-3.5 fill-white text-white" />
+                                        </Link>
+                                    </Button> */}
                                 </div>
                             ) : (
                                 <>
