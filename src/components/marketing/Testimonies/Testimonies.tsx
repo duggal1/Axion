@@ -148,9 +148,8 @@ export function TestimonialsMarquee(): JSX.Element {
           ))}
         </Marquee>
         
-        {/* Gradients for fade effect
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-gray-50 dark:from-gray-950"></div>
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-gray-50 dark:from-gray-950"></div> */}
+        {/* <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-gray-50/70 dark:from-gray-950/70 backdrop-blur-2xl"></div>
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-gray-50/70 dark:from-gray-950/70 backdrop-blur-2xl"></div> */}
       </div>
     </div>
   );
