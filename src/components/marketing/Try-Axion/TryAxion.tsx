@@ -1,7 +1,9 @@
+import Container from "@/components/global/container";
 import { Sparkles } from "./Sparkles";
 
 export function TryAxion() {
   return (
+    <Container delay={0.6}>
     <div className="h-screen w-full overflow-hidden bg-white">
       <div className="mx-auto mt-40 w-full max-w-2xl">
         <div className="text-center font-serif">
@@ -24,5 +26,6 @@ export function TryAxion() {
         />
       </div>
     </div>
+    </Container>
   );
 }

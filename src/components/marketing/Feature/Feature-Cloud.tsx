@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-'use client'
+
+"use client"
+
 import { Logo } from '@/components/logo'
 import { Activity, Globe as GlobeIcon, MessageSquare, TrendingUp } from 'lucide-react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer } from 'recharts'
@@ -11,6 +13,7 @@ import Image from 'next/image'
 import { useReducedMotion } from 'framer-motion'
 // Import Globe component for 3D globe visualization
 import { Globe } from './globe'
+
 // Define custom animations
 // We'll add a style tag to define our custom animations
 const CustomAnimations = () => (
@@ -78,6 +81,7 @@ interface ChartDataItem {
 
 export default function FeaturesCloud() {
     return (
+
         <section className="px-4 py-16 md:py-32 bg-white font-serif">
             <CustomAnimations />
             <div className="mx-auto grid max-w-5xl border rounded-xl shadow-sm md:grid-cols-2 overflow-hidden">

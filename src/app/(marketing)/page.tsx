@@ -14,6 +14,7 @@ import LanguageSupport from "@/components/marketing/lang-support";
 import Pricing from "@/components/marketing/pricing";
 import Testimonials from "@/components/marketing/Testimonies/Testimonies-page";
 import { TryAxion } from "@/components/marketing/Try-Axion/TryAxion";
+import TestimonialsSection from "@/components/section-testimony";
 
 const HomePage = () => {
     return (
@@ -25,6 +26,7 @@ const HomePage = () => {
             <Analysis />
             <FeaturesCloud/>
             <TryAxion/>
+            <TestimonialsSection/>
             {/* <Integration /> */}
             <Pricing />
             <FAQSection/>
