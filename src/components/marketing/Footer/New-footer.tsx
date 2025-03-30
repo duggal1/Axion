@@ -109,19 +109,19 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-900 to-black px-8 py-10 rounded-2xl shadow-xl border border-gray-800">
-          <h3 className="text-xl font-semibold mb-6 text-center text-white">Stay Updated</h3>
+        <div className="bg-gradient-to-br from-gray-50 to-white px-8 py-10 rounded-2xl shadow-xl border border-gray-800">
+          <h3 className="text-xl font-semibold mb-6 text-center text-black">Stay Updated</h3>
           <form className="flex flex-col md:flex-row gap-4">
             <input
               type="email"
               placeholder="Your email address"
-              className="bg-gray-800 border-gray-700 px-5 py-4 rounded-xl border text-white w-full focus:ring-2 focus:ring-deepviolet focus:outline-none font-serif"
+              className="bg-white/80 border-gray-400 px-5 py-4 rounded-xl border text-white/5 w-full focus:ring-2 focus:ring-deepviolet focus:outline-none font-serif"
             />
-            <button className="bg-deepviolet hover:bg-violet-700 px-6 py-4 rounded-xl w-full md:w-auto whitespace-nowrap transition-all duration-300 font-medium">
+            <button className="bg-black hover:bg-violet-700 px-6 py-4 rounded-xl w-full md:w-auto whitespace-nowrap transition-all duration-300  text-white font-medium">
               Subscribe
             </button>
           </form>
-          <p className="text-gray-400 text-sm mt-4 text-center">Join our newsletter for AI insights and updates</p>
+          <p className="text-gray-900 text-sm mt-4 text-center">Join our newsletter for AI insights and updates</p>
         </div>
       </section>
 
