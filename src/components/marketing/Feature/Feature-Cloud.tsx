@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
@@ -84,12 +85,12 @@ export default function FeaturesCloud() {
                         <span className="text-zinc-500 flex items-center gap-2 font-medium">
                             <Globe className="size-4 text-indigo-600" />
                             <span className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
-                                Global Client Acquisition
+                                Autonomous Lead Generation
                             </span>
                         </span>
 
                         <p className="mt-8 text-2xl font-semibold leading-tight">
-                            Enterprise-grade AI agent system identifying qualified leads worldwide.
+                            AI agents that autonomously identify and qualify high-value prospects across global markets.
                         </p>
 
                         <div className="mt-4 inline-flex items-center text-sm text-indigo-600 font-medium">
@@ -103,7 +104,7 @@ export default function FeaturesCloud() {
                     <div aria-hidden className="relative">
                         <div className="absolute inset-0 z-10 m-auto size-fit">
                             <div className="rounded-lg bg-white z-10 relative flex size-fit w-fit items-center gap-2 border px-3 py-1.5 text-xs font-medium shadow-sm animate-pulse">
-                                <span className="text-lg">💼</span> Enterprise deal closed in Singapore
+                                <span className="text-lg">🤖</span> AI agent closed $1.2M deal in Tokyo
                             </div>
                             <div className="rounded-lg bg-white absolute inset-2 -bottom-2 mx-auto border px-3 py-4 text-xs font-medium shadow-sm"></div>
                         </div>
@@ -119,12 +120,12 @@ export default function FeaturesCloud() {
                         <span className="text-zinc-500 flex items-center gap-2 font-medium">
                             <MessageSquare className="size-4 text-indigo-600" />
                             <span className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
-                                Omnichannel Communication
+                                Hyper-Personalized Outreach
                             </span>
                         </span>
 
                         <p className="my-6 text-2xl font-semibold leading-tight">
-                            Seamlessly engage prospects across email, voice, and messaging platforms.
+                            AI-driven conversations that adapt in real-time across email, voice, and messaging channels.
                         </p>
 
                         <div className="mb-4 inline-flex items-center text-sm text-indigo-600 font-medium">
@@ -146,13 +147,13 @@ export default function FeaturesCloud() {
                         <span className="text-zinc-500 flex items-center gap-2 font-medium">
                             <Activity className="size-4 text-indigo-600" />
                             <span className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
-                                Activity Monitoring
+                                Revenue Intelligence
                             </span>
                         </span>
 
                         <p className="my-6 text-2xl font-semibold leading-tight">
-                            Monitor your application&apos;s activity in real-time.
-                            <span className="text-zinc-500"> Instantly identify and resolve issues.</span>
+                            Real-time analytics that predict deal outcomes and optimize sales strategies.
+                            <span className="text-zinc-500"> Maximize conversion rates and revenue.</span>
                         </p>
 
                         <div className="inline-flex items-center text-sm text-indigo-600 font-medium">
@@ -218,31 +219,31 @@ const AnimatedChatMessages = () => {
         {
             id: 1,
             type: 'incoming',
-            text: "I'm interested in your enterprise AI solution. What ROI can we expect?",
+            text: "I need an AI solution to boost our sales team performance. What makes your agentic AI different?",
             time: 'Yesterday'
         },
         {
             id: 2,
             type: 'outgoing',
-            text: 'Our clients typically see 3.7x ROI within the first quarter of implementation.',
+            text: 'Our agentic AI sales platform autonomously qualifies leads, personalizes outreach, and closes deals with 4.2x higher conversion rates.',
             time: '10:46 AM'
         },
         {
             id: 3,
             type: 'incoming',
-            text: "That's impressive. How quickly can we deploy this?",
+            text: "That's exactly what we need. How quickly can we see results?",
             time: '10:53 AM'
         },
         {
             id: 4,
             type: 'outgoing',
-            text: 'Axion can be fully integrated within 2 weeks with our enterprise onboarding team.',
+            text: 'Most clients see significant pipeline growth within 14 days of deployment. Our AI agents work 24/7 across all time zones.',
             time: '10:55 AM'
         },
         {
             id: 5,
             type: 'incoming',
-            text: "Perfect! Let's schedule a demo with our executive team.",
+            text: "Impressive! Let's schedule a live demo with our sales leadership team.",
             time: '11:02 AM'
         }
     ]
@@ -254,7 +255,7 @@ const AnimatedChatMessages = () => {
     const animationRef = useRef<number>(0)
     const isAnimatingRef = useRef<boolean>(false)
 
-    // Function to handle the animation loop
+    // Function to handle the animation loop with ultra-fast streaming
     const animateMessages = () => {
         if (isAnimatingRef.current) return
 
@@ -271,16 +272,17 @@ const AnimatedChatMessages = () => {
                     setTimeout(() => {
                         isAnimatingRef.current = false
                         animateMessages()
-                    }, 1000)
-                }, 3000)
+                    }, 800) // Faster reset
+                }, 2000) // Shorter pause at the end
                 return
             }
 
             // Show typing indicator
             setIsTyping(true)
 
-            // Much shorter typing time for extremely fast performance
-            const typingTime = Math.min(300, allMessages[currentIndex].text.length * 5)
+            // Ultra-fast typing time for streaming effect (800-900 tokens per second)
+            // This is approximately 1ms per character for extremely fast streaming
+            const typingTime = Math.min(150, allMessages[currentIndex].text.length * 1)
 
             setTimeout(() => {
                 // Hide typing indicator and show the message
@@ -291,12 +293,12 @@ const AnimatedChatMessages = () => {
                 currentIndex++
 
                 // Schedule next message with a much shorter pause
-                setTimeout(showNextMessage, 400)
+                setTimeout(showNextMessage, 300) // Faster transition between messages
             }, typingTime)
         }
 
         // Start the sequence
-        setTimeout(showNextMessage, 1000)
+        setTimeout(showNextMessage, 800) // Faster initial start
     }
 
     // Start animation on mount and handle cleanup
@@ -508,31 +510,31 @@ const AnimatedMetric = () => {
     return (
         <div className="text-center">
             <p className="text-4xl font-semibold lg:text-7xl">{count.toFixed(1)}%</p>
-            <p className="text-zinc-500 mt-2">Deal conversion rate</p>
+            <p className="text-zinc-500 mt-2">AI-driven conversion rate</p>
         </div>
     )
 }
 
-// Chart data and configuration
+// Chart data and configuration with 2025 modern color palette
 const chartConfig = {
     desktop: {
-        label: 'Desktop',
-        color: '#047857', // Deep green
+        label: 'Conversions',
+        color: '#6366F1', // Modern indigo
     },
     mobile: {
-        label: 'Mobile',
-        color: '#7c3aed', // Deep violet
+        label: 'Engagement',
+        color: '#8B5CF6', // Modern violet
     },
 } satisfies ChartConfig
 
-// Initial chart data
+// Initial chart data with more realistic sales metrics
 const initialChartData: ChartDataItem[] = [
-    { month: 'May', desktop: 56, mobile: 224 },
-    { month: 'June', desktop: 56, mobile: 224 },
-    { month: 'January', desktop: 126, mobile: 252 },
-    { month: 'February', desktop: 205, mobile: 410 },
-    { month: 'March', desktop: 200, mobile: 126 },
-    { month: 'April', desktop: 400, mobile: 800 },
+    { month: 'Jan', desktop: 156, mobile: 324 },
+    { month: 'Feb', desktop: 189, mobile: 412 },
+    { month: 'Mar', desktop: 226, mobile: 452 },
+    { month: 'Apr', desktop: 305, mobile: 510 },
+    { month: 'May', desktop: 356, mobile: 626 },
+    { month: 'Jun', desktop: 450, mobile: 800 },
 ]
 
 // Helper function to smoothly transition between values
@@ -547,14 +549,16 @@ const smoothTransition = (
     return currentValue + (targetValue - currentValue) * step
 }
 
-// Enhanced Monitoring Chart Component with smooth animations
+// Ultra-modern 2025 Revenue Chart Component with sleek animations
 const AnimatedRevenueChart = () => {
     const [chartData, setChartData] = useState<ChartDataItem[]>(initialChartData)
+    const [hoverIndex, setHoverIndex] = useState<number | null>(null)
     const targetValuesRef = useRef<{[key: string]: {desktop: number, mobile: number}}>({})
     const frameRef = useRef<number>(0)
+    const animationPhaseRef = useRef<number>(0)
 
     useEffect(() => {
-        // Initialize target values
+        // Initialize target values with more dynamic patterns
         const initialTargets = chartData.reduce((acc, item) => {
             acc[item.month] = {
                 desktop: item.desktop,
@@ -565,116 +569,202 @@ const AnimatedRevenueChart = () => {
 
         targetValuesRef.current = initialTargets
 
-        // Function to update target values periodically
-        const updateTargetValues = () => {
-            // Randomly select 1-3 months to update
-            const updateCount = Math.floor(Math.random() * 3) + 1
+        // Function to create wave-like patterns in the data
+        const createWavePattern = () => {
+            const phase = animationPhaseRef.current
+            animationPhaseRef.current = (phase + 0.05) % (Math.PI * 2)
+
             const months = Object.keys(targetValuesRef.current)
 
-            for (let i = 0; i < updateCount; i++) {
-                const randomMonthIndex = Math.floor(Math.random() * months.length)
-                const month = months[randomMonthIndex]
-
-                // Generate new target values with some relationship to previous values
+            months.forEach((month, index) => {
                 const currentValues = targetValuesRef.current[month]
-                const desktopChange = (Math.random() - 0.5) * 100 // -50 to +50
-                const mobileChange = (Math.random() - 0.5) * 200 // -100 to +100
+                const baseDesktop = initialChartData[index % initialChartData.length].desktop
+                const baseMobile = initialChartData[index % initialChartData.length].mobile
+
+                // Create smooth wave patterns with different frequencies
+                const desktopWave = Math.sin(phase + index * 0.5) * (baseDesktop * 0.15)
+                const mobileWave = Math.cos(phase + index * 0.3) * (baseMobile * 0.12)
 
                 targetValuesRef.current[month] = {
-                    desktop: Math.max(50, currentValues.desktop + desktopChange),
-                    mobile: Math.max(100, currentValues.mobile + mobileChange)
+                    desktop: baseDesktop + desktopWave,
+                    mobile: baseMobile + mobileWave
                 }
-            }
+            })
         }
 
-        // Function to animate chart data towards target values
+        // Function to animate chart data with fluid motion
         const animateChart = () => {
-            setChartData(prevData => {
-                // Check if any values need updating
-                let hasChanges = false
+            // Update wave pattern
+            createWavePattern()
 
-                const newData = prevData.map(item => {
+            setChartData(prevData => {
+                const newData = prevData.map((item, index) => {
                     const target = targetValuesRef.current[item.month]
                     if (!target) return item
 
-                    const newDesktop = smoothTransition(item.desktop, target.desktop, 0.03)
-                    const newMobile = smoothTransition(item.mobile, target.mobile, 0.03)
+                    // Faster transitions for more fluid animation
+                    const newDesktop = smoothTransition(item.desktop, target.desktop, 0.08)
+                    const newMobile = smoothTransition(item.mobile, target.mobile, 0.08)
 
-                    // Check if this item has changed
-                    if (Math.abs(newDesktop - item.desktop) > 0.1 || Math.abs(newMobile - item.mobile) > 0.1) {
-                        hasChanges = true
-                        return {
-                            ...item,
-                            desktop: newDesktop,
-                            mobile: newMobile
-                        }
+                    return {
+                        ...item,
+                        desktop: newDesktop,
+                        mobile: newMobile
                     }
-
-                    return item
                 })
 
-                return hasChanges ? newData : prevData
+                return newData
             })
 
             frameRef.current = requestAnimationFrame(animateChart)
         }
 
-        // Start animation
+        // Start animation immediately
         frameRef.current = requestAnimationFrame(animateChart)
 
-        // Set up interval to update target values
-        const intervalId = setInterval(updateTargetValues, 4000)
-
         return () => {
-            clearInterval(intervalId)
             cancelAnimationFrame(frameRef.current)
         }
     }, [])
+
+    // Custom dot component for enhanced visual appeal
+    const CustomDot = (props: any) => {
+        const { cx, cy, index, dataKey } = props
+        const isHovered = index === hoverIndex
+        const color = dataKey === 'desktop' ? '#6366F1' : '#8B5CF6'
+
+        return (
+            <g>
+                {/* Glow effect */}
+                {isHovered && (
+                    <circle
+                        cx={cx}
+                        cy={cy}
+                        r={8}
+                        fill="none"
+                        stroke={color}
+                        strokeOpacity={0.3}
+                        strokeWidth={2}
+                    />
+                )}
+                {/* Main dot */}
+                <circle
+                    cx={cx}
+                    cy={cy}
+                    r={isHovered ? 5 : 0}
+                    fill={color}
+                    stroke="#fff"
+                    strokeWidth={2}
+                    style={{
+                        transition: 'r 0.2s ease-out',
+                    }}
+                />
+            </g>
+        )
+    }
+
+    // Custom tooltip content
+    const CustomTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="bg-white/95 backdrop-blur-sm p-3 rounded-lg border border-gray-100 shadow-lg">
+                    <p className="text-xs font-medium text-gray-800 mb-1">{label}</p>
+                    <div className="space-y-1">
+                        <p className="text-xs flex items-center">
+                            <span className="w-2 h-2 rounded-full bg-indigo-500 mr-2"></span>
+                            <span className="text-gray-600">Conversions:</span>
+                            <span className="ml-1 font-medium">{payload[0].value.toFixed(0)}</span>
+                        </p>
+                        <p className="text-xs flex items-center">
+                            <span className="w-2 h-2 rounded-full bg-violet-500 mr-2"></span>
+                            <span className="text-gray-600">Engagement:</span>
+                            <span className="ml-1 font-medium">{payload[1].value.toFixed(0)}</span>
+                        </p>
+                    </div>
+                </div>
+            )
+        }
+        return null
+    }
 
     return (
         <ChartContainer className="h-120 aspect-auto md:h-96" config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
-                    accessibilityLayer
                     data={chartData}
-                    margin={{
-                        left: 0,
-                        right: 0,
-                    }}>
+                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                    onMouseMove={(e) => {
+                        if (e.activeTooltipIndex !== undefined) {
+                            setHoverIndex(e.activeTooltipIndex)
+                        }
+                    }}
+                    onMouseLeave={() => setHoverIndex(null)}
+                >
                     <defs>
+                        {/* Enhanced gradients for 2025 look */}
                         <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="var(--color-desktop)" stopOpacity={0.8} />
-                            <stop offset="55%" stopColor="var(--color-desktop)" stopOpacity={0.1} />
+                            <stop offset="0%" stopColor="#6366F1" stopOpacity={0.4} />
+                            <stop offset="100%" stopColor="#6366F1" stopOpacity={0.01} />
                         </linearGradient>
                         <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="var(--color-mobile)" stopOpacity={0.8} />
-                            <stop offset="55%" stopColor="var(--color-mobile)" stopOpacity={0.1} />
+                            <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.3} />
+                            <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.01} />
                         </linearGradient>
+
+                        {/* Sleek line gradients */}
+                        <linearGradient id="lineDesktop" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stopColor="#4F46E5" />
+                            <stop offset="100%" stopColor="#6366F1" />
+                        </linearGradient>
+                        <linearGradient id="lineMobile" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stopColor="#7C3AED" />
+                            <stop offset="100%" stopColor="#8B5CF6" />
+                        </linearGradient>
+
+                        {/* Filter for glow effects */}
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="2" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
                     </defs>
-                    <CartesianGrid vertical={false} stroke="#f1f1f1" />
-                    <ChartTooltip
-                        active
-                        cursor={false}
-                        content={<ChartTooltipContent className="bg-white shadow-lg border" />}
+
+                    {/* Ultra-modern grid */}
+                    <CartesianGrid
+                        vertical={false}
+                        horizontal={true}
+                        stroke="rgba(203, 213, 225, 0.3)"
+                        strokeDasharray="3 6"
                     />
+
+                    {/* Custom tooltip */}
+                    <ChartTooltip
+                        content={<CustomTooltip />}
+                        cursor={{
+                            stroke: '#E2E8F0',
+                            strokeWidth: 1,
+                            strokeDasharray: '4 4'
+                        }}
+                    />
+
+                    {/* Sleek areas */}
                     <Area
-                        strokeWidth={2}
+                        type="monotone"
                         dataKey="mobile"
-                        type="stepBefore"
+                        stroke="url(#lineMobile)"
+                        strokeWidth={3}
                         fill="url(#fillMobile)"
-                        fillOpacity={0.1}
-                        stroke="var(--color-mobile)"
-                        stackId="a"
+                        dot={false}
+                        activeDot={(props) => <CustomDot {...props} />}
                         isAnimationActive={false} // We're handling animation manually
                     />
                     <Area
-                        strokeWidth={2}
+                        type="monotone"
                         dataKey="desktop"
-                        type="stepBefore"
+                        stroke="url(#lineDesktop)"
+                        strokeWidth={3}
                         fill="url(#fillDesktop)"
-                        fillOpacity={0.1}
-                        stroke="var(--color-desktop)"
-                        stackId="a"
+                        dot={false}
+                        activeDot={(props) => <CustomDot {...props} />}
                         isAnimationActive={false} // We're handling animation manually
                     />
                 </AreaChart>
