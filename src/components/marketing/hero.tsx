@@ -89,7 +89,7 @@ export default function Hero() {
                 <AnimatedGroup variants={transitionVariants}>
                   <Link
                     href="#link"
-                    className="group flex items-center gap-4 bg-muted hover:bg-background shadow-md shadow-violet-600/90 dark:shadow-zinc-950 mx-auto p-1 pl-4 border dark:border-t-white/5 dark:hover:border-t-border rounded-full w-fit transition-colors duration-300">
+                    className="group flex items-center gap-4 bg-muted hover:bg-background shadow-md shadow-violet-600 hover:shadow-violet-900 dark:shadow-zinc-950 mx-auto p-1 pl-4 border dark:border-t-white/5 dark:hover:border-t-border rounded-full w-fit transition-colors duration-300">
                     <span className="text-foreground  font-serif text-sm">Get AI Sales on Autopilot</span>
                     <span className="block bg-gray-600 dark:bg-zinc-700 dark:border-background border-l w-0.5 h-4"></span>
                     <div className="bg-background group-hover:bg-muted rounded-full size-6 overflow-hidden duration-500">
