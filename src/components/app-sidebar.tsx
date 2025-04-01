@@ -3,21 +3,19 @@
 import * as React from "react"
 import {
   BarChartIcon,
-  CameraIcon,
-  ClipboardListIcon,
+  BotIcon,
   DatabaseIcon,
-  FileCodeIcon,
-  FileIcon,
-  FileTextIcon,
-  FolderIcon,
   HelpCircleIcon,
   LayoutDashboardIcon,
   ListIcon,
-  SearchIcon,
+  PhoneIcon,
   SettingsIcon,
   UsersIcon,
+  WrenchIcon,
+  MessageSquareIcon
 } from "lucide-react"
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -32,128 +30,95 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+  
+  // Define navigation items
+  const mainNavItems = [
     {
-      title: "Agent Dashboard",
+      title: "Dashboard",
       url: "/dashboard",
       icon: LayoutDashboardIcon,
+      isActive: pathname === "/dashboard"
     },
     {
-      title: "Call Workflows",
+      title: "AI Agents",
+      url: "/agents",
+      icon: BotIcon,
+      isActive: pathname.startsWith("/agents") || pathname === "/create-agent"
+    },
+    {
+      title: "Calls History",
+      url: "/calls",
+      icon: PhoneIcon,
+      isActive: pathname.startsWith("/calls")
+    },
+    {
+      title: "Workflows",
       url: "/workflows",
       icon: ListIcon,
+      isActive: pathname.startsWith("/workflows")
     },
     {
-      title: "Sales Analytics",
-      url: "/analytics",
-      icon: BarChartIcon,
-    },
-    {
-      title: "Team Management",
-      url: "/team",
-      icon: UsersIcon,
-    },
-    {
-      title: "Voice Campaigns",
-      url: "/campaigns",
-      icon: FolderIcon,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Voice Recordings",
-      icon: CameraIcon,
-      isActive: true,
-      url: "/recordings",
-      items: [
-        {
-          title: "Active Calls",
-          url: "/recordings/active",
-        },
-        {
-          title: "Archived Calls",
-          url: "/recordings/archived",
-        },
-      ],
-    },
-    {
-      title: "AI Scripts",
-      icon: FileTextIcon,
-      url: "/scripts",
-      items: [
-        {
-          title: "Active Scripts",
-          url: "/scripts/active",
-        },
-        {
-          title: "Archived Scripts",
-          url: "/scripts/archived",
-        },
-      ],
-    },
-    {
-      title: "Custom Prompts",
-      icon: FileCodeIcon,
+      title: "Prompt Library",
       url: "/prompts",
-      items: [
-        {
-          title: "Active Prompts",
-          url: "/prompts/active",
-        },
-        {
-          title: "Archived Prompts",
-          url: "/prompts/archived",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Agent Settings",
-      url: "/settings",
-      icon: SettingsIcon,
-    },
-    {
-      title: "Support Hub",
-      url: "/support",
-      icon: HelpCircleIcon,
-    },
-    {
-      title: "Search Calls",
-      url: "/search",
-      icon: SearchIcon,
-    },
-  ],
-  documents: [
+      icon: MessageSquareIcon,
+      isActive: pathname.startsWith("/prompts")
+    }
+  ]
+  
+  const resourceNavItems = [
     {
       name: "Knowledge Base",
       url: "/knowledge",
       icon: DatabaseIcon,
+      isActive: pathname.startsWith("/knowledge")
     },
     {
-      name: "Performance Reports",
-      url: "/reports",
-      icon: ClipboardListIcon,
+      name: "Tools",
+      url: "/tools",
+      icon: WrenchIcon,
+      isActive: pathname.startsWith("/tools")
     },
     {
-      name: "Script Builder",
-      url: "/builder",
-      icon: FileIcon,
+      name: "Analytics",
+      url: "/analytics",
+      icon: BarChartIcon,
+      isActive: pathname.startsWith("/analytics")
     },
-  ],
-}
+    {
+      name: "Team",
+      url: "/team",
+      icon: UsersIcon,
+      isActive: pathname.startsWith("/team")
+    }
+  ]
+  
+  const secondaryNavItems = [
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: SettingsIcon,
+      isActive: pathname.startsWith("/settings")
+    },
+    {
+      title: "Support",
+      url: "/support",
+      icon: HelpCircleIcon,
+      isActive: pathname.startsWith("/support")
+    }
+  ]
+  
+  const user = {
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    avatar: "/avatars/user-01.jpg"
+  }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar 
       collapsible="offcanvas" 
-      className="bg-white  border-r border-gray-200  shadow-none font-serif"
+      className="bg-white shadow-none border-gray-200 border-r font-serif"
       {...props}
     >
       <style jsx global>{`
@@ -195,14 +160,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         }
       `}</style>
       
-      <SidebarHeader className="py-6 px-4">
+      <SidebarHeader className="px-4 py-6">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:p-0"
             >
-              <a href="#" className="flex items-center">
+              <a href="/dashboard" className="flex items-center">
                 <Image
                   src="/icons/axion-logo.png"
                   alt="Logo"
@@ -211,7 +176,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   priority
                   className="mr-3"
                 />
-                <span className="text-xl font-bold font-serif tracking-wide text-gray-900">Axion</span>
+                <span className="font-serif font-bold text-gray-900 text-xl tracking-wide">Axion</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -221,20 +186,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="px-4 py-2 sidebar-content">
         <div className="space-y-10">
           <div>
-            <NavMain items={data.navMain} />
+            <NavMain items={mainNavItems} />
           </div>
           
           <div>
-            <h3 className="mb-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Resources</h3>
-            <NavDocuments items={data.documents} />
+            <h3 className="mb-4 font-medium text-gray-400 text-xs uppercase tracking-wider">Resources</h3>
+            <NavDocuments items={resourceNavItems} />
           </div>
           
-          <NavSecondary items={data.navSecondary} className="mt-auto" />
+          <NavSecondary items={secondaryNavItems} className="mt-auto" />
         </div>
       </SidebarContent>
       
-      <SidebarFooter className="border-t border-gray-50 py-4 px-4 mt-4">
-        <NavUser user={data.user} />
+      <SidebarFooter className="mt-4 px-4 py-4 border-gray-50 border-t">
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   )

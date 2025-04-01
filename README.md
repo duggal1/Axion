@@ -1,39 +1,42 @@
-<img src="https://github.com/user-attachments/assets/9594d359-0988-4fec-b588-0dcee51168e3" alt="Vetra Logo" width="50" height="50">
 
-# 🚀 Vetra - AI Marketing Automation Platform
+# 🚀 Axion - AI Agentic Sales Voice Agent Platform
 
-<img src="https://github.com/user-attachments/assets/df541304-ea1c-4ebe-b6fd-2e093680314f" alt="Vetra Thumbnail">
+
 
 ## 🌟 Introduction
-Vetra is an AI-powered marketing automation platform that transforms your marketing workflow in seconds. Built with modern technologies, it offers a sleek interface for managing marketing campaigns, content generation, and performance analytics.
+Axion is an AI-powered agentic sales voice platform that transforms your sales and marketing workflows by handling the workload of over 30 people in seconds. Built with cutting-edge technologies, Axion offers a sleek, modern interface for creating, managing, and testing AI voice agents tailored for sales automation. With type-safe development and fine-tuning capabilities (built with Python and hosted on AWS) coming soon, Axion integrates powerful marketing automation with production-ready voice agents via [Vapi.ai](https://vapi.ai).
 
 ## 🔗 Live Preview
 
-Check out the live demo of caps.ai here: [Live Preview](https://vetra-app.vercel.app/)
+Check out the live demo here: [Live Preview](https://axionai.vercel.app/)
 
 ## 🎥 Watch the Preview Video on YouTube
 
-Take a look at YouTube video by watching the demo: [Watch the Video](https://youtu.be/dfQ_WwWV6g8) 
+See Axion in action: [Watch the Video](https://youtube.com)
 
 ## 💻 Tech Stack
 
-- **Next.js 15** – React framework for production
-- **TailwindCSS** – Utility-first CSS framework
-- **Shadcn UI** – Reusable component system
-- **Framer Motion** – Smooth animations
-- **TypeScript** – Type-safe code
-- **Number Flow** – Smooth number animations
+- **Next.js 15** – Production-grade React framework
+- **TailwindCSS** – Utility-first CSS for modern styling
+- **Shadcn UI** – Reusable, customizable components
+- **Framer Motion** – Smooth, fluid animations
+- **TypeScript** – Type-safe coding
+- **Number Flow** – Seamless number animations
+- **Voice Synthesis**: ElevenLabs for realistic voices
+- **LLMs**: OpenAI GPT-4, GPT-3.5 Turbo, Google Gemini
 
 ## 🛠️ Installation
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Shreyas-29/vetra.git
+    git clone https://github.com/duggal1/axion.git
     ```
 
 2. Install dependencies:
     ```bash
     pnpm install
+    # or
+    npm install
     # or
     yarn install
     ```
@@ -41,6 +44,8 @@ Take a look at YouTube video by watching the demo: [Watch the Video](https://you
 3. Run the development server:
     ```bash
     pnpm run dev
+    # or
+    npm run dev
     # or
     yarn dev
     ```
@@ -53,18 +58,62 @@ Create a `.env` file in the root directory:
 
 ```env
 NEXT_PUBLIC_APP_URL=your_app_url
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+DATABASE_URL=
+PINECONE_API_KEY=
+PINECONE_ENVIRONMENT=
+PINECONE_INDEX_NAME=
 ```
 
 ## 🚀 Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new) from the creators of Next.js.
+Deploy Axion effortlessly using the [Vercel Platform](https://vercel.com/new). See the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for details.
 
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Features
 
+- **AI Sales Voice Agents**: Create and manage voice agents with custom voices, personalities, and sales expertise.
+- **Marketing Automation**: Generate content, manage campaigns, and track performance analytics.
+- **Voice Sample Preview**: Preview ElevenLabs voice samples before agent creation or editing.
+- **Voice Call Testing**: Test agents’ sales performance with real-time calls.
+- **Call History**: Monitor call logs and sales analytics.
+- **Multiple LLM Support**: Choose GPT-4, GPT-3.5 Turbo, or Google Gemini.
+- **Coming Soon**: Type-safe fine-tuning with Python, hosted on AWS.
+
+## Voice Sample Playback
+
+- Available for all ElevenLabs voices
+- Accessible in agent creation and detail pages
+- Locally stored for optimal performance
+- Powered by the reusable `VoicePreview` component
+
+## API Endpoints
+
+### Voice Samples
+- `GET /api/vapi/voice-samples`: Retrieve voice sample info
+- `POST /api/vapi/voice-samples`: Generate a new voice sample
+- `GET /api/vapi/voice-samples/download`: Download or create voice sample files
+
+### Agents
+- `GET /api/agents`: List all sales agents
+- `POST /api/agents`: Create a new sales agent
+- `GET /api/agents/[id]`: Get agent details
+- `PATCH /api/agents/[id]`: Update an agent
+- `DELETE /api/agents/[id]`: Delete an agent
+
+### Calls
+- `GET /api/calls`: List sales call logs
+- `POST /api/calls`: Log a new sales call
+- `PATCH /api/calls/[callId]`: Update a call log
+- `DELETE /api/calls/[callId]`: Delete a call log
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Submit a Pull Request following these steps:
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -72,16 +121,18 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-
 ## ☕ Buy Me a Coffee
-If you enjoy using this project, consider supporting my work!  
-[Buy Me a Coffee ☕](https://buymeacoffee.com/shreyas29)
+Enjoy Axion? Support my work!  
+[Buy Me a Coffee ☕](https://buymeacoffee.com/duggal1)
 
 ---
 
-Built with ❤️ by [Shreyas Sihasane](https://shreyas-sihasane.vercel.app)
+Built with ❤️ by [Harshit Duggal](https://github.com/duggal1)
+
+---
+
+This version combines the strengths of both platforms into a unified "Axion" identity, focusing on sales automation with voice agents while retaining marketing automation features. It’s concise, modern, and avoids redundancy. Let me know if you’d like further adjustments!

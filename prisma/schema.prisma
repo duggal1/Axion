@@ -73,6 +73,10 @@ model User {
   prompts      Prompt[]
   workflows    Workflow[]
   tools        Tool[]
+  gmailRefreshToken String?   // Added for email integration
+  sentEmails   SentEmail[]    // Added for email tracking
+  events       Event[]        // Added for calendar events
+  queries      KnowledgeQuery[] // Added for knowledge base queries
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -110,6 +114,7 @@ model Agent {
   isActive      Boolean  @default(true)
   personality   Json?    // Personality traits in JSON format
   industry      String?  // Industry the agent is specialized for
+  vapiAssistantId String? // Added for Vapi integration
   
   // Relationships
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -276,6 +281,7 @@ model KnowledgeBase {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   agents      Agent[]
   documents   Document[]
+  queries     KnowledgeQuery[] // Added for knowledge base queries
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -340,4 +346,65 @@ model AgentTool {
   @@id([agentId, toolId])
   @@index([agentId])
   @@index([toolId])
+}
+
+// Knowledge base queries (added to fix the 'query' property error)
+model KnowledgeQuery {
+  id              String   @id @default(cuid())
+  query           String
+  knowledgeBaseId String
+  userId          String
+  response        String?  @db.Text
+  sources         Json?    // Sources used for the response
+  
+  // Relationships
+  knowledgeBase   KnowledgeBase @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime @default(now())
+
+  @@index([knowledgeBaseId])
+  @@index([userId])
+}
+
+// Email tracking (added for email integration)
+model SentEmail {
+  id        String   @id @default(cuid())
+  to        String
+  subject   String
+  body      String   @db.Text
+  cc        String?
+  bcc       String?
+  userId    String
+  agentId   String?
+  messageId String?  // Message ID from email provider
+  
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Calendar events (added for calendar integration)
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  email       String
+  name        String?
+  location    String?
+  externalId  String?  // ID from external calendar service
+  userId      String
+  agentId     String?
+  
+  // Relationships
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
 }
