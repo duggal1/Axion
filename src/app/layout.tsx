@@ -5,7 +5,7 @@ import { base, heading } from "@/constants";
 import { Toaster } from "@/components/ui/sonner";
 import { subheading } from "@/constants/fonts";
 import Providers from "@/components/auth/providers";
-import HeroNavbar from "@/components/hero-navbar";
+// import HeroNavbar from "@/components/hero-navbar";
 
 export const metadata = generateMetadata();
 
@@ -27,7 +27,7 @@ export default function RootLayout({
                     <Toaster richColors theme="dark" position="top-right" />
                     <Providers>
 
-                         <HeroNavbar />
+                         {/* <HeroNavbar /> */}
                     {children}
                     </Providers>
             </body>

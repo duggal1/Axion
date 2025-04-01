@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { TextEffect } from '@/components/ui/text-effect'
 import { AnimatedGroup } from '@/components/ui/animated-group'
 import HeroVideoDialog from '../magicui/hero-video-dialog'
+import HeroNavbar from '../hero-navbar'
 
 
 const transitionVariants = {
@@ -35,7 +36,7 @@ export default function Hero() {
   
   return (
     <>
-
+<HeroNavbar /> 
       <main className="overflow-hidden -mt-10">
         <div
           aria-hidden
