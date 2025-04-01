@@ -5,7 +5,7 @@ import { base, heading } from "@/constants";
 import { Toaster } from "@/components/ui/sonner";
 import { subheading } from "@/constants/fonts";
 import Providers from "@/components/auth/providers";
-// import HeroNavbar from "@/components/hero-navbar";
+
 
 export const metadata = generateMetadata();
 
